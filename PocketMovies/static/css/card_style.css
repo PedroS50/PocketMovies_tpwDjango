@@ -1,6 +1,0 @@
-.card:hover {
-	position: relative;
-	z-index: 999;
-	display: block;
-	transform: scale(1.2);
-}

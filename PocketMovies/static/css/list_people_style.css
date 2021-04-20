@@ -1,0 +1,15 @@
+.card-img.my_class {
+	border-top-left-radius: 10%;
+	border-bottom-left-radius: 10%;
+}
+
+.card.mb-4.my_class {
+	border-top-left-radius: 10%;
+	border-bottom-left-radius: 10%;
+
+}
+
+.card-shadow:hover {
+	box-shadow: 0 0 2em black;
+
+}
