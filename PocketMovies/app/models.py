@@ -24,15 +24,15 @@ class Producer(models.Model):
         return self.name
 
 
-class Genre(models.Model):
-    name = models.CharField(max_length=32)
-
-
 class Director(models.Model):
     name = models.CharField(max_length=255)
     nationality = models.CharField(max_length=50)
     birthdate = models.DateField()
     website = models.URLField()
+
+
+class Genre(models.Model):
+    name = models.CharField(max_length=32)
 
 
 class Movie(models.Model):
@@ -51,5 +51,8 @@ class Profile(models.Model):
     favorite_movies = models.ManyToManyField(Movie, related_name='user_favorite_movies')
     movies_watched = models.ManyToManyField(Movie, related_name='user_watched_movies')
     want_to_watch = models.ManyToManyField(Movie, related_name='user_wanttowatch_movies')
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 
