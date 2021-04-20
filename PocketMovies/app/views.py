@@ -10,15 +10,16 @@ def home(request):
 def infoProducer(request, id):
     try:
         producer = Producer.objects.get(id=id)
-        return render(request, "infoProducer.html", {"producer": producer})
+        return render(request, "infoView.html", {"producer": producer})
     except:
         producer = None
-        return render(request, "infoProducer.html")
+        return render(request, "infoView.html")
 
-def infoActor(request,id):
+
+def infoActor(request, id):
     try:
         actor = Actor.objects.get(id=id)
-        return render(request,"infoActor.html",{"actor":actor})
+        return render(request, "infoView.html", {"person": actor})
     except:
         producer = None
-        return render(request,"infoActor.html")
+        return render(request, "infoView.html")

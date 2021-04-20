@@ -46,10 +46,10 @@ class Movie(models.Model):
 
 class Profile(models.Model):
     user_details = models.OneToOneField(User, on_delete=models.CASCADE)
-    profile_picture = models.ImageField(blank=True, null=True)
-    favorite_genres = models.ManyToManyField(Genre, blank=True, null=True)
-    favorite_movies = models.ManyToManyField(Movie, blank=True, null=True)
-    movies_watched = models.ManyToManyField(Movie, blank=True, null=True)
-    want_to_watch = models.ManyToManyField(Movie, blank=True, null=True)
+    #profile_picture = models.ImageField(blank=True)
+    favorite_genres = models.ManyToManyField(Genre)
+    favorite_movies = models.ManyToManyField(Movie, related_name='user_favorite_movies')
+    movies_watched = models.ManyToManyField(Movie, related_name='user_watched_movies')
+    want_to_watch = models.ManyToManyField(Movie, related_name='user_wanttowatch_movies')
 
 
