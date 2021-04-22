@@ -30,9 +30,15 @@ class Director(models.Model):
     birthdate = models.DateField()
     website = models.URLField()
 
+    def __str__(self):
+        return self.name
+
 
 class Genre(models.Model):
     name = models.CharField(max_length=32)
+
+    def __str__(self):
+        return self.name
 
 
 class Movie(models.Model):
@@ -42,7 +48,11 @@ class Movie(models.Model):
     producer = models.ManyToManyField(Producer)
     cast = models.ManyToManyField(Actor)
     genre = models.ManyToManyField(Genre)
+    title = models.CharField(max_length=50)
     #cover = models.ImageField()
+
+    def __str__(self):
+        return self.title
 
 
 class Profile(models.Model):
@@ -52,5 +62,6 @@ class Profile(models.Model):
     favorite_movies = models.ManyToManyField(Movie, related_name='user_favorite_movies')
     movies_watched = models.ManyToManyField(Movie, related_name='user_watched_movies')
     want_to_watch = models.ManyToManyField(Movie, related_name='user_wanttowatch_movies')
+
 
 

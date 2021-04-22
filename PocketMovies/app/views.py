@@ -7,9 +7,10 @@ def list_movies(request):
     if 'genre' in request.POST:
         genre = request.POST['genre']
         if genre:
-            movies = Movie.objects.filter(genre=genre)
+            genre_object= Genre.objects.get(name=genre)
+            movies = Movie.objects.filter(genre=genre_object)
 
-    tparams = {'movie_list': movies, 'gender_list': Genre.objects.all()}
+    tparams = {'movie_list': movies, 'genre_list': Genre.objects.all()}
     return render(request, 'ListMovies.html', tparams)
     #return render(request, 'ListMovies.html')
 

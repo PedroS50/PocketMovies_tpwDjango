@@ -8,21 +8,16 @@
     <div>
          <label for="genre">Genre:</label>
         <select name="genre" id="genre">
-              {% comment %}
               <form action="." method="post">
               {% for genre in genre_list %}
-                    <option value="/movies/" name=genre>{{ genre.name }}</option>
+                    <option value={{ genre.name }} name=genre>{{ genre.name }}</option>
               {% endfor %}
               </form>
-              {% endcomment %}
-            <option value="volvo">Volvo</option>
-            <option value="saab">Saab</option>
-            <option value="mercedes">Mercedes</option>
-            <option value="audi">Audi</option>
+
 </select>
     </div>
 	<div class="card-deck">
-		{% comment %} {% for movie in movie_list %}
+		{% for movie in movie_list %}
 			<div class="col-auto mb-4">
 				<div class="card card-movie" style="width: 18rem;">
 					<img class="card-img-top img-movie" src="{% static 'imgs/movie.jpg' %}"  alt="Card image cap" />
@@ -33,12 +28,12 @@
 						</p>
 					</div>
 						<div class="card-footer">
-						<small class="text-muted genres-movie">{{ movie.producer }}</small>
+						<small class="text-muted genres-movie">{{ movie.genre.name }}</small>
 					</div>
 				</div>
 			</div>
-		{% endfor %} {% endcomment %}
-		<div class="col-auto mb-4">
+		{% endfor %}
+		{% comment %}<div class="col-auto mb-4">
 			<div class="card card-movie" style="width: 18rem;">
 				<img class="card-img-top img-movie" src="{% static 'imgs/movie.jpg' %}"  alt="Card image cap" />
 				<div class="card-body">
@@ -141,7 +136,7 @@
 					<small class="text-muted genres-movie">Genres: </small>
 				</div>
 			</div>
-		</div>
+		</div> {% endcomment %}
 	</div>
 </div>
 
