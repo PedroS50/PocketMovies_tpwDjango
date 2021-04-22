@@ -5,6 +5,22 @@
 {% load static %}
 
 <div class="container">
+    <div>
+         <label for="genre">Genre:</label>
+        <select name="genre" id="genre">
+              {% comment %}
+              <form action="." method="post">
+              {% for genre in genre_list %}
+                    <option value="/movies/" name=genre>{{ genre.name }}</option>
+              {% endfor %}
+              </form>
+              {% endcomment %}
+            <option value="volvo">Volvo</option>
+            <option value="saab">Saab</option>
+            <option value="mercedes">Mercedes</option>
+            <option value="audi">Audi</option>
+</select>
+    </div>
 	<div class="card-deck">
 		{% comment %} {% for movie in movie_list %}
 			<div class="col-auto mb-4">
