@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'app.apps.AppConfig',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -123,3 +124,5 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+ACCOUNT_ACTIVATION_DAYS = 7

@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+
+{% load crispy_forms_tags %}         
+
+{% block content %}
+<!--Register--> 
+<div class="container py-5">
+	{% if messages %}
+        {% for message in messages %}
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                <div class="alert alert-danger" role="alert">
+					{{ message }}
+                </div>
+            {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                <div class="alert alert-success" role="alert">
+                    {{ message }}
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+	<h1>Register an Account</h1>
+	<form method="POST">
+		{% csrf_token %}
+		{{ form|crispy }}
+		<button class="btn btn-primary" type="submit">Register</button>
+	</form>
+	<p class="text-center">If you already have an account, <a href="/login">login</a> instead.</p>
+</div>
+
+{% endblock %}

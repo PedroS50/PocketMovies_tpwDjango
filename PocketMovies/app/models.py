@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 # Create your models here.
@@ -30,12 +32,19 @@ class Director(models.Model):
     birthdate = models.DateField()
     website = models.URLField()
 
+    def __str__(self):
+        return self.name
+
 
 class Genre(models.Model):
     name = models.CharField(max_length=32)
 
+    def __str__(self):
+        return self.name
+
 
 class Movie(models.Model):
+    name = models.CharField(max_length=64)
     description = models.CharField(max_length=300)
     rating = models.FloatField()
     director = models.ManyToManyField(Director)
@@ -43,16 +52,23 @@ class Movie(models.Model):
     cast = models.ManyToManyField(Actor)
     genre = models.ManyToManyField(Genre)
 
+    def __str__(self):
+        return self.name
+
 
 class Profile(models.Model):
-    user_details = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     #profile_picture = models.ImageField(blank=True)
     favorite_genres = models.ManyToManyField(Genre)
     favorite_movies = models.ManyToManyField(Movie, related_name='user_favorite_movies')
     movies_watched = models.ManyToManyField(Movie, related_name='user_watched_movies')
     want_to_watch = models.ManyToManyField(Movie, related_name='user_wanttowatch_movies')
-<<<<<<< HEAD
 
-=======
->>>>>>> main
+    def __str__(self):
+          return self.user.username
 
+    @receiver(post_save, sender=User)
+    def create_user_profile(sender, instance, created, **kwargs):
+        if created:
+            Profile.objects.create(user=instance)
+        instance.profile.save()
