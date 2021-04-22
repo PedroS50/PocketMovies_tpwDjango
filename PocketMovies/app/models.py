@@ -51,8 +51,5 @@ class Profile(models.Model):
     favorite_movies = models.ManyToManyField(Movie, related_name='user_favorite_movies')
     movies_watched = models.ManyToManyField(Movie, related_name='user_watched_movies')
     want_to_watch = models.ManyToManyField(Movie, related_name='user_wanttowatch_movies')
-<<<<<<< HEAD
 
-=======
->>>>>>> main
 
