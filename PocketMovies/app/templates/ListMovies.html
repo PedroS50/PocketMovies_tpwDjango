@@ -6,15 +6,15 @@
 
 <div class="container">
     <div>
-         <label for="genre">Genre:</label>
-        <select name="genre" id="genre">
-              <form action="." method="post">
+         <label for="choose_genre">Genre:</label>
+        <form action="." method="post">
+        {% csrf_token %}
+        <select name="genre" id="choose_genre" onchange="this.form.submit()">
               {% for genre in genre_list %}
-                    <option value={{ genre.name }} name=genre>{{ genre.name }}</option>
+                    <option value={{ genre.name }}>{{ genre.name }}</option>
               {% endfor %}
-              </form>
-
-</select>
+        </select>
+        </form>
     </div>
 	<div class="card-deck">
 		{% for movie in movie_list %}
@@ -28,7 +28,7 @@
 						</p>
 					</div>
 						<div class="card-footer">
-						<small class="text-muted genres-movie">{{ movie.genre.name }}</small>
+						        <small class="text-muted genres-movie">Genres: {% for g in movie.genre.all %}{{ g }}, {% endfor %}</small>
 					</div>
 				</div>
 			</div>

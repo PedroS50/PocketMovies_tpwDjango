@@ -3,13 +3,13 @@ from app.models import *
 
 
 def list_movies(request):
-    movies = Movie.objects.all()
     if 'genre' in request.POST:
         genre = request.POST['genre']
         if genre:
-            genre_object= Genre.objects.get(name=genre)
+            genre_object = Genre.objects.get(name=genre)
             movies = Movie.objects.filter(genre=genre_object)
-
+    else:
+        movies = Movie.objects.all()
     tparams = {'movie_list': movies, 'genre_list': Genre.objects.all()}
     return render(request, 'ListMovies.html', tparams)
     #return render(request, 'ListMovies.html')
