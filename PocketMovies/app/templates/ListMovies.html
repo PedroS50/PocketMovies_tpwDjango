@@ -5,8 +5,19 @@
 {% load static %}
 
 <div class="container">
+    <div>
+         <label for="choose_genre">Genre:</label>
+        <form action="." method="post">
+        {% csrf_token %}
+        <select name="genre" id="choose_genre" onchange="this.form.submit()">
+              {% for genre in genre_list %}
+                    <option value={{ genre.name }}>{{ genre.name }}</option>
+              {% endfor %}
+        </select>
+        </form>
+    </div>
 	<div class="card-deck">
-		{% comment %} {% for movie in movie_list %}
+		{% for movie in movie_list %}
 			<div class="col-auto mb-4">
 				<div class="card card-movie" style="width: 18rem;">
 					<img class="card-img-top img-movie" src="{% static 'imgs/movie.jpg' %}"  alt="Card image cap" />
@@ -17,12 +28,12 @@
 						</p>
 					</div>
 						<div class="card-footer">
-						<small class="text-muted genres-movie">{{ movie.producer }}</small>
+						        <small class="text-muted genres-movie">Genres: {% for g in movie.genre.all %}{{ g }}, {% endfor %}</small>
 					</div>
 				</div>
 			</div>
-		{% endfor %} {% endcomment %}
-		<div class="col-auto mb-4">
+		{% endfor %}
+		{% comment %}<div class="col-auto mb-4">
 			<div class="card card-movie" style="width: 18rem;">
 				<img class="card-img-top img-movie" src="{% static 'imgs/movie.jpg' %}"  alt="Card image cap" />
 				<div class="card-body">
@@ -125,7 +136,7 @@
 					<small class="text-muted genres-movie">Genres: </small>
 				</div>
 			</div>
-		</div>
+		</div> {% endcomment %}
 	</div>
 </div>
 
