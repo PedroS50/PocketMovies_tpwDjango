@@ -1,0 +1,14 @@
+.icon {
+    font-size: 25px;
+}
+
+.link {
+    color: white;
+    background-color: black;
+    transition: transform 2s ease, opacity .5s ease-out;
+}
+
+.link:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
