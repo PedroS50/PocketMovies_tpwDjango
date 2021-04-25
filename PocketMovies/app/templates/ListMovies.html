@@ -6,14 +6,15 @@
 
 <div class="container">
     <div>
-         <label for="choose_genre">Genre:</label>
+        <label for="choose_genre">Genre:</label>
         <form action="." method="post">
-        {% csrf_token %}
-        <select name="genre" id="choose_genre" onchange="this.form.submit()">
-              {% for genre in genre_list %}
-                    <option value={{ genre.name }}>{{ genre.name }}</option>
-              {% endfor %}
-        </select>
+            {% csrf_token %}
+            <select name="genre" id="choose_genre" onchange="this.form.submit()">
+                <option value="" {% if selected_genre == '' %}selected{% endif %}>All</option>
+                {% for genre in genre_list %}
+                    <option value={{ genre.name }} {% if selected_genre == genre.name %}selected{% endif %}>{{ genre.name }}</option>
+                {% endfor %}
+            </select>
         </form>
     </div>
 	<div class="card-deck">
@@ -27,9 +28,37 @@
 							{{ movie.description }}
 						</p>
 					</div>
-						<div class="card-footer">
-						        <small class="text-muted genres-movie">Genres: {% for g in movie.genre.all %}{{ g }}, {% endfor %}</small>
+                    <div class="card-footer">
+                        <div>
+                            <small class="text-muted genres-movie">Genres: {% for g in movie.genre.all %}{{ g }}, {% endfor %}</small>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
+                                {% if movie in profile.movies_watched %}
+                                    <a class="link btn btn-light"href="#"><i class="bi bi-eye icon"></i></a>
+                                {% else %}
+                                    <a class="link btn btn-light"href="#"><i class="bi bi-eye-fill icon"></i></a>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
+                                {% if movie in profile.want_to_watch %}
+                                    <a class="btn btn-light link" href="#" ><i class="bi bi-plus-circle icon"></i></a>
+                                {% else %}
+                                    <a class="btn btn-light link" href="#"><i class="bi bi-plus-circle-fill icon"></i></a>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
+                                {% if movie in profile.favorite_movies %}
+                                    <a class="btn btn-light link" href="#" onclick=""><i class="bi bi-heart icon"></i></a>
+                                {% else %}
+                                    <a class="btn btn-light link" href="#"><i class="bi bi-heart-fill icon"></i></a>
+                                {% endif %}
+                            </div>
+
+                        </div>
 					</div>
+				</div>
 				</div>
 			</div>
 		{% endfor %}
