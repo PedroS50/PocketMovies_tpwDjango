@@ -6,8 +6,10 @@ from django.http import HttpResponse
 from app.models import *
 from app.forms import *
 
+
 @login_required()
 def list_movies(request):
+    profile = Profile.objects.get(user=User.objects.get(username=request.session['username']))
     genre = ''
     movies = Movie.objects.all()
 
@@ -17,9 +19,40 @@ def list_movies(request):
             genre_object = Genre.objects.get(name=genre)
             movies = Movie.objects.filter(genre=genre_object)
 
-    tparams = {'movie_list': movies, 'genre_list': Genre.objects.all(), 'selected_genre': genre}
+    if 'add_movie_watched' in request.POST:
+        movie_id = request.POST['add_movie_watched']
+        if movie_id:
+            movie = Movie.objects.get(id=movie_id)
+            profile.movies_watched.add(movie)
+    if 'remove_movie_watched' in request.POST:
+        movie_id = request.POST['remove_movie_watched']
+        if movie_id:
+            movie = Movie.objects.get(id=movie_id)
+            profile.movies_watched.remove(movie)
+    if 'add_favorite_movies' in request.POST:
+        movie_id = request.POST['add_favorite_movies']
+        if movie_id:
+            movie = Movie.objects.get(id=movie_id)
+            profile.favorite_movies.add(movie)
+    if 'remove_favorite_movies' in request.POST:
+        movie_id = request.POST['remove_favorite_movies']
+        if movie_id:
+            movie = Movie.objects.get(id=movie_id)
+            profile.favorite_movies.remove(movie)
+    if 'add_want_to_watch' in request.POST:
+        movie_id = request.POST['add_want_to_watch']
+        if movie_id:
+            movie = Movie.objects.get(id=movie_id)
+            profile.want_to_watch.add(movie)
+    if 'remove_want_to_watch' in request.POST:
+        movie_id = request.POST['remove_want_to_watch']
+        if movie_id:
+            movie = Movie.objects.get(id=movie_id)
+            profile.want_to_watch.remove(movie)
+
+    tparams = {'movie_list': movies, 'genre_list': Genre.objects.all(), 'selected_genre': genre, 'profile': profile}
     return render(request, 'ListMovies.html', tparams)
-    #return render(request, 'ListMovies.html')
+    # return render(request, 'ListMovies.html')
 
 
 @login_required()
@@ -27,15 +60,18 @@ def list_actors(request):
     # return render(request, 'ListActors.html', {'actor_list': Actor.objects.all()})
     return render(request, 'ListActors.html')
 
+
 @login_required()
 def list_directors(request):
     # return render(request, 'ListDirectors.html', {'director_list': Director.objects.all()})
     return render(request, 'ListDirectors.html')
 
+
 @login_required()
 def list_producers(request):
     # return render(request, 'ListProducers.html', {'producer_list': Producer.objects.all()})
     return render(request, 'ListProducers.html')
+
 
 def register_user(request):
     if request.method == 'POST':
@@ -50,12 +86,13 @@ def register_user(request):
             new_user.profile.favorite_genres.set(register_form.cleaned_data['favorite_genres'])
 
             new_user.save()
-            messages.success(request, "Registration successful." )
+            messages.success(request, "Registration successful.")
             return redirect('home')
         messages.error(request, register_form.errors.as_data())
-    
+
     register_form = SignUpForm()
-    return render(request, "register.html", {"form":register_form})
+    return render(request, "register.html", {"form": register_form})
+
 
 def login_user(request):
     if request.method == 'POST':
@@ -77,6 +114,7 @@ def login_user(request):
         login_form = LoginForm()
         return render(request, "login.html", {"form": login_form})
 
+
 def logout_user(request):
     logout(request)
     try:
@@ -85,10 +123,10 @@ def logout_user(request):
         pass
     return redirect('home')
 
-    
 
 def home(request):
     return render(request, "layout.html")
+
 
 @login_required()
 def infoProducer(request, id):
@@ -98,6 +136,7 @@ def infoProducer(request, id):
     except:
         producer = None
         return render(request, "infoView.html")
+
 
 @login_required()
 def infoActor(request, id):
