@@ -1,0 +1,38 @@
+{% extends 'layout.html' %}
+
+{% load crispy_forms_tags %}
+{% load static %}   
+
+{% block css_styles %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+	<script src="{% static 'js/main.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+
+<div class="wrapper">
+    <div class="inner" style="background-color: #282828 !important;">
+        <div class="login-image-holder">
+            <img class="login-img" src="{% static 'imgs/movie.jpg' %}" alt="">
+        </div>
+        <form method="POST" class="main-form">
+            {% csrf_token %}
+            <h3>Login</h3>
+            {% for field in form %}
+
+            <div class="form-holder">
+                {{ field }}
+            </div>
+
+            {% endfor %}
+
+            <div class="form-login">
+                <button class="signup-btn" type="submit">Login</button>
+                <p>Don't Have account? <a class="signup-a" href="{% url 'register' %}">Sign Up</a></p>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
