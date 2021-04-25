@@ -5,17 +5,19 @@
 <head>
     <meta charset="UTF-8">
     <title>PocketMovies</title>
-    <link rel="stylesheet" href="{%  static  'css/list_movies_style.css'  %}">
-    <link rel="stylesheet" href="{%  static  'css/list_people_style.css'  %}">
+    {% block css_styles %}{% endblock %}
+    <link rel="stylesheet" href="{% static 'css/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'css/list_movies_style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/list_people_style.css' %}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </head>
 <body>
-    <nav class="navbar navbar-light bg-light">
+    <nav class="navbar">
         <div class="container-fluid">
             <a class="navbar-brand">Login</a>
             <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <input class="form-control-lg me-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
         </div>

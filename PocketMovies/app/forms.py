@@ -1,23 +1,47 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from app.models import Genre
 
 class SignUpForm(UserCreationForm):
-	email = forms.EmailField(required=True)
+	fname = forms.CharField(label="First Name", max_length=32, required=True)
+	lname = forms.CharField(label="Last Name", max_length=32, required=True)
+	email = forms.EmailField(label="Email", required=True)
 	favorite_genres = forms.ModelMultipleChoiceField(
+		label='Favorite Genres',
 		queryset=Genre.objects.all(), 
 		required=False,
 		widget=forms.CheckboxSelectMultiple)
 
 	class Meta:
 		model = User
-		fields = ('username', 'email', 'password1', 'password2', 'favorite_genres')
+		fields = ('fname', 'lname', 'username', 'email', 'password1', 'password2', 'favorite_genres')
+		# widgets = {
+        #     'username': forms.TextInput(attrs={'placeholder': 'Username', 'class': 'form-control'}),
+		# 	'email': forms.EmailInput(attrs={'placeholder': 'Email', 'class': 'form-control'}),
+		# 	'password1': forms.PasswordInput(attrs={'placeholder': 'Password', 'class': 'form-control'}),
+		# 	'password2': forms.PasswordInput(attrs={'placeholder': 'Confirm Password', 'class': 'form-control'}),
+            
+        # }
+	def __init__(self, *args, **kwargs):
+		super(SignUpForm, self).__init__(*args, **kwargs)
+		self.fields['fname'].widget.attrs['placeholder'] = self.fields['fname'].label or 'First Name'
+		self.fields['fname'].widget.attrs['class'] = 'form-control'
+		self.fields['lname'].widget.attrs['placeholder'] = self.fields['lname'].label or 'Last Name'
+		self.fields['lname'].widget.attrs['class'] = 'form-control'
+		self.fields['username'].widget.attrs['placeholder'] = self.fields['username'].label or 'Username'
+		self.fields['username'].widget.attrs['class'] = 'form-control'
+		self.fields['email'].widget.attrs['placeholder'] = self.fields['email'].label or 'email@address.nl'
+		self.fields['email'].widget.attrs['class'] = 'form-control'
+		self.fields['password1'].widget.attrs['placeholder'] = self.fields['password1'].label or 'Password'
+		self.fields['password1'].widget.attrs['class'] = 'form-control'
+		self.fields['password2'].widget.attrs['placeholder'] = self.fields['password2'].label or 'Password Confirmation'
+		self.fields['password2'].widget.attrs['class'] = 'form-control'
 	
-	# def save(self, commit=True):
-	# 	user = super(SignUpForm, self).save(commit=False)
-	# 	user.email = self.cleaned_data['email']
-	# 	user.favorite_genres = self.cleaned_data['favorite_genres']
-	# 	if commit:
-	# 		user.save()
-	# 	return user
+class LoginForm(AuthenticationForm):
+	def __init__(self, *args, **kwargs):
+		super(LoginForm, self).__init__(*args, **kwargs)
+		self.fields['username'].widget.attrs['placeholder'] = self.fields['username'].label or 'Username'
+		self.fields['username'].widget.attrs['class'] = 'form-control'
+		self.fields['password'].widget.attrs['placeholder'] = self.fields['password'].label or 'Password'
+		self.fields['password'].widget.attrs['class'] = 'form-control'

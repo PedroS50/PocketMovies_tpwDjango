@@ -1,23 +1,27 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth import login, authenticate
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 from app.models import *
 from app.forms import *
 
-
+@login_required()
 def list_movies(request):
     # return render(request, 'ListMovies.html', {'movie_list': Movie.objects.all()})
     return render(request, 'ListMovies.html')
 
+@login_required()
 def list_actors(request):
     # return render(request, 'ListActors.html', {'actor_list': Actor.objects.all()})
     return render(request, 'ListActors.html')
 
+@login_required()
 def list_directors(request):
     # return render(request, 'ListDirectors.html', {'director_list': Director.objects.all()})
     return render(request, 'ListDirectors.html')
 
+@login_required()
 def list_producers(request):
     # return render(request, 'ListProducers.html', {'producer_list': Producer.objects.all()})
     return render(request, 'ListProducers.html')
@@ -27,11 +31,12 @@ def register_user(request):
         register_form = SignUpForm(request.POST)
         if register_form.is_valid():
             new_user = register_form.save()
-            
             new_user.refresh_from_db()
-            print(register_form.cleaned_data['favorite_genres'])
+
+            new_user.profile.user.first_name = register_form.cleaned_data['fname']
+            new_user.profile.user.last_name = register_form.cleaned_data['lname']
+            new_user.profile.user.email = register_form.cleaned_data['email']
             new_user.profile.favorite_genres.set(register_form.cleaned_data['favorite_genres'])
-            new_user.profile.email = register_form.cleaned_data['email']
 
             new_user.save()
             messages.success(request, "Registration successful." )
@@ -43,7 +48,7 @@ def register_user(request):
 
 def login_user(request):
     if request.method == 'POST':
-        login_form = AuthenticationForm(request, data=request.POST)
+        login_form = LoginForm(request, data=request.POST)
         if login_form.is_valid():
             username = login_form.cleaned_data['username']
             password = login_form.cleaned_data['password']
@@ -51,19 +56,30 @@ def login_user(request):
             if user is not None:
                 login(request, user)
                 messages.info(request, f"User {username} successfully logged in!")
+                request.session['username'] = username
                 return redirect('ListMovies')
             else:
                 messages.error(request, "Invalid username or password.")
         else:
             messages.error(request, "Invalid username or password.")
     else:
-        login_form = AuthenticationForm()
+        login_form = LoginForm()
         return render(request, "login.html", {"form": login_form})
+
+def logout_user(request):
+    logout(request)
+    try:
+        del request.session['username']
+    except KeyError:
+        pass
+    return redirect('home')
+
+    
 
 def home(request):
     return render(request, "layout.html")
 
-
+@login_required()
 def infoProducer(request, id):
     try:
         producer = Producer.objects.get(id=id)
@@ -72,7 +88,7 @@ def infoProducer(request, id):
         producer = None
         return render(request, "infoView.html")
 
-
+@login_required()
 def infoActor(request, id):
     try:
         actor = Actor.objects.get(id=id)

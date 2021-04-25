@@ -1,10 +1,61 @@
 {% extends 'layout.html' %}
 
-{% load crispy_forms_tags %}         
+{% load crispy_forms_tags %}
+{% load static %}   
+
+{% block css_styles %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+	<script src="{% static 'js/main.js' %}"></script>
+{% endblock %}
 
 {% block content %}
+
+<div class="wrapper">
+    <div class="inner" style="background-color: #282828 !important;">
+        <div class="register-image-holder">
+            <img class="register-img" src="{% static 'imgs/movie.jpg' %}" alt="">
+        </div>
+        <form method="POST" class="main-form">
+            {% csrf_token %}
+            <h3>Sign Up</h3>
+            {% for field in form %}
+                
+                {% if field.label == 'Favorite Genres' %}
+                    <h5>{{ field.label }}</h5>
+
+                    <div class="row" style="padding-left: 8%;">
+                        {% for f in field %}
+                            {% ifequal forloop.counter 4 %}<div class="col-sm">{% endifequal %}
+                            <div style="padding-left: 1%">{{ f }}</div>
+                            {% ifequal forloop.counter 4 %}</div>{% endifequal %}
+                        {% endfor %}
+                    </div>
+                {% else %}
+                <div class="form-holder">
+                    {{ field }}
+                </div>
+                {% endif %}
+                
+            {% endfor %}
+
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" checked> I agree all statement in <a class="signup-a" href="#">Terms & Conditions</a>
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <div class="form-login">
+                <button class="signup-btn" type="submit">Sign up</button>
+                <p>Already Have account? <a class="signup-a" href="{% url 'login' %}">Login</a></p>
+            </div>
+        </form>
+    </div>
+</div>
+
 <!--Register--> 
-<div class="container py-5">
+{% comment %} <div class="container py-5">
 	{% if messages %}
         {% for message in messages %}
             {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
@@ -26,6 +77,6 @@
 		<button class="btn btn-primary" type="submit">Register</button>
 	</form>
 	<p class="text-center">If you already have an account, <a href="/login">login</a> instead.</p>
-</div>
+</div> {% endcomment %}
 
 {% endblock %}
