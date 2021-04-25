@@ -44,7 +44,7 @@ class Genre(models.Model):
 
 
 class Movie(models.Model):
-    name = models.CharField(max_length=64)
+    title = models.CharField(max_length=50, default="Undefined")
     description = models.CharField(max_length=300)
     rating = models.FloatField()
     director = models.ManyToManyField(Director)
@@ -53,7 +53,7 @@ class Movie(models.Model):
     genre = models.ManyToManyField(Genre)
 
     def __str__(self):
-        return self.name
+        return self.title
 
 
 class Profile(models.Model):

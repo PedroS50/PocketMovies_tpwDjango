@@ -8,8 +8,17 @@ from app.forms import *
 
 @login_required()
 def list_movies(request):
-    # return render(request, 'ListMovies.html', {'movie_list': Movie.objects.all()})
-    return render(request, 'ListMovies.html')
+    if 'genre' in request.POST:
+        genre = request.POST['genre']
+        if genre:
+            genre_object = Genre.objects.get(name=genre)
+            movies = Movie.objects.filter(genre=genre_object)
+    else:
+        movies = Movie.objects.all()
+    tparams = {'movie_list': movies, 'genre_list': Genre.objects.all()}
+    return render(request, 'ListMovies.html', tparams)
+    #return render(request, 'ListMovies.html')
+
 
 @login_required()
 def list_actors(request):
