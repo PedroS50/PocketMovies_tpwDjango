@@ -72,7 +72,7 @@ def list_people(request, person):
         people = Producer.objects.all()
     elif person == 'directors':
         people = Director.objects.all()
-    return render(request, 'ListActors.html', {'person_list': people, 'person': person.upper()})
+    return render(request, 'ListActors.html', {'person_list': people, 'person_role': person.upper()})
 
 
 def register_user(request):
