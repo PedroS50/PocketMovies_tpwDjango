@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>PocketMovies</title>
+    {% block css_styles %}{% endblock %}
     <link rel="stylesheet" href="{% static  'css/list_movies_style.css' %}">
     <link rel="stylesheet" href="{% static  'css/list_people_style.css' %}">
     <link rel="stylesheet" href="{% static  'css/navbar_style.css' %}">
@@ -55,8 +56,13 @@
             {% csrf_token %}
                 <div class="mt-3 w-75 ms-auto me-auto">
                     <div class="input-group mb-3">
+<<<<<<< HEAD
                         <button type="submit" class="btn btn-secondary" role="button"><i class="bi bi-search icon"></i></button>
                         <input type="text" name="title" id="title" class="form-control" placeholder="Search" aria-label="Search"
+=======
+                        <a class="btn btn-secondary" href="#" role="button"><i class="bi bi-search icon"></i></a>
+                        <input type="text" class="form-control-lg" placeholder="Search" aria-label="Search"
+>>>>>>> 609c6f033b29040a4260279292a2f05ef8f46a57
                                aria-describedby="basic-addon1">
                     </div>
                 </div>
