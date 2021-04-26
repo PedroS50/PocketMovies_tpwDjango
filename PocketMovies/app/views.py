@@ -8,46 +8,54 @@ from app.forms import *
 
 
 @login_required()
-def list_movies(request):
+def list_movies(request, movie):
+
     profile = Profile.objects.get(user=User.objects.get(username=request.session['username']))
     genre = ''
-    movies = Movie.objects.all()
+    if movie == 'all':
+        movies = Movie.objects.all()
+    elif movie == 'my_favorite_movies':
+        movies = profile.favorite_movies.all()
+    elif movie == 'my_want_to_watch':
+        movies = profile.want_to_watch.all()
+    elif movie == 'my_watched_movies':
+        movies = profile.movies_watched.all()
 
     if 'genre' in request.POST:
         genre = request.POST['genre']
         if genre:
             genre_object = Genre.objects.get(name=genre)
-            movies = Movie.objects.filter(genre=genre_object)
+            movies = movies.filter(genre=genre_object)
 
     if 'add_movie_watched' in request.POST:
         movie_id = request.POST['add_movie_watched']
         if movie_id:
-            movie = Movie.objects.get(id=movie_id)
+            movie = movies.get(id=movie_id)
             profile.movies_watched.add(movie)
     if 'remove_movie_watched' in request.POST:
         movie_id = request.POST['remove_movie_watched']
         if movie_id:
-            movie = Movie.objects.get(id=movie_id)
+            movie = movies.get(id=movie_id)
             profile.movies_watched.remove(movie)
     if 'add_favorite_movies' in request.POST:
         movie_id = request.POST['add_favorite_movies']
         if movie_id:
-            movie = Movie.objects.get(id=movie_id)
+            movie = movies.get(id=movie_id)
             profile.favorite_movies.add(movie)
     if 'remove_favorite_movies' in request.POST:
         movie_id = request.POST['remove_favorite_movies']
         if movie_id:
-            movie = Movie.objects.get(id=movie_id)
+            movie = movies.get(id=movie_id)
             profile.favorite_movies.remove(movie)
     if 'add_want_to_watch' in request.POST:
         movie_id = request.POST['add_want_to_watch']
         if movie_id:
-            movie = Movie.objects.get(id=movie_id)
+            movie = movies.get(id=movie_id)
             profile.want_to_watch.add(movie)
     if 'remove_want_to_watch' in request.POST:
         movie_id = request.POST['remove_want_to_watch']
         if movie_id:
-            movie = Movie.objects.get(id=movie_id)
+            movie = movies.get(id=movie_id)
             profile.want_to_watch.remove(movie)
 
     tparams = {'movie_list': movies, 'genre_list': Genre.objects.all(), 'selected_genre': genre, 'profile': profile}

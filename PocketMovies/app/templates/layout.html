@@ -24,47 +24,77 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
 </head>
 <body>
-<nav class="navbar navbar-light" style="background-color: #b3d9e6;">
+<nav class="navbar navbar-dark bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand">Pocket Movies</a>
         <nav class="nav justify-content-end w-25 justify-content-between align-items-center">
-            <a class="link btn btn-light" href="#"><i class="bi bi-eye icon"></i></a>
-            <a class="btn btn-light link" href="#"><i class="bi bi-person-circle icon"></i></a>
-            <a class="btn btn-light link" href="#"><i class="bi bi-heart-fill icon"></i></a>
-            <a class="btn btn-light link" href="#" role="button"><h1 class="icon">Login</h1></a>
+            <a href="/movies/my_watched_movies/" class="nav-link align-middle px-0">
+                <i class="bi bi-eye icon"></i>
+            </a>
+            <a href="/movies/my_want_to_watch/" class="nav-link align-middle px-0">
+                <i class="bi bi-plus-circle icon"></i>
+            </a>
+            <a href="/movies/my_favorite_movies/" class="nav-link align-middle px-0">
+                <i class="bi bi-heart icon"></i>
+            </a>
+            <a href="/logout/" class="nav-link align-middle px-0">
+                <span class="ms-1 d-none d-sm-inline">Logout</span>
+            </a>
         </nav>
     </div>
 </nav>
-<div class="row">
-    <div class="col-1">
-        <nav style="position: fixed;top: 9%;bottom: 0;left: 0;z-index: 9999; box-shadow: -1px 0 0 rgba(0,0,0,.1); max-width: 10vw"
-             class="col nav flex-column">
-            <a style="text-align: center;padding: 25px 0;" class="nav-link active" aria-current="page"
-               href="/">Home</a>
-            <a style="text-align: center;padding: 25px 0;" class="nav-link active" aria-current="page"
-               href="/movies/">Movies</a>
-            <a style="text-align: center;padding: 25px 0;" class="nav-link active" aria-current="page"
-               href="/actor/1">Actors</a>
-            <a style="text-align: center;padding: 25px 0;" class="nav-link active" aria-current="page"
-               href="/">Directors</a>
-            <a style="text-align: center;padding: 25px 0;" class="nav-link active" aria-current="page"
-               href="/producer/1">Producers</a>
-        </nav>
-    </div>
-    <div class="col">
-        {% block content %}
-            <form method="get">
-            {% csrf_token %}
-                <div class="mt-3 w-75 ms-auto me-auto">
-                    <div class="input-group mb-3">
-                        <a class="btn btn-secondary" href="#" role="button"><i class="bi bi-search icon"></i></a>
-                        <input type="text" class="form-control-lg" placeholder="Search" aria-label="Search"
-                               aria-describedby="basic-addon1">
-                    </div>
+<div class="container-fluid">
+    <div class="row flex-nowrap">
+        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+            <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                    <li class="nav-item">
+                        <a href="/movies/" class="nav-link align-middle px-0">
+                            <i class=" fs-4 bi bi-arrow-right-short"></i> <span class="ms-1 d-none d-sm-inline">Movies</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/actors/" class="nav-link align-middle px-0">
+                            <i class=" fs-4 bi bi-arrow-right-short"></i> <span class="ms-1 d-none d-sm-inline">Actors</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/producers/" class="nav-link align-middle px-0">
+                            <i class=" fs-4 bi bi-arrow-right-short"></i> <span class="ms-1 d-none d-sm-inline">Producers</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/directors/" class="nav-link align-middle px-0">
+                            <i class=" fs-4 bi bi-arrow-right-short"></i> <span class="ms-1 d-none d-sm-inline">Directors</span>
+                        </a>
+                    </li>
+
+                </ul>
+                <hr>
+                <div class="dropdown pb-4">
+                    <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30" class="rounded-circle">
+                        <span class="d-none d-sm-inline mx-1">loser</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+                        <li><a class="dropdown-item" href="#">New project...</a></li>
+                        <li><a class="dropdown-item" href="#">Settings</a></li>
+                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#">Sign out</a></li>
+                    </ul>
                 </div>
-            </form>
-        {% endblock %}
+            </div>
+        </div>
+        <div class="col py-3">
+            {% block content %}
+
+            {% endblock %}
+        </div>
     </div>
 </div>
+
 </body>
 </html>
