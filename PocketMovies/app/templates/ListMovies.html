@@ -2,38 +2,43 @@
 
 {% block content %}
 
-{% load static %}
+    {% load static %}
 
-<div class="container">
-    <div>
-         <label for="choose_genre">Genre:</label>
-        <form action="." method="post">
-        {% csrf_token %}
-        <select name="genre" id="choose_genre" onchange="this.form.submit()">
-              {% for genre in genre_list %}
-                    <option value={{ genre.name }}>{{ genre.name }}</option>
-              {% endfor %}
-        </select>
-        </form>
-    </div>
-	<div class="card-deck">
-		{% for movie in movie_list %}
-			<div class="col-auto mb-4">
-				<div class="card card-movie" style="width: 18rem;">
-					<img class="card-img-top img-movie" src="{% static 'imgs/movie.jpg' %}"  alt="Card image cap" />
-					<div class="card-body">
-						<h5 class="card-title text-center title-movie">{{ movie.title }}</h5>
-						<p class="card-text description-movie">
-							{{ movie.description }}
-						</p>
-					</div>
-						<div class="card-footer">
-						        <small class="text-muted genres-movie">Genres: {% for g in movie.genre.all %}{{ g }}, {% endfor %}</small>
-					</div>
-				</div>
-			</div>
-		{% endfor %}
-		{% comment %}<div class="col-auto mb-4">
+    <div class="container">
+        <div>
+            <label for="choose_genre">Genre:</label>
+            <form action="/movies/" method="post">
+                {% csrf_token %}
+                <select name="genre" id="choose_genre" onchange="this.form.submit()">
+                    <option value="All">All</option>
+                    {% for genre in genre_list %}
+                        <option value={{ genre.name }}>{{ genre.name }}</option>
+                    {% endfor %}
+                </select>
+            </form>
+        </div>
+        <div class="card-deck row rows-cols-4">
+            {% for movie in movie_list %}
+                <div class="col-auto mb-4">
+                    <div class="card card-movie" style="width: 18rem;">
+                        <a href="/movie/{{ movie.id }}" style="color:inherit;text-decoration: none">
+                            <img class="card-img-top img-movie" src="{% static 'imgs/movie.jpg' %}"
+                                 alt="Card image cap"/>
+                            <div class="card-body">
+                                <h5 class="card-title text-center title-movie">{{ movie.title }}</h5>
+                                <p class="card-text description-movie">
+                                    {{ movie.description }}
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted genres-movie">Genres:
+                                    {% for g in movie.genre.all %}{{ g }}, {% endfor %}</small>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+            {% comment %}<div class="col-auto mb-4">
 			<div class="card card-movie" style="width: 18rem;">
 				<img class="card-img-top img-movie" src="{% static 'imgs/movie.jpg' %}"  alt="Card image cap" />
 				<div class="card-body">
@@ -47,7 +52,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="col-auto mb-4">
 			<div class="card card-movie" style="width: 18rem; ">
 				<img class="card-img-top img-movie" src="{% static 'imgs/movie.jpg' %}" alt="Card image cap" />
@@ -137,7 +142,7 @@
 				</div>
 			</div>
 		</div> {% endcomment %}
-	</div>
-</div>
+        </div>
+    </div>
 
 {% endblock %}

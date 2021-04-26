@@ -29,5 +29,8 @@ urlpatterns = [
     path('directors/', views.list_directors, name='ListDirectors'),
     path('producers/', views.list_producers, name='ListProducers'),
     path('producer/<id>', views.infoProducer, name="infoProducer"),
-    path('actor/<id>', views.infoActor, name="infoActor")
+    path('actor/<id>', views.infoActor, name="infoActor"),
+    path('search/', views.searchMovie, name="searchMovie"),
+    path('movie/<id>', views.infoMovie, name="infoMovie"),
+    path('director/<id>', views.infoDirector, name="infoDirector"),
 ]

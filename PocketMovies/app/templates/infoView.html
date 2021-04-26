@@ -6,6 +6,7 @@
                 <div class="row z-depth-3">
                     <div class="col-sm-4 bg-info rounded-left">
                         <div class="card-block text-center text-white">
+                            <i class="bi bi-building" style="font-size: 100px;"></i>
                             <h2 class="font-weight-bold mt-4">{{ producer.name }}</h2>
                             <p>Producer</p>
                             <a href="{{ producer.website }}">{{ producer.website }}</a>
@@ -35,8 +36,13 @@
                 <div class="row z-depth-3">
                     <div class="col-sm-4 bg-info rounded-left">
                         <div class="card-block text-center text-white">
+                            <i class="bi bi-person-square" style="font-size: 100px;"></i>
                             <h2 class="font-weight-bold mt-4">{{ person.name }}</h2>
-                            <p>Producer</p>
+                            {% if person.years_active %}
+                                <p>Actor</p>
+                            {% else %}
+                                <p>Director</p>
+                            {% endif %}
                             {% if person.website %}
                                 <a href="{{ producer.website }}">{{ producer.website }}</a>
                             {% endif %}
@@ -62,6 +68,39 @@
                 </div>
             </div>
         </div>
+    {% elif movie %}
+        <div class="row d-flex justify-content-center">
+        <div class="col-md-10 mt-5 pt-5">
+            <div class="row z-depth-3">
+                <div class="col-sm-4 bg-info rounded-left">
+                    <div class="card-block text-center text-white">
+                        <i class="bi bi-film" style="font-size: 100px"></i>
+                        <h2 class="font-weight-bold mt-4">{{ movie.title }}</h2>
+                        <p>Movie</p>
+                        {% for producer in movie.producer.all %}
+                            <a href="/producer/{{ producer.id }}">{{ producer }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="col-sm-8 bg-white rounded-right">
+                    <h3 class="mt-3 text-center">Information</h3>
+                    <hr class="badge-primary mt-0 w-50" style="margin-left: auto;margin-right: auto">
+                    <div class="row ">
+                        <div class="col-sm-6">
+                            <p class="font-weight-bold">Description</p>
+                            <h6 class="text-muted">{{ movie.description }}</h6>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="font-weight-bold">Actors</p>
+                            {% for actor in movie.cast.all %}
+                                <h6 class="text-muted">{{ actor.name }}</h6>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     {% else %}
+        <h1>Ni puto caso</h1>
     {% endif %}
 {% endblock %}
