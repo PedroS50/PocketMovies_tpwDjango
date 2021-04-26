@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{% static  'css/list_movies_style.css' %}">
     <link rel="stylesheet" href="{% static  'css/list_people_style.css' %}">
     <link rel="stylesheet" href="{% static  'css/navbar_style.css' %}">
+    <link rel="stylesheet" href="{% static  'css/info.css' %}">
     {#    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"#}
     {#          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">#}
     {#    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"#}
@@ -28,9 +29,19 @@
     <div class="container-fluid">
         <a class="navbar-brand">Pocket Movies</a>
         <nav class="nav justify-content-end w-25 justify-content-between align-items-center">
-            <a href="/logout/" class="nav-link align-right px-0">
-                <span class="ms-1 d-none d-sm-inline">Logout</span>
-            </a>
+            {% if user.is_authenticated %}
+
+                <a href="/logout/" class="nav-link align-right px-0">
+                    <i class="bi bi-power"></i>
+                    <span class="ms-1 d-none d-sm-inline">Logout</span>
+                </a>
+            {% else %}
+
+                <a href="/login/" class="nav-link align-right px-0">
+                    <i class="bi bi-box-arrow-in-right"></i>
+                    <span class="ms-1 d-none d-sm-inline">Login</span>
+                </a>
+            {% endif %}
         </nav>
     </div>
 </nav>
@@ -41,22 +52,26 @@
                 <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                     <li class="nav-item">
                         <a href="/movies/" class="nav-link align-middle px-0">
-                            <i class=" fs-4 bi bi-arrow-right-short"></i><span class="ms-1 d-none d-sm-inline">Movies</span>
+                            <i class=" fs-4 bi bi-arrow-right-short"></i><span
+                                class="ms-1 d-none d-sm-inline">Movies</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="/actors/" class="nav-link align-middle px-0">
-                            <i class=" fs-4 bi bi-arrow-right-short"></i><span class="ms-1 d-none d-sm-inline">Actors</span>
+                            <i class=" fs-4 bi bi-arrow-right-short"></i><span
+                                class="ms-1 d-none d-sm-inline">Actors</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="/producers/" class="nav-link align-middle px-0">
-                            <i class=" fs-4 bi bi-arrow-right-short"></i><span class="ms-1 d-none d-sm-inline">Producers</span>
+                            <i class=" fs-4 bi bi-arrow-right-short"></i><span
+                                class="ms-1 d-none d-sm-inline">Producers</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="/directors/" class="nav-link align-middle px-0">
-                           <i class=" fs-4 bi bi-arrow-right-short"></i><span class="ms-1 d-none d-sm-inline">Directors</span>
+                            <i class=" fs-4 bi bi-arrow-right-short"></i><span
+                                class="ms-1 d-none d-sm-inline">Directors</span>
                         </a>
                     </li>
                     <hr/>
@@ -65,13 +80,18 @@
                             <i class="bi bi-film"></i> <span class="ms-1 d-none d-sm-inline">My Movies</span> </a>
                         <ul class="collapse show nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
                             <li class="w-100">
-                                <a href="/movies/my_favorite_movies/" class="nav-link px-0"><i class=" fs-4 bi bi-plus-circle"></i> <span class="d-none d-sm-inline"> Favorite Movies</span></a>
+                                <a href="/movies/my_favorite_movies/" class="nav-link px-0"><i
+                                        class=" fs-4 bi bi-plus-circle"></i> <span class="d-none d-sm-inline"> Favorite Movies</span></a>
                             </li>
                             <li>
-                                <a href="/movies/my_want_to_watch/" class="nav-link px-0"><i class=" fs-4 bi bi-heart"></i><span class="d-none d-sm-inline"> Movies to Watch</span></a>
+                                <a href="/movies/my_want_to_watch/" class="nav-link px-0"><i
+                                        class=" fs-4 bi bi-heart"></i><span
+                                        class="d-none d-sm-inline"> Movies to Watch</span></a>
                             </li>
                             <li>
-                                <a href="/movies/my_watched_movies/" class="nav-link px-0"><i class="fs-4 bi bi-eye icon"></i><span class="d-none d-sm-inline"> Watched Movies </span></a>
+                                <a href="/movies/my_watched_movies/" class="nav-link px-0"><i
+                                        class="fs-4 bi bi-eye icon"></i><span
+                                        class="d-none d-sm-inline"> Watched Movies </span></a>
                             </li>
                         </ul>
                     </li>
