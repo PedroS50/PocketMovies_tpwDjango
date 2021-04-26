@@ -7,33 +7,74 @@ from app.models import *
 from app.forms import *
 
 @login_required()
-def list_movies(request):
+def list_movies(request, movie):
+
+    profile = Profile.objects.get(user=User.objects.get(username=request.session['username']))
+    genre = ''
+    if movie == 'all':
+        movies = Movie.objects.all()
+    elif movie == 'my_favorite_movies':
+        movies = profile.favorite_movies.all()
+    elif movie == 'my_want_to_watch':
+        movies = profile.want_to_watch.all()
+    elif movie == 'my_watched_movies':
+        movies = profile.movies_watched.all()
+
     if 'genre' in request.POST:
         genre = request.POST['genre']
         if genre:
             genre_object = Genre.objects.get(name=genre)
-            movies = Movie.objects.filter(genre=genre_object)
-    else:
-        movies = Movie.objects.all()
-    tparams = {'movie_list': movies, 'genre_list': Genre.objects.all()}
+            movies = movies.filter(genre=genre_object)
+
+    if 'search' in request.GET:
+        search_term = request.GET['search']
+        movies = movies.filter(title__icontains=search_term)
+
+    if 'add_movie_watched' in request.POST:
+        movie_id = request.POST['add_movie_watched']
+        if movie_id:
+            movie = movies.get(id=movie_id)
+            profile.movies_watched.add(movie)
+    if 'remove_movie_watched' in request.POST:
+        movie_id = request.POST['remove_movie_watched']
+        if movie_id:
+            movie = movies.get(id=movie_id)
+            profile.movies_watched.remove(movie)
+    if 'add_favorite_movies' in request.POST:
+        movie_id = request.POST['add_favorite_movies']
+        if movie_id:
+            movie = movies.get(id=movie_id)
+            profile.favorite_movies.add(movie)
+    if 'remove_favorite_movies' in request.POST:
+        movie_id = request.POST['remove_favorite_movies']
+        if movie_id:
+            movie = movies.get(id=movie_id)
+            profile.favorite_movies.remove(movie)
+    if 'add_want_to_watch' in request.POST:
+        movie_id = request.POST['add_want_to_watch']
+        if movie_id:
+            movie = movies.get(id=movie_id)
+            profile.want_to_watch.add(movie)
+    if 'remove_want_to_watch' in request.POST:
+        movie_id = request.POST['remove_want_to_watch']
+        if movie_id:
+            movie = movies.get(id=movie_id)
+            profile.want_to_watch.remove(movie)
+
+    tparams = {'movie_list': movies, 'genre_list': Genre.objects.all(), 'selected_genre': genre, 'profile': profile}
     return render(request, 'ListMovies.html', tparams)
     #return render(request, 'ListMovies.html')
 
-
 @login_required()
-def list_actors(request):
-    # return render(request, 'ListActors.html', {'actor_list': Actor.objects.all()})
-    return render(request, 'ListActors.html')
+def list_people(request, person):
+    if person == 'actors':
+        people = Actor.objects.all()
+    elif person == 'producers':
+        people = Producer.objects.all()
+    elif person == 'directors':
+        people = Director.objects.all()
+    return render(request, 'ListActors.html', {'person_list': people, 'person_role': person.upper()})
 
-@login_required()
-def list_directors(request):
-    # return render(request, 'ListDirectors.html', {'director_list': Director.objects.all()})
-    return render(request, 'ListDirectors.html')
-
-@login_required()
-def list_producers(request):
-    # return render(request, 'ListProducers.html', {'producer_list': Producer.objects.all()})
-    return render(request, 'ListProducers.html')
 
 def register_user(request):
     if request.method == 'POST':
@@ -48,12 +89,12 @@ def register_user(request):
             new_user.profile.favorite_genres.set(register_form.cleaned_data['favorite_genres'])
 
             new_user.save()
-            messages.success(request, "Registration successful." )
+            messages.success(request, "Registration successful.")
             return redirect('home')
         messages.error(request, register_form.errors.as_data())
-    
+
     register_form = SignUpForm()
-    return render(request, "register.html", {"form":register_form})
+    return render(request, "register.html", {"form": register_form})
 
 def login_user(request):
     if request.method == 'POST':
@@ -85,7 +126,6 @@ def logout_user(request):
         pass
     return redirect('home')
 
-    
 
 def home(request):
     return render(request, "layout.html")
