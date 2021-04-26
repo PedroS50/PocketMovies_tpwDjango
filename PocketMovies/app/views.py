@@ -17,6 +17,7 @@ def list_movies(request):
         movies = Movie.objects.all()
     tparams = {'movie_list': movies, 'genre_list': Genre.objects.all()}
     return render(request, 'ListMovies.html', tparams)
+    #return render(request, 'ListMovies.html')
 
 
 @login_required()
@@ -68,8 +69,10 @@ def login_user(request):
                 return redirect('ListMovies')
             else:
                 messages.error(request, "Invalid username or password.")
+                return render(request, "login.html", {"form": login_form})
         else:
             messages.error(request, "Invalid username or password.")
+            return render(request, "login.html", {"form": login_form})
     else:
         login_form = LoginForm()
         return render(request, "login.html", {"form": login_form})
