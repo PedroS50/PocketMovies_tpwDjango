@@ -1,3 +1,4 @@
+from django.contrib.auth.models import Group
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
@@ -6,9 +7,9 @@ from django.http import HttpResponse
 from app.models import *
 from app.forms import *
 
+
 @login_required()
 def list_movies(request, movie):
-
     profile = Profile.objects.get(user=User.objects.get(username=request.session['username']))
     genre = ''
     if movie == 'all':
@@ -63,7 +64,8 @@ def list_movies(request, movie):
 
     tparams = {'movie_list': movies, 'genre_list': Genre.objects.all(), 'selected_genre': genre, 'profile': profile}
     return render(request, 'ListMovies.html', tparams)
-    #return render(request, 'ListMovies.html')
+    # return render(request, 'ListMovies.html')
+
 
 @login_required()
 def list_people(request, person):
@@ -88,13 +90,16 @@ def register_user(request):
             new_user.profile.user.email = register_form.cleaned_data['email']
             new_user.profile.favorite_genres.set(register_form.cleaned_data['favorite_genres'])
 
-            new_user.save()
+            aux = new_user.save()
+            group = Group.objects.get(name="client")
+            aux.groups.add(group)
             messages.success(request, "Registration successful.")
             return redirect('home')
         messages.error(request, register_form.errors.as_data())
 
     register_form = SignUpForm()
     return render(request, "register.html", {"form": register_form})
+
 
 def login_user(request):
     if request.method == 'POST':
@@ -118,6 +123,7 @@ def login_user(request):
         login_form = LoginForm()
         return render(request, "login.html", {"form": login_form})
 
+
 def logout_user(request):
     logout(request)
     try:
@@ -128,7 +134,8 @@ def logout_user(request):
 
 
 def home(request):
-    return render(request, "layout.html")
+    return render(request, "layout.html", {"user": request.user})
+
 
 @login_required()
 def infoProducer(request, id):
@@ -138,6 +145,7 @@ def infoProducer(request, id):
     except:
         producer = None
         return render(request, "infoView.html")
+
 
 @login_required()
 def infoActor(request, id):
@@ -159,9 +167,10 @@ def infoDirector(request, id):
 
 
 def infoMovie(request, id):
+    profile = Profile.objects.get(user=User.objects.get(username=request.session['username']))
     try:
         movie = Movie.objects.get(id=id)
-        return render(request, "infoView.html", {"movie": movie})
+        return render(request, "infoView.html", {"movie": movie, "profile": profile})
     except Exception as e:
         movie = None
         print(e)

@@ -1,104 +1,135 @@
 {% extends "layout.html" %}
 {% block content %}
     {% if producer %}
-        <div class="row d-flex justify-content-center">
-            <div class="col-md-10 mt-5 pt-5">
-                <div class="row z-depth-3">
-                    <div class="col-sm-4 bg-info rounded-left">
-                        <div class="card-block text-center text-white">
-                            <i class="bi bi-building" style="font-size: 100px;"></i>
-                            <h2 class="font-weight-bold mt-4">{{ producer.name }}</h2>
-                            <p>Producer</p>
-                            <a href="{{ producer.website }}">{{ producer.website }}</a>
-                        </div>
-                    </div>
-                    <div class="col-sm-8 bg-white rounded-right">
-                        <h3 class="mt-3 text-center">Information</h3>
-                        <hr class="badge-primary mt-0 w-50" style="margin-left: auto;margin-right: auto">
-                        <div class="row ">
-                            <div class="col-sm-6">
-                                <p class="font-weight-bold">Country</p>
-                                <h6 class="text-muted">{{ producer.country }}</h6>
-                            </div>
-                            <div class="col-sm-6">
-                                <p class="font-weight-bold">City</p>
-                                <h6 class="text-muted">{{ producer.city }}</h6>
-                            </div>
+        <div class="container align-items-center movie-details bg-dark text-white">
+            <div class="row d-flex justify-content-between w-100 p-3">
+                <div class="col-md-6 ">
+                    <h1>{{ producer.name.capitalize }}</h1>
+                    <div class="d-flex flex-column mb-3">
+                        <div class="person-info">
+                            <p>City: {{ producer.city }}</p>
+                            <p>Country: {{ producer.country }}</p>
+                            <p><i class="bi bi-twitter"></i> Twitter: {{ producer.twitterAccount }}</p>
+                            <p><i class="bi bi-instagram"></i> Instagram: {{ producer.instagramAccount }}</p>
+                            <p>Website: <a href="{{ producer.website }}">{{ producer.website }}</a></p>
                         </div>
                     </div>
                 </div>
+                <div class="col-md-6">
+                    <img src="{{ producer.imageField }}" class="movie-image">
+                </div>
             </div>
-        </div>
-
-    {% elif person %}
-        <div class="row d-flex justify-content-center">
-            <div class="col-md-10 mt-5 pt-5">
-                <div class="row z-depth-3">
-                    <div class="col-sm-4 bg-info rounded-left">
-                        <div class="card-block text-center text-white">
-                            <i class="bi bi-person-square" style="font-size: 100px;"></i>
-                            <h2 class="font-weight-bold mt-4">{{ person.name }}</h2>
-                            {% if person.years_active %}
-                                <p>Actor</p>
-                            {% else %}
-                                <p>Director</p>
-                            {% endif %}
-                            {% if person.website %}
-                                <a href="{{ producer.website }}">{{ producer.website }}</a>
-                            {% endif %}
+            {% elif person %}
+            <div class="container align-items-center movie-details bg-dark text-white">
+                <div class="row d-flex justify-content-between w-100 p-3">
+                    <div class="col-md-6 ">
+                        <h1>{{ person.name.capitalize }}</h1>
+                        <div class="d-flex flex-column mb-3">
+                            <div class="person-info">
+                                <p>Birthdate: {{ person.birthdate }}</p>
+                                <p><i class="bi bi-twitter"></i> Twitter: {{ person.twitterAccount }}</p>
+                                <p><i class="bi bi-instagram"></i> Instagram: {{ person.instagramAccount }}</p>
+                                <p>Years Active: {{ person.years_active }}</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-sm-8 bg-white rounded-right">
-                        <h3 class="mt-3 text-center">Information</h3>
-                        <hr class="badge-primary mt-0 w-50" style="margin-left: auto;margin-right: auto">
-                        <div class="row ">
-                            <div class="col-sm-6">
-                                <p class="font-weight-bold">Birthdate</p>
-                                <h6 class="text-muted">{{ person.birthdate }}</h6>
-                            </div>
-                            {% if person.years_active %}
-
-                                <div class="col-sm-6">
-                                    <p class="font-weight-bold">Years Active</p>
-                                    <h6 class="text-muted">{{ person.years_active }}</h6>
+                    <div class="col-md-6">
+                        <img src="{{ person.imageField }}" class="movie-image">
+                    </div>
+                </div>
+                {% elif movie %}
+                <div class="container align-items-center movie-details bg-dark text-white">
+                    <div class="row d-flex justify-content-between w-100 p-3">
+                        <div class="col-md-6 ">
+                            <h1>{{ movie.title.capitalize }}</h1>
+                            <p>{{ movie.description }}</p>
+                            <p>Published: {{ movie.published_date }}</p>
+                            <div class="d-flex flex-column mb-3">
+                                <div class="casting">
+                                    <p>Cast: </p>
+                                    {% for actor in movie.cast.all %}
+                                        <a href="/actor/{{ actor.id }}"><img src="{{ actor.imageField }}"
+                                                                             title="{{ actor.name }}"></a>
+                                    {% endfor %}
+                                    <p>Director: </p>
+                                    {% for director in movie.director.all %}
+                                        <a href="/director/{{ director.id }}"><img src="{{ director.imageField }}"
+                                                                                   title="{{ director.name }}"></a>
+                                    {% endfor %}
+                                    <p>Producer: </p>
+                                    {% for producer in movie.producer.all %}
+                                        <a href="/producer/{{ producer.id }}"><img src="{{ producer.imageField }}"
+                                                                                   title="{{ producer.name }}"></a>
+                                    {% endfor %}
                                 </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <img src="{{ movie.imageField }}" class="movie-image">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
+                            {% if movie not in profile.movies_watched.all %}
+                                <form method="post" action="/movies/">
+                                    {% csrf_token %}
+                                    <input name="add_movie_watched" value={{ movie.id }} hidden>
+                                    <button type="submit" class="btn"><i class="bi bi-eye icon"
+                                                                         style="color: white"></i>
+                                    </button>
+                                </form>
+                            {% else %}
+                                <form method="post" action="/movies/">
+                                    {% csrf_token %}
+                                    <input name="remove_movie_watched" value={{ movie.id }} hidden>
+                                    <button type="submit" class="btn"><i class="bi bi-eye-fill icon"
+                                                                         style="color: white"></i>
+                                    </button>
+                                </form>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
+                            {% if movie not in profile.want_to_watch.all %}
+                                <form method="post" action="/movies/">
+                                    {% csrf_token %}
+                                    <input name="add_want_to_watch" value={{ movie.id }} hidden>
+                                    <button type="submit" class="btn"><i class="bi bi-plus-circle icon"
+                                                                         style="color: white"></i>
+                                    </button>
+                                </form>
+                            {% else %}
+                                <form method="post" action="/movies/">
+                                    {% csrf_token %}
+                                    <input name="remove_want_to_watch" value={{ movie.id }} hidden>
+                                    <button type="submit" class="btn"><i
+                                            class="bi bi-plus-circle-fill icon" style="color: white"></i></button>
+                                </form>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
+                            {% if movie not in profile.favorite_movies.all %}
+                                <form method="post" action="/movies/">
+                                    {% csrf_token %}
+                                    <input name="add_favorite_movies" value={{ movie.id }} hidden>
+                                    <button type="submit" class="btn"><i class="bi bi-heart icon"
+                                                                         style="color: white"></i>
+                                    </button>
+                                </form>
+                            {% else %}
+                                <form method="post" action="/movies/">
+                                    {% csrf_token %}
+                                    <input name="remove_favorite_movies" value={{ movie.id }} hidden>
+                                    <button type="submit" class="btn"><i class="bi bi-heart-fill icon"
+                                                                         style="color: white"></i>
+                                    </button>
+                                </form>
                             {% endif %}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    {% elif movie %}
-        <div class="row d-flex justify-content-center">
-        <div class="col-md-10 mt-5 pt-5">
-            <div class="row z-depth-3">
-                <div class="col-sm-4 bg-info rounded-left">
-                    <div class="card-block text-center text-white">
-                        <i class="bi bi-film" style="font-size: 100px"></i>
-                        <h2 class="font-weight-bold mt-4">{{ movie.title }}</h2>
-                        <p>Movie</p>
-                        {% for producer in movie.producer.all %}
-                            <a href="/producer/{{ producer.id }}">{{ producer }}</a>
-                        {% endfor %}
-                    </div>
-                </div>
-                <div class="col-sm-8 bg-white rounded-right">
-                    <h3 class="mt-3 text-center">Information</h3>
-                    <hr class="badge-primary mt-0 w-50" style="margin-left: auto;margin-right: auto">
-                    <div class="row ">
-                        <div class="col-sm-6">
-                            <p class="font-weight-bold">Description</p>
-                            <h6 class="text-muted">{{ movie.description }}</h6>
-                        </div>
-                        <div class="col-sm-6">
-                            <p class="font-weight-bold">Actors</p>
-                            {% for actor in movie.cast.all %}
-                                <h6 class="text-muted">{{ actor.name }}</h6>
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     {% else %}
         <h1>Ni puto caso</h1>

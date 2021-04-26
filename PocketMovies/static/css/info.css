@@ -1,0 +1,25 @@
+.image-info{
+    height: 70%px;
+    width: 100%;
+}
+.movie-details{
+    margin: 3% 0;
+}
+.movie-info{
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.casting > a > img{
+    height: 40px;
+    width: 40px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+.movie-image{
+    height: 350px;
+    box-shadow: -4px 4px 5px 0 #000;
+}
+.person-info>p{
+    word-spacing: 3px;
+}
