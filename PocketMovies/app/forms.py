@@ -16,13 +16,7 @@ class SignUpForm(UserCreationForm):
 	class Meta:
 		model = User
 		fields = ('fname', 'lname', 'username', 'email', 'password1', 'password2', 'favorite_genres')
-		# widgets = {
-        #     'username': forms.TextInput(attrs={'placeholder': 'Username', 'class': 'form-control'}),
-		# 	'email': forms.EmailInput(attrs={'placeholder': 'Email', 'class': 'form-control'}),
-		# 	'password1': forms.PasswordInput(attrs={'placeholder': 'Password', 'class': 'form-control'}),
-		# 	'password2': forms.PasswordInput(attrs={'placeholder': 'Confirm Password', 'class': 'form-control'}),
-            
-        # }
+
 	def __init__(self, *args, **kwargs):
 		super(SignUpForm, self).__init__(*args, **kwargs)
 		self.fields['fname'].widget.attrs['placeholder'] = self.fields['fname'].label or 'First Name'
