@@ -10,7 +10,7 @@
         <label for="choose_genre">Genre:</label>
         <form action="." method="post">
             {% csrf_token %}
-            <select class="form-select" name="genre" id="choose_genre" onclick="this.form.submit()">
+            <select class="form-select" name="genre" id="choose_genre" onchange="this.form.submit()">
                 <option value="" {% if selected_genre == '' %}selected{% endif %}>All</option>
                 {% for genre in genre_list %}
                     <option value={{ genre.name }} {% if selected_genre == genre.name %}selected{% endif %}>{{ genre.name }}</option>
