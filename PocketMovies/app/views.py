@@ -27,6 +27,10 @@ def list_movies(request, movie):
             genre_object = Genre.objects.get(name=genre)
             movies = movies.filter(genre=genre_object)
 
+    if 'search' in request.GET:
+        search_term = request.GET['search']
+        movies = movies.filter(title__icontains=search_term)
+
     if 'add_movie_watched' in request.POST:
         movie_id = request.POST['add_movie_watched']
         if movie_id:
