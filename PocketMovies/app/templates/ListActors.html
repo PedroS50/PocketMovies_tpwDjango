@@ -5,88 +5,25 @@
 {% load static %}
 
 <div class="container">
-	{% comment %} {% for person in person_list %}
-		<div class="card mb-4 my_class card-shadow">
-			<div class="row">
-				<div class="col-sm-2">
-					<img class="card-img my_class" src="{% static 'imgs/movie.jpg' %}" alt="Actor Card">
-				</div>
-				<div class="col-sm-3 border-right">
-					<div class="card-body">
-						<h5 class="card-title">Actor Name</h5>
-						<p class="card-text">Default Text.</p>
-					</div>
-				</div>
-
-				<div class="col-sm-3 border-right">
-					<div class="card-body">
-						<h5 class="card-title">Actor Name</h5>
-						<p class="card-text">Default Text.</p>
-					</div>
-				</div>
-
-				<div class="col-sm-3 border-right">
-					<div class="card-body">
-						<h5 class="card-title">Actor Name</h5>
-						<p class="card-text">Default Text.</p>
-					</div>
-				</div>
-			</div>
-		</div>
-		{% endfor %} {% endcomment %}
+    <h3>{{ person }}</h3>
+    {% for person in person_list %}
 	<div class="card mb-4 my_class card-shadow">
 		<div class="row">
 			<div class="col-sm-2">
 				<img class="card-img my_class" src="{% static 'imgs/movie.jpg' %}" alt="Actor Card">
 			</div>
-			<div class="col-sm-3 border-right">
+			<div class="col-sm-10 border-right">
 				<div class="card-body">
-					<h5 class="card-title">Actor Name</h5>
-					<p class="card-text">Default Text.</p>
+					<h5 class="card-title"> {{ person.name }}</h5>
+					<p class="card-text">{{ person.website }}</p>
 				</div>
 			</div>
 
-			<div class="col-sm-3 border-right">
-				<div class="card-body">
-					<h5 class="card-title">Actor Name</h5>
-					<p class="card-text">Default Text.</p>
-				</div>
-			</div>
-
-			<div class="col-sm-3 border-right">
-				<div class="card-body">
-					<h5 class="card-title">Actor Name</h5>
-					<p class="card-text">Default Text.</p>
-				</div>
 			</div>
 		</div>
 	</div>
+    {% endfor %}
 
-	<div class="card mb-4 my_class card-shadow">
-		<div class="row">
-			<div class="col-sm-2">
-				<img class="card-img my_class" src="{% static 'imgs/movie.jpg' %}" alt="Actor Card">
-			</div>
-			<div class="col-sm-3 border-right">
-				<div class="card-body">
-					<h5 class="card-title">Actor Name</h5>
-					<p class="card-text">Default Text.</p>
-				</div>
-			</div>
-			<div class="col-sm-3 border-right">
-				<div class="card-body">
-					<h5 class="card-title">Actor Name</h5>
-					<p class="card-text">Default Text.</p>
-				</div>
-			</div>
-			<div class="col-sm-3 border-right">
-				<div class="card-body">
-					<h5 class="card-title">Actor Name</h5>
-					<p class="card-text">Default Text.</p>
-				</div>
-			</div>
-		</div>
-	</div>
 </div>
 
 {% endblock %}

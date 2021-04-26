@@ -31,9 +31,12 @@ urlpatterns = [
     path('movies/my_favorite_movies/', views.list_movies, {'movie': 'my_favorite_movies'},name='my_favorite_movies'),
     path('movies/my_want_to_watch/', views.list_movies, {'movie': 'my_want_to_watch'},name='my_want_to_watch'),
     path('movies/my_watched_movies/', views.list_movies, {'movie': 'my_watched_movies'},name='my_watched_movies'),
-    path('actors/', views.list_actors, name='ListActors'),
-    path('directors/', views.list_directors, name='ListDirectors'),
-    path('producers/', views.list_producers, name='ListProducers'),
+    path('actors/', views.list_people, {'person': 'actors'}, name='ListActors'),
+    path('producers/', views.list_people, {'person': 'producers'}, name='ListActors'),
+    path('directors/', views.list_people, {'person': 'directors'}, name='ListActors'),
     path('producer/<id>', views.infoProducer, name="infoProducer"),
-    path('actor/<id>', views.infoActor, name="infoActor")
+    path('actor/<id>', views.infoActor, name="infoActor"),
+    path('search/', views.searchMovie, name="searchMovie"),
+    path('movie/<id>', views.infoMovie, name="infoMovie"),
+    path('director/<id>', views.infoDirector, name="infoDirector"),
 ]

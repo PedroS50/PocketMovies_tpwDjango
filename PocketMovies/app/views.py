@@ -6,7 +6,6 @@ from django.http import HttpResponse
 from app.models import *
 from app.forms import *
 
-
 @login_required()
 def list_movies(request, movie):
 
@@ -64,25 +63,16 @@ def list_movies(request, movie):
 
     tparams = {'movie_list': movies, 'genre_list': Genre.objects.all(), 'selected_genre': genre, 'profile': profile}
     return render(request, 'ListMovies.html', tparams)
-    # return render(request, 'ListMovies.html')
-
 
 @login_required()
-def list_actors(request):
-    # return render(request, 'ListActors.html', {'actor_list': Actor.objects.all()})
-    return render(request, 'ListActors.html')
-
-
-@login_required()
-def list_directors(request):
-    # return render(request, 'ListDirectors.html', {'director_list': Director.objects.all()})
-    return render(request, 'ListDirectors.html')
-
-
-@login_required()
-def list_producers(request):
-    # return render(request, 'ListProducers.html', {'producer_list': Producer.objects.all()})
-    return render(request, 'ListProducers.html')
+def list_people(request, person):
+    if person == 'actors':
+        people = Actor.objects.all()
+    elif person == 'producers':
+        people = Producer.objects.all()
+    elif person == 'directors':
+        people = Director.objects.all()
+    return render(request, 'ListActors.html', {'person_list': people, 'person': person.upper()})
 
 
 def register_user(request):
@@ -105,7 +95,6 @@ def register_user(request):
     register_form = SignUpForm()
     return render(request, "register.html", {"form": register_form})
 
-
 def login_user(request):
     if request.method == 'POST':
         login_form = LoginForm(request, data=request.POST)
@@ -126,7 +115,6 @@ def login_user(request):
         login_form = LoginForm()
         return render(request, "login.html", {"form": login_form})
 
-
 def logout_user(request):
     logout(request)
     try:
@@ -139,7 +127,6 @@ def logout_user(request):
 def home(request):
     return render(request, "layout.html")
 
-
 @login_required()
 def infoProducer(request, id):
     try:
@@ -149,12 +136,37 @@ def infoProducer(request, id):
         producer = None
         return render(request, "infoView.html")
 
-
 @login_required()
 def infoActor(request, id):
     try:
         actor = Actor.objects.get(id=id)
         return render(request, "infoView.html", {"person": actor})
     except:
-        producer = None
+        actor = None
         return render(request, "infoView.html")
+
+
+def infoDirector(request, id):
+    try:
+        director = Director.objects.get(id=id)
+        return render(request, "infoView.html", {"person": director})
+    except:
+        director = None
+        return render(request, "infoView.html")
+
+
+def infoMovie(request, id):
+    try:
+        movie = Movie.objects.get(id=id)
+        return render(request, "infoView.html", {"movie": movie})
+    except Exception as e:
+        movie = None
+        print(e)
+        return render(request, "infoView.html")
+
+
+def searchMovie(request):
+    title = request.GET["title"]
+    movie = Movie.objects.filter(title__icontains=title)
+    tparams = {'movie_list': movie, 'genre_list': Genre.objects.all()}
+    return render(request, 'ListMovies.html', tparams)
