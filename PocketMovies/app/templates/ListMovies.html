@@ -19,7 +19,7 @@
                 </form>
             </div>
             <div class="col-sm-6">
-                <form method="get" autocomplete="off">
+                <form action="." method="get" autocomplete="off">
                     {% csrf_token %}
                     <div class="mt-3 w-75 ms-auto me-auto">
                         <div class="input-group mb-3">
@@ -41,7 +41,7 @@
                             <img class="card-img-top img-movie" src="{{ movie.imageField }}"
                                  alt="Card image cap"/>
                         </a>
-                        <div class="card-body">
+                        <div class="card-body" style="height: 25%;">
                             <h5 class="card-title text-center title-movie">{{ movie.title }}</h5>
                             <p class="card-text description-movie">
                                 {{ movie.description }}

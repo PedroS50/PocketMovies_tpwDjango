@@ -1,25 +1,50 @@
-.image-info{
-    height: 70%px;
+.image-info {
+    height: 70%;
     width: 100%;
 }
-.movie-details{
+
+.movie-details {
     margin: 3% 0;
 }
-.movie-info{
+
+.movie-info {
     width: 90%;
     margin-left: auto;
     margin-right: auto;
 }
-.casting > a > img{
+
+.casting > a > img {
     height: 40px;
     width: 40px;
     margin-right: 10px;
     cursor: pointer;
+
+    transition: transform 0.5s ease, opacity .5s ease-out;
 }
-.movie-image{
+.casting > a > img:hover {
+    opacity: 1;
+    transform: scale(1.5);
+}
+.movie-image {
+    height: 100%;
+    max-width: 110%;
+    box-shadow: -4px 4px 5px 0 #000;
+    transition: transform 1s ease, opacity .5s ease-out;
+}
+
+.movie-image:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+.person-image{
     height: 350px;
     box-shadow: -4px 4px 5px 0 #000;
+    transition: transform 1s ease, opacity .5s ease-out;
 }
-.person-info>p{
+.person-image:hover{
+    opacity: 1;
+    transform: scale(1.1);
+}
+.person-info > p {
     word-spacing: 3px;
 }

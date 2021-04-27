@@ -1,3 +1,4 @@
+from django import template
 from django.contrib.auth.models import Group
 from django.shortcuts import render, redirect
 from django.contrib import messages
@@ -27,8 +28,8 @@ def list_movies(request, movie):
             genre_object = Genre.objects.get(name=genre)
             movies = movies.filter(genre=genre_object)
 
-    if 'search' in request.GET:
-        search_term = request.GET['search']
+    if 'title' in request.GET:
+        search_term = request.GET['title']
         movies = movies.filter(title__icontains=search_term)
 
     if 'add_movie_watched' in request.POST:
@@ -133,6 +134,7 @@ def logout_user(request):
 
 
 def home(request):
+    print(request.user.groups.all())
     return render(request, "layout.html", {"user": request.user})
 
 
@@ -180,7 +182,7 @@ def searchMovie(request):
     title = request.GET["title"]
     movie = Movie.objects.filter(title__icontains=title)
     tparams = {'movie_list': movie, 'genre_list': Genre.objects.all()}
-    return render(request, 'ListMovies.html', tparams)
+    return redirect('/movies/', tparams)
 
 
 def addActor(request):

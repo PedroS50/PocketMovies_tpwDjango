@@ -34,14 +34,14 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <img src="{{ person.imageField }}" class="movie-image">
+                        <img src="{{ person.imageField }}" class="person-image">
                     </div>
                 </div>
                 {% elif movie %}
                 <div class="container align-items-center movie-details bg-dark text-white">
                     <div class="row d-flex justify-content-between w-100 p-3">
                         <div class="col-md-6 ">
-                            <h1>{{ movie.title.capitalize }}</h1>
+                            <h1 style="text-transform: uppercase">{{ movie.title }}</h1>
                             <p>{{ movie.description }}</p>
                             <p>Published: {{ movie.published_date }}</p>
                             <div class="d-flex flex-column mb-3">
@@ -132,6 +132,5 @@
         </div>
         </div>
     {% else %}
-        <h1>Ni puto caso</h1>
     {% endif %}
 {% endblock %}
