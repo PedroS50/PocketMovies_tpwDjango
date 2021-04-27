@@ -39,4 +39,5 @@ urlpatterns = [
     path('search/', views.searchMovie, name="searchMovie"),
     path('movie/<id>', views.infoMovie, name="infoMovie"),
     path('director/<id>', views.infoDirector, name="infoDirector"),
+    path('add/actor/',views.addActor, name="addActor")
 ]

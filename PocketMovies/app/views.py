@@ -89,7 +89,7 @@ def register_user(request):
             new_user.profile.user.last_name = register_form.cleaned_data['lname']
             new_user.profile.user.email = register_form.cleaned_data['email']
             new_user.profile.favorite_genres.set(register_form.cleaned_data['favorite_genres'])
-            
+
             group = Group.objects.get(name="client")
             new_user.groups.add(group)
             messages.success(request, "Registration successful.")
@@ -181,3 +181,22 @@ def searchMovie(request):
     movie = Movie.objects.filter(title__icontains=title)
     tparams = {'movie_list': movie, 'genre_list': Genre.objects.all()}
     return render(request, 'ListMovies.html', tparams)
+
+
+def addActor(request):
+    if request.POST:
+        form = AddActorForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data["name"]
+            birthdate = form.cleaned_data["birthdate"]
+            years_active = form.cleaned_data["years_active"]
+            nationality = form.cleaned_data["nationality"]
+            twitter = form.cleaned_data["twitterAccount"]
+            instagram = form.cleaned_data["instagramAccount"]
+            Actor.objects.create(name=name, birthdate=birthdate, years_active=years_active,
+                                 nationality=nationality, twitterAccount=twitter, instagramAccount=instagram)
+            return redirect('/actors')
+        else:
+            print(form.errors)
+            return redirect('/actors')
+    return render(request, "addActor.html", {"form": AddActorForm()})
