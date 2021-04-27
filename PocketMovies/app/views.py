@@ -89,10 +89,9 @@ def register_user(request):
             new_user.profile.user.last_name = register_form.cleaned_data['lname']
             new_user.profile.user.email = register_form.cleaned_data['email']
             new_user.profile.favorite_genres.set(register_form.cleaned_data['favorite_genres'])
-
-            aux = new_user.save()
+            
             group = Group.objects.get(name="client")
-            aux.groups.add(group)
+            new_user.groups.add(group)
             messages.success(request, "Registration successful.")
             return redirect('home')
         messages.error(request, register_form.errors.as_data())
