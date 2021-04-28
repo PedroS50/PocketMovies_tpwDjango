@@ -33,6 +33,25 @@
                 </div>
             {% endfor %}
         </div>
+        <div class="container p-4">
+        <div class="pagination justify-content-center">
+            <span class="step-links">
+              {% if person_list.has_previous %}
+                  <button type="button" class="btn btn-outline-dark"><a href="?page=1">&laquo; first</a></button>
+                  <button type="button" class="btn btn-outline-dark"><a href="?page={{ person_list.previous_page_number }}">previous</a></button>
+              {% endif %}
+
+                <span class="current">
+                    Page {{ person_list.number }} of {{ person_list.paginator.num_pages }}
+                </span>
+
+              {% if person_list.has_next %}
+                  <button type="button" class="btn btn-outline-dark"><a href="?page={{ person_list.next_page_number }}">next</a></button>
+                  <button type="button" class="btn btn-outline-dark"><a href="?page={{ person_list.paginator.num_pages }}">last &raquo;</a></button>
+              {% endif %}
+            </span>
+            </div>
+        </div>
     </div>
 
 {% endblock %}

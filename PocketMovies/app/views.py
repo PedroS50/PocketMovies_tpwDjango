@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from app.models import *
 from app.forms import *
-
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 @login_required()
 def list_movies(request, movie):
@@ -63,7 +63,10 @@ def list_movies(request, movie):
             movie = movies.get(id=movie_id)
             profile.want_to_watch.remove(movie)
 
-    tparams = {'movie_list': movies, 'genre_list': Genre.objects.all(), 'selected_genre': genre, 'profile': profile}
+    paginator = Paginator(movies, 3)
+    page_number = request.GET.get('page',1)
+    p_movies = paginator.page(int(page_number))
+    tparams = {'movie_list': p_movies, 'genre_list': Genre.objects.all(), 'selected_genre': genre, 'profile': profile}
     return render(request, 'ListMovies.html', tparams)
     # return render(request, 'ListMovies.html')
 
@@ -76,7 +79,10 @@ def list_people(request, person):
         people = Producer.objects.all()
     elif person == 'directors':
         people = Director.objects.all()
-    return render(request, 'ListActors.html', {'person_list': people, 'person_role': person.upper()})
+    paginator = Paginator(people, 10)
+    page_number = request.GET.get('page', 1)
+    p_people = paginator.page(int(page_number))
+    return render(request, 'ListActors.html', {'person_list': p_people, 'person_role': person.upper()})
 
 
 def register_user(request):
