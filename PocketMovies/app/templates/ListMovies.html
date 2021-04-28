@@ -3,12 +3,12 @@
 {% block content %}
 
     {% load static %}
-                      
+
     <div class="container">
         <div class="row">
             <div class="col-sm-6">
                 <label for="choose_genre">Genre:</label>
-                <form action="." method="post">
+                <form action="." method="get">
                     {% csrf_token %}
                     <select class="form-select" name="genre" id="choose_genre" onclick="this.form.submit()">
                         <option value="" {% if selected_genre == '' %}selected{% endif %}>All</option>
@@ -103,8 +103,14 @@
                                             </button>
                                         </form>
                                     {% endif %}
-                                {# for the admin buttons, check user.groups.filter(name="client").exists() #}
+                                    {# for the admin buttons, check user.groups.filter(name="client").exists() #}
                                 </div>
+{#                                <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">#}
+{#                                        <input name="remove_favorite_movies" value={{ movie.id }} hidden>#}
+{#                                        <button type="submit" class="btn"><i class="bi bi-heart-fill icon"></i>#}
+{#                                        </button>#}
+                                    {# for the admin buttons, check user.groups.filter(name="client").exists() #}
+{#                                </div>#}
 
                             </div>
                         </div>
