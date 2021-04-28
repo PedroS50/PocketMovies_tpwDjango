@@ -362,11 +362,3 @@ def deleteProducer(request, id):
         return redirect('/producers')
     except:
         return redirect('/producers')
-
-
-def deleteMovie(request, id):
-    try:
-        movie = Movie.objects.get(id=id).delete()
-        return redirect('/movies')
-    except:
-        return redirect('/movies')
