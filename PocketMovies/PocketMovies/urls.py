@@ -24,9 +24,29 @@ from app import views
 urlpatterns = [
     path('', views.home, name="home"),
     path('admin/', admin.site.urls),
+
     path('register/', views.register_user, name='register'),
+
+    path('reset_password/',
+         auth_views.PasswordResetView.as_view(template_name="password_reset.html"),
+         name='reset_password'),
+
+    path('reset_password_sent/',
+         auth_views.PasswordResetDoneView.as_view(template_name="password_reset_sent.html"),
+         name='password_reset_done'),
+
+    path('reset/<uidb64>/<token>/',
+         auth_views.PasswordResetConfirmView.as_view(template_name="password_reset_confirm.html"),
+         name='password_reset_confirm'),
+
+    path('reset_password_complete/',
+         auth_views.PasswordResetCompleteView.as_view(template_name="password_reset_complete.html"),
+         name='password_reset_complete'),
+
+
     path('login/', views.login_user, name='login'),
     path('logout/', views.logout_user, name='logout'),
+
     path('movies/', views.list_movies, {'movie': 'all'}, name='ListMovies'),
     path('movies/my_favorite_movies/', views.list_movies, {'movie': 'my_favorite_movies'}, name='my_favorite_movies'),
     path('movies/my_want_to_watch/', views.list_movies, {'movie': 'my_want_to_watch'}, name='my_want_to_watch'),
@@ -34,11 +54,13 @@ urlpatterns = [
     path('actors/', views.list_people, {'person': 'actors'}, name='ListActors'),
     path('producers/', views.list_people, {'person': 'producers'}, name='ListActors'),
     path('directors/', views.list_people, {'person': 'directors'}, name='ListActors'),
+
     path('producer/<id>', views.infoProducer, name="infoProducer"),
     path('actor/<id>', views.infoActor, name="infoActor"),
     path('search/', views.searchMovie, name="searchMovie"),
     path('movie/<id>', views.infoMovie, name="infoMovie"),
     path('director/<id>', views.infoDirector, name="infoDirector"),
+
     path('add/actor/', views.addActor, name="addActor"),
     path('add/director/', views.addDirector, name="addDirector"),
     path('add/producer/', views.addProducer, name="addProducer"),
@@ -51,4 +73,3 @@ urlpatterns = [
     path('delete/director/<id>', views.deleteDirector, name="deleteDirector"),
     path('delete/producer/<id>', views.deleteProducer, name="deleteProducer"),
     path('delete/movie/<id>', views.deleteMovie, name="deleteProducer"),
-]
