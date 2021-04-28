@@ -69,7 +69,7 @@ urlpatterns = [
     path('edit/producer/<id>', views.editProducer, name="editProducer"),
     path('add/movie/', views.addMovie, name="addMovie"),
     path('edit/movie/<id>', views.editMovie, name="editMovie"),
-    path('delete/actor/<id>',views.deleteActor,name="deleteActor"),
-    path('delete/director/<id>',views.deleteDirector,name="deleteDirector"),
-    path('delete/producer/<id>',views.deleteProducer,name="deleteProducer"),
-]
+    path('delete/actor/<id>', views.deleteActor, name="deleteActor"),
+    path('delete/director/<id>', views.deleteDirector, name="deleteDirector"),
+    path('delete/producer/<id>', views.deleteProducer, name="deleteProducer"),
+    path('delete/movie/<id>', views.deleteMovie, name="deleteProducer"),

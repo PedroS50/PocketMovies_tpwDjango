@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
-    <div class="container bg-dark text-white" style="height: 80%;">
+    <div class="container bg-dark text-white">
         <form action="/add/{{ url }}/" method="POST" autocomplete="on">
             {% csrf_token %}
             <div class="row row-cols-2 justify-content-between w-100">
@@ -22,7 +22,7 @@
                     </div>
                 {% endfor %}
             </div>
-            <input type="submit" value="Submit">
+        <button class="btn btn-light" type="submit">Add<i class="bi bi-plus" style="color: black;font-size: 20px"></i></button>
         </form>
     </div>
 {% endblock %}

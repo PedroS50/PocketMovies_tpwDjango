@@ -120,12 +120,12 @@
                     {% if group == "admin" %}
                         <div class="row w-25">
                             <div class="col">
-                                <a class="btn" href="#" role="button">
+                                <a class="btn" href="/edit/movie/{{ movie.id }}" role="button">
                                     <i class="bi bi-pencil-fill icon-info"></i>
                                 </a>
                             </div>
                             <div class="col">
-                                <a class="btn" href="/delete/movie/{{ producer.id }}" role="button">
+                                <a class="btn" href="/delete/movie/{{ movie.id }}" role="button">
                                     <i class="bi bi-trash-fill icon-info"></i>
                                 </a>
                             </div>
