@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
-from app.models import Genre
+from app.models import *
 
 
 class SignUpForm(UserCreationForm):
@@ -43,12 +43,47 @@ class LoginForm(AuthenticationForm):
         self.fields['password'].widget.attrs['class'] = 'form-control'
 
 
-# class AddMovieForm(forms.Form):
-#     title = forms.CharField(label="Title", max_length=50)
-#     description = forms.CharField(label="Sinopsis", max_length=300)
-#     rating = forms.FloatField(label="Rating", max_value=10, min_value=0)
-#     imageField = forms.URLField(label="Thumbnail")
-#     published_date = forms.DateField(label="Published Date")
+class AddMovieForm(forms.Form):
+
+    title = forms.CharField(label="Title", max_length=50, required=True, widget=forms.TextInput(
+            attrs={'class': "form-control w-75", "placeholder": "Title", "aria-label": "Title",
+                   "aria-describedby": "Title"}))
+    description = forms.CharField(label="Description",max_length=300, required=True, widget=forms.TextInput(
+            attrs={'class': "form-control w-75", "placeholder": "Description", "aria-label": "Description",
+                   "aria-describedby": "Description"}))
+    rating = forms.FloatField(label="Rating:",widget=forms.TextInput(
+            attrs={'class': "form-control w-75", "aria-label": "Rating", "aria-describedby": "Rating",
+                   "placeholder": "Rating"}))
+    director = forms.ModelMultipleChoiceField(
+        label="Directors",
+        queryset=Director.objects.all(),
+        widget=forms.CheckboxSelectMultiple
+    )
+    producer = forms.ModelMultipleChoiceField(
+        label="Producers",
+        queryset=Producer.objects.all(),
+        widget=forms.CheckboxSelectMultiple
+    )
+    cast = forms.ModelMultipleChoiceField(
+        label="Cast",
+        queryset=Actor.objects.all(),
+        widget=forms.CheckboxSelectMultiple
+    )
+    genre = forms.ModelMultipleChoiceField(
+        label="Genre",
+        queryset=Genre.objects.all(),
+        widget=forms.CheckboxSelectMultiple
+    )
+    imageField = forms.URLField(label="Image URL",required=False,widget=forms.TextInput(
+            attrs={'class': "form-control w-75", "aria-label": "ImageURL", "aria-describedby": "ImageURL",
+                   "placeholder": "ImageURL"}))
+    published_date = forms.DateField(label="Published Data", widget=forms.DateInput(
+            attrs={'class': "form-control w-75", "aria-label": "Birthdate", "aria-describedby": "Birthdate", },
+            format='%d-%m-%Y'))
+
+    class Meta:
+        model = Movie
+        fields = ('title', 'description', 'rating', 'director', 'producer', 'cast', 'genre', 'published_date', 'imageField',)
 
 
 class AddActorForm(forms.Form):

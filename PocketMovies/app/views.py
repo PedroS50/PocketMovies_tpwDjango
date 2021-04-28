@@ -204,7 +204,6 @@ def addActor(request):
             return redirect('/actors')
     return render(request, "addActor.html", {"form": AddActorForm(), "url": "actor"})
 
-
 def addDirector(request):
     if request.POST:
         form = AddDirectorForm(request.POST)
@@ -244,3 +243,43 @@ def addProducer(request):
         else:
             return redirect('/producers')
     return render(request, "addActor.html", {"form": AddProducerForm(), "url": "producer"})
+
+def editMovie(request,id):
+    if request.POST:
+        form = AddMovieForm(request.POST)
+        movie = Movie.objects.get(id=id)
+        if form.is_valid():
+            movie.title = form.cleaned_data['title']
+            movie.description = form.cleaned_data['description']
+            movie.rating = form.cleaned_data['rating']
+            movie.director.set(form.cleaned_data['director'])
+            movie.producer.set(form.cleaned_data['producer'])
+            movie.cast.set(form.cleaned_data['cast'])
+            movie.genre.set(form.cleaned_data['genre'])
+            movie.imageField = form.cleaned_data['imageField']
+            movie.published_date = form.cleaned_data['published_date']
+            movie.save()
+            return redirect('/movies')
+        else:
+            return redirect('/producers')
+    return render(request, "addActor.html", {"form": AddMovieForm(), "url": "movie"})
+
+def addMovie(request):
+    if request.POST:
+        form = AddMovieForm(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            description = form.cleaned_data['description']
+            rating = form.cleaned_data['rating']
+            director = form.cleaned_data['director']
+            producer = form.cleaned_data['producer']
+            cast = form.cleaned_data['cast']
+            genre = form.cleaned_data['genre']
+            imageField = form.cleaned_data['imageField']
+            published_date = form.cleaned_data['published_date']
+            Movie.objects.create(title=title, description=description, rating=rating, director=director, producer=producer, cast=cast, genre=genre, published_date=published_date, imageField=imageField,)
+
+            return redirect('/movies')
+        else:
+            return redirect('/movies')
+    return render(request, "addActor.html", {"form": AddMovieForm(), "url": "movie"})

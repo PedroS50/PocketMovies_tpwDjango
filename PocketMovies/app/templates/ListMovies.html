@@ -10,7 +10,7 @@
                 <label for="choose_genre">Genre:</label>
                 <form action="." method="post">
                     {% csrf_token %}
-                    <select class="form-select" name="genre" id="choose_genre" onclick="this.form.submit()">
+                    <select class="form-select" name="genre" id="choose_genre" onchange="this.form.submit()">
                         <option value="" {% if selected_genre == '' %}selected{% endif %}>All</option>
                         {% for genre in genre_list %}
                             <option value={{ genre.name }} {% if selected_genre == genre.name %}selected{% endif %}>{{ genre.name }}</option>
@@ -52,8 +52,8 @@
                                 <small class="text-muted genres-movie">Genres:
                                     {% for g in movie.genre.all %}{{ g }}, {% endfor %}</small>
                             </div>
-
-                            <div class="row">
+                            {% if "client" in profile.user.groups %}
+                                <div class="row">
                                 <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
                                     {% if movie not in profile.movies_watched.all %}
                                         <form method="post">
@@ -92,7 +92,7 @@
                                         <form method="post">
                                             {% csrf_token %}
                                             <input name="add_favorite_movies" value={{ movie.id }} hidden>
-                                            <button type="submit" class="btn"><i class="bi bi-heart icon"></i></button>
+                                            <button type="submit" class="btn"><i class="bi bi-heart"></i></button>
                                         </form>
                                     {% else %}
                                         <form method="post">
@@ -102,15 +102,41 @@
                                             </button>
                                         </form>
                                     {% endif %}
-                                {# for the admin buttons, check user.groups.filter(name="client").exists() #}
                                 </div>
 
                             </div>
+                            {% else %}
+                                <div class="row">
+                                    <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+                                        <form method="post" action="/edit/movie/{{ movie.id }}">
+                                            {% csrf_token %}
+                                            <input name="edit_movie" value={{ movie.id }} hidden>
+                                            <button type="submit" class="btn btn-outline-dark" style="width:100%;"><i class="bi bi-pencil-square"></i> Editar</button>
+                                        </form>
+                                </div>
+                                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+                                        <form method="post">
+                                            {% csrf_token %}
+                                            <input name="delete_movie" value={{ movie.id }} hidden>
+                                            <button type="submit" class="btn btn-outline-danger" style="width:100%;"><i class="bi bi-trash-fill"></i> Eliminar</button>
+                                                                                    </form>
+                                </div>
+
+                            </div>
+                            {% endif %}
                         </div>
                     </div>
 
                 </div>
             {% endfor %}
+            <div class="col-auto mb-4">
+                <form method="post" action="/add/movie/{{ movie.id }}">
+                    {% csrf_token %}
+                    <input name="edit_movie" type="hidden" value={{ movie.id }}>
+                    <button type="submit" class="btn btn-outline-dark" style="width:100%;"><i class="bi bi-pencil-square"></i>Add New Movie</button>
+                </form>
+
+                </div>
             {% comment %}<div class="col-auto mb-4">
 			<div class="card card-movie" style="width: 18rem;">
 				<img class="card-img-top img-movie" src="{% static 'imgs/movie.jpg' %}"  alt="Card image cap" />
