@@ -45,56 +45,54 @@ class LoginForm(AuthenticationForm):
 
 
 class AddMovieForm(forms.Form):
-
     title = forms.CharField(label="Title", max_length=50, required=True, widget=forms.TextInput(
-            attrs={'class': "form-control w-75", "placeholder": "Title", "aria-label": "Title",
-                   "aria-describedby": "Title"}))
-    description = forms.CharField(label="Description",max_length=300, required=True, widget=forms.TextInput(
-            attrs={'class': "form-control w-75", "placeholder": "Description", "aria-label": "Description",
-                   "aria-describedby": "Description"}))
-    rating = forms.FloatField(label="Rating:",widget=forms.TextInput(
-            attrs={'class': "form-control w-75", "aria-label": "Rating", "aria-describedby": "Rating",
-                   "placeholder": "Rating"}))
+        attrs={'class': "form-control w-75", "placeholder": "Title", "aria-label": "Title",
+               "aria-describedby": "Title"}))
+    description = forms.CharField(label="Description", max_length=300, required=True, widget=forms.TextInput(
+        attrs={'class': "form-control w-75", "placeholder": "Description", "aria-label": "Description",
+               "aria-describedby": "Description"}))
+    rating = forms.FloatField(label="Rating:", widget=forms.TextInput(
+        attrs={'class': "form-control w-75", "aria-label": "Rating", "aria-describedby": "Rating",
+               "placeholder": "Rating"}))
+    imageField = forms.URLField(label="Image URL", required=False, widget=forms.TextInput(
+        attrs={'class': "form-control w-75", "aria-label": "ImageURL", "aria-describedby": "ImageURL",
+               "placeholder": "ImageURL"}))
+    published_date = forms.DateField(label="Published Data", widget=forms.DateInput(
+        attrs={'class': "form-control w-75", "aria-label": "Birthdate", "aria-describedby": "Birthdate", },
+    ),
+                                     initial=datetime.date.today
+                                     )
     director = forms.ModelMultipleChoiceField(
         label="Directors",
         queryset=Director.objects.all(),
-        widget=forms.CheckboxSelectMultiple
+        widget=forms.SelectMultiple(attrs={'class': "form-select", 'size': 3})
     )
     producer = forms.ModelMultipleChoiceField(
         label="Producers",
         queryset=Producer.objects.all(),
-        widget=forms.CheckboxSelectMultiple
+        widget=forms.SelectMultiple(attrs={'class': "form-select", 'size': 5})
     )
     cast = forms.ModelMultipleChoiceField(
         label="Cast",
         queryset=Actor.objects.all(),
-        widget=forms.CheckboxSelectMultiple
+        widget=forms.SelectMultiple(attrs={'class': "form-select", 'size': 5})
     )
     genre = forms.ModelMultipleChoiceField(
         label="Genre",
         queryset=Genre.objects.all(),
-        widget=forms.CheckboxSelectMultiple
+        widget=forms.SelectMultiple(attrs={'class': "form-select", 'size': 5})
     )
-    imageField = forms.URLField(label="Image URL",required=False,widget=forms.TextInput(
-            attrs={'class': "form-control w-75", "aria-label": "ImageURL", "aria-describedby": "ImageURL",
-                   "placeholder": "ImageURL"}))
-    published_date = forms.DateField(label="Published Data", widget=forms.DateInput(
-            attrs={'class': "form-control w-75", "aria-label": "Birthdate", "aria-describedby": "Birthdate", },
-            ),
-            initial=datetime.date.today
-            )
 
     class Meta:
         model = Movie
-        fields = ('title', 'description', 'rating', 'director', 'producer', 'cast', 'genre', 'published_date', 'imageField',)
-
-
+        fields = (
+        'title', 'description', 'rating', 'director', 'producer', 'cast', 'genre', 'published_date', 'imageField',)
 
 
 class AddActorForm(forms.Form):
     name = forms.CharField(label="Name", max_length=255, widget=forms.TextInput(
         attrs={'class': "form-control w-75", "placeholder": "Name", "aria-label": "Name", "aria-describedby": "Name"}))
-    birthdate = forms.DateField(label="Birthdate",input_formats=['%d-%m-%Y'], widget=forms.DateInput(
+    birthdate = forms.DateField(label="Birthdate", input_formats=['%d-%m-%Y'], widget=forms.DateInput(
         attrs={'class': "form-control w-75", "aria-label": "Birthdate", "aria-describedby": "Birthdate", },
         format=('%d-%m-%Y')))
     years_active = forms.CharField(label="Years Active", max_length=2, widget=forms.TextInput(
@@ -117,7 +115,7 @@ class AddActorForm(forms.Form):
 class AddDirectorForm(forms.Form):
     name = forms.CharField(label="Name", max_length=255, widget=forms.TextInput(
         attrs={'class': "form-control w-75", "placeholder": "Name", "aria-label": "Name", "aria-describedby": "Name"}))
-    birthdate = forms.DateField(label="Birthdate",input_formats=['%d-%m-%Y'], widget=forms.DateInput(
+    birthdate = forms.DateField(label="Birthdate", input_formats=['%d-%m-%Y'], widget=forms.DateInput(
         attrs={'class': "form-control w-75", "aria-label": "Birthdate", "aria-describedby": "Birthdate", },
         format=('%d-%m-%Y')))
     nationality = forms.CharField(label="Nationality", max_length=255, widget=forms.TextInput(
