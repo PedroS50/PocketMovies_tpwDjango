@@ -1,28 +1,31 @@
 {% extends "layout.html" %}
 {% block content %}
-    <div class="container bg-dark text-white" style="height: 80%;">
+    <div class="container bg-dark text-white">
+        <h1 style="text-align: center; padding-top: 20px; padding-bottom: 20px">{{ title }}</h1>
         <form action="/edit/{{ url }}/{{ item.id }}" method="POST" autocomplete="on">
             {% csrf_token %}
-            <div class="row row-cols-2 justify-content-between w-100">
-                {% for field in form.visible_fields %}
-                    <div class="col">
-                        <div class="input-group mb-3 ">
-                            {% if field.label == "Twitter" %}
-                                <span class="input-group-text w-25 justify-content-around" id="{{ field.label }}"><i
-                                        class="bi bi-twitter"></i>{{ field.label }}</span>
-                            {% elif field.label == "Instagram" %}
-                                <span class="input-group-text w-25 justify-content-around" id="{{ field.label }}"><i
-                                        class="bi bi-instagram"></i>{{ field.label }}</span>
-                            {% else %}
-                                <span class="input-group-text w-25 justify-content-center"
-                                      id="{{ field.label }}">{{ field.label }}</span>
-                            {% endif %}
-                            {{ field }}
+            <div class="row cols-2 justify-content-between">
+                <div style="margin-top: 20px">
+                    {% for field in form.visible_fields %}
+                        <div class="col">
+                            <div class="input-group mb-3 ">
+                                {% if field.label == "Twitter" %}
+                                    <span class="input-group-text w-25 justify-content-around" id="{{ field.label }}"><i
+                                            class="bi bi-twitter"></i>{{ field.label }}</span>
+                                {% elif field.label == "Instagram" %}
+                                    <span class="input-group-text w-25 justify-content-around" id="{{ field.label }}"><i
+                                            class="bi bi-instagram"></i>{{ field.label }}</span>
+                                {% else %}
+                                    <span class="input-group-text w-25 justify-content-center"
+                                        id="{{ field.label }}">{{ field.label }}</span>
+                                {% endif %}
+                                {{ field }}
+                            </div>
                         </div>
-                    </div>
-                {% endfor %}
+                    {% endfor %}
+                </div>
             </div>
-            <button class="btn btn-light" type="submit">Edit<i class="bi bi-pencil-fill" style="color: black;font-size: 20px"></i></button>
+            <button class="btn btn-light" type="submit" style="margin-bottom: 20px;">Edit<i class="bi bi-pencil-fill" style="color: black;font-size: 20px"></i></button>
         </form>
     </div>
 {% endblock %}

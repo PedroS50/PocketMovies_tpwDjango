@@ -33,7 +33,7 @@ def list_movies(request, movie):
 
     if 'genre' in request.GET:
         genre = request.GET['genre']
-        if genre:
+        if genre and genre != "All":
             genre_object = Genre.objects.get(name=genre)
             movies = movies.filter(genre=genre_object)
 
@@ -78,6 +78,7 @@ def list_movies(request, movie):
 
     p_movies = paginator.page(int(page_number))
     tparams = {'movie_list': p_movies, 'genre_list': Genre.objects.all(), 'selected_genre': genre, 'profile': profile}
+    print(tparams)
     return render(request, 'ListMovies.html', tparams)
     # return render(request, 'ListMovies.html')
 
@@ -223,7 +224,7 @@ def addActor(request):
         else:
             print(form.errors)
             return redirect('/actors')
-    return render(request, "addActor.html", {"form": AddActorForm(), "url": "actor"})
+    return render(request, "addActor.html", {"form": AddActorForm(), "url": "actor", "title": "Add a new Actor!"})
 
 
 def addDirector(request):
@@ -244,7 +245,7 @@ def addDirector(request):
             return redirect('/directors')
         else:
             return redirect('/actors')
-    return render(request, "addActor.html", {"form": AddDirectorForm(), "url": "director"})
+    return render(request, "addActor.html", {"form": AddDirectorForm(), "url": "director", "title": "Add a new Director!"})
 
 
 def addProducer(request):
@@ -265,7 +266,7 @@ def addProducer(request):
             return redirect('/producers')
         else:
             return redirect('/producers')
-    return render(request, "addActor.html", {"form": AddProducerForm(), "url": "producer"})
+    return render(request, "addActor.html", {"form": AddProducerForm(), "url": "producer", "title": "Add a new Producer!"})
 
 
 def editActor(request, id):
@@ -292,7 +293,7 @@ def editActor(request, id):
                  'nationality': actor.nationality, 'twitterAccount': actor.twitterAccount,
                  'instagramAccount': actor.instagramAccount,
                  'imageField': actor.imageField}
-    ), "url": "actor", "item": actor})
+    ), "url": "actor", "item": actor, "title": "Edit Actor form"})
 
 
 def editDirector(request, id):
@@ -320,7 +321,7 @@ def editDirector(request, id):
                  'website': director.website,
                  'instagramAccount': director.instagramAccount,
                  'imageField': director.imageField}
-    ), "url": "director", "item": director})
+    ), "url": "director", "item": director, "title": "Edit Director form"})
 
 
 def editProducer(request, id):
@@ -347,7 +348,7 @@ def editProducer(request, id):
                  'website': producer.website, 'twitterAccount': producer.twitterAccount,
                  'instagramAccount': producer.instagramAccount,
                  'imageField': producer.imageField}
-    ), "url": "producer", "item": producer})
+    ), "url": "producer", "item": producer, "title": "Edit Producer form"})
 
 
 def editMovie(request, id):
@@ -371,7 +372,7 @@ def editMovie(request, id):
         else:
             return redirect('/producers')
     return render(request, "editForm.html", {"form": AddMovieForm(initial=model_to_dict(movie)), "url": "movie"
-        , "item": movie})
+        , "item": movie, "title": "Edit Movie form"})
 
 
 def addMovie(request):
@@ -399,7 +400,7 @@ def addMovie(request):
             return redirect('/movies')
         else:
             return redirect('/movies')
-    return render(request, "addActor.html", {"form": AddMovieForm(), "url": "movie"})
+    return render(request, "addActor.html", {"form": AddMovieForm(), "url": "movie", "title": "Add a new Movie!"})
 
 
 def deleteActor(request, id):
