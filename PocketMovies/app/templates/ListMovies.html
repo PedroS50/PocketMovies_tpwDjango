@@ -7,13 +7,13 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-6">
-                <label for="choose_genre">Genre:</label>
-                <form action="." method="post">
+                <form action="." method="get">
                     {% csrf_token %}
-                    <select class="form-select" name="genre" id="choose_genre" onclick="this.form.submit()">
-                        <option value="" {% if selected_genre == '' %}selected{% endif %}>All</option>
+                    <label for="choose_genre">Genre:</label>
+                    <select class="form-select" name="genre" id="choose_genre" onchange="form.submit()">
+                    <option value="All">All</option>
                         {% for genre in genre_list %}
-                            <option value={{ genre.name }} {% if selected_genre == genre.name %}selected{% endif %}>{{ genre.name }}</option>
+                            <option value={{ genre.name }} {% if selected_genre == genre.name %} selected {% endif %}>{{ genre.name }}</option>
                         {% endfor %}
                     </select>
                 </form>
@@ -33,14 +33,15 @@
                 </form>
             </div>
         </div>
+        <a href="{% url 'addMovie' %}"><button style="margin-bottom: 50px" class="btn btn-outline-dark"><i class="bi bi-pencil-square"></i>Add New Movie</button></a>
         <div class="container">
             <div class="card-deck row rows-cols-3">
                 {% for movie in movie_list %}
-                    <div class="col">
-                    <div class="card card-movie">
+                    <div class="col-auto mb-5" style="margin-right: 40px;">
+                    <div class="card card-movie" style="width: 22rem;" style="border: 10px thick black;">
                         <a href="/movie/{{ movie.id }}" style="color:inherit;text-decoration: none;">
                             <img width="343" height="505" class="card-img-top img-movie" src="{{ movie.imageField }}"
-                                 alt="Card image cap"/>
+                            alt="Card image cap"/>
                         </a>
                         <div class="card-body" style="height: 25%;">
                             <h5 class="card-title text-center title-movie">{{ movie.title }}</h5>
@@ -55,20 +56,19 @@
                                 </small>
                             </div>
 
-                            {% if "client" in profile.user.groups %}
                             <div class="row">
                                 <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
                                     {% if movie not in profile.movies_watched.all %}
                                         <form method="post">
                                             {% csrf_token %}
                                             <input name="add_movie_watched" value={{ movie.id }} hidden>
-                                            <button type="submit" class="btn"><i class="bi bi-eye icon"></i></button>
+                                            <button type="submit" class="btn"><i class="bi bi-eye icon"><h6>Watched</h6></i></button>
                                         </form>
                                     {% else %}
                                         <form method="post">
                                             {% csrf_token %}
                                             <input name="remove_movie_watched" value={{ movie.id }} hidden>
-                                            <button type="submit" class="btn"><i class="bi bi-eye-fill icon"></i>
+                                            <button type="submit" class="btn"><i class="bi bi-eye-fill icon"><h6>Watched</h6></i>
                                             </button>
                                         </form>
                                     {% endif %}
@@ -78,15 +78,14 @@
                                         <form method="post">
                                             {% csrf_token %}
                                             <input name="add_want_to_watch" value={{ movie.id }} hidden>
-                                            <button type="submit" class="btn"><i class="bi bi-plus-circle icon"></i>
+                                            <button type="submit" class="btn"><i class="bi bi-plus-circle icon"><h6>To Watch</h6></i>
                                             </button>
                                         </form>
                                     {% else %}
                                         <form method="post">
                                             {% csrf_token %}
                                             <input name="remove_want_to_watch" value={{ movie.id }} hidden>
-                                            <button type="submit" class="btn"><i
-                                                    class="bi bi-plus-circle-fill icon"></i></button>
+                                            <button type="submit" class="btn"><i class="bi bi-plus-circle-fill icon"><h6>To Watch</h6></i></button>
                                         </form>
                                     {% endif %}
                                 </div>
@@ -95,33 +94,27 @@
                                         <form method="post">
                                             {% csrf_token %}
                                             <input name="add_favorite_movies" value={{ movie.id }} hidden>
-                                            <button type="submit" class="btn"><i class="bi bi-heart icon"></i></button>
+                                            <button type="submit" class="btn"><i class="bi bi-heart icon"><h6>Favorite</h6></i></button>
                                         </form>
                                     {% else %}
                                         <form method="post">
                                             {% csrf_token %}
                                             <input name="remove_favorite_movies" value={{ movie.id }} hidden>
-                                            <button type="submit" class="btn"><i class="bi bi-heart-fill icon"></i>
+                                            <button type="submit" class="btn"><i class="bi bi-heart-fill icon"><h6>Favorite</h6></i>
                                             </button>
                                         </form>
+                                        
                                     {% endif %}
+                                    
                                 </div>
                             </div>
-                            {% else %}
-                                <div class="row">
-                                    <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-                                        <form method="post" action="/edit/movie/{{ movie.id }}">
-                                            {% csrf_token %}
-                                            <input name="edit_movie" value={{ movie.id }} hidden>
-                                            <button type="submit" class="btn btn-outline-dark" style="width:100%;"><i class="bi bi-pencil-square"></i> Editar</button>
-                                        </form>
+                            {% if user.is_superuser %}
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+                                    <a href="{% url 'editMovie' id=movie.id %}"><button type="submit" class="btn btn-outline-dark" style="width:100%;"><i class="bi bi-pencil-square"></i> Edit</button></a>
                                 </div>
                                 <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-                                        <form method="post">
-                                            {% csrf_token %}
-                                            <input name="delete_movie" value={{ movie.id }} hidden>
-                                            <button type="submit" class="btn btn-outline-danger" style="width:100%;"><i class="bi bi-trash-fill"></i> Eliminar</button>
-                                                                                    </form>
+                                    <a href="{% url 'deleteMovie' id=movie.id %}"><button onclick="return confirm('Are you sure you want to delete {{ movie }}?');" type="submit" class="btn btn-outline-danger" style="width:100%;"><i class="bi bi-trash-fill"></i> Delete</button></a>
                                 </div>
 
                             </div>
@@ -132,14 +125,6 @@
                 {% endfor %}
             </div>
         </div>
-        <div class="container">
-                <form method="post" action="/add/movie/{{ movie.id }}">
-                        {% csrf_token %}
-                        <input name="edit_movie" type="hidden" value={{ movie.id }}>
-                        <button type="submit" class="btn btn-outline-dark" style="width:100%;"><i class="bi bi-pencil-square"></i>Add New Movie</button>
-                </form>
-        </div>
-
     </div>
 
      <nav aria-label="Page navigation">
