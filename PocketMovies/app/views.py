@@ -8,6 +8,7 @@ from django.http import HttpResponse
 from app.models import *
 from app.forms import *
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.forms.models import model_to_dict
 
 def checkGroup(request):
     if request.user.groups.filter(name="client").exists():
@@ -344,6 +345,52 @@ def editProducer(request, id):
                  'instagramAccount': producer.instagramAccount,
                  'imageField': producer.imageField}
     ), "url": "producer", "item": producer})
+
+
+def editMovie(request, id):
+    movie = Movie.objects.get(id=id)
+
+    if request.POST:
+        form = AddMovieForm(request.POST, initial=model_to_dict(movie))
+        movie = Movie.objects.get(id=id)
+        if form.is_valid():
+            movie.title = form.cleaned_data['title']
+            movie.description = form.cleaned_data['description']
+            movie.rating = form.cleaned_data['rating']
+            movie.director.set(form.cleaned_data['director'])
+            movie.producer.set(form.cleaned_data['producer'])
+            movie.cast.set(form.cleaned_data['cast'])
+            movie.genre.set(form.cleaned_data['genre'])
+            movie.imageField = form.cleaned_data['imageField']
+            movie.published_date = form.cleaned_data['published_date']
+            movie.save()
+            return redirect('/movies')
+        else:
+            return redirect('/producers')
+    return render(request, "addActor.html", {"form": AddMovieForm(initial=model_to_dict(movie)), "url": "movie"})
+
+
+def addMovie(request):
+    if request.POST:
+        form = AddMovieForm(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            description = form.cleaned_data['description']
+            rating = form.cleaned_data['rating']
+            director = form.cleaned_data['director']
+            producer = form.cleaned_data['producer']
+            cast = form.cleaned_data['cast']
+            genre = form.cleaned_data['genre']
+            imageField = form.cleaned_data['imageField']
+            published_date = form.cleaned_data['published_date']
+            Movie.objects.create(title=title, description=description, rating=rating, director=director,
+                                 producer=producer, cast=cast, genre=genre, published_date=published_date,
+                                 imageField=imageField, )
+
+            return redirect('/movies')
+        else:
+            return redirect('/movies')
+    return render(request, "addActor.html", {"form": AddMovieForm(), "url": "movie"})
 
 
 def deleteActor(request, id):
