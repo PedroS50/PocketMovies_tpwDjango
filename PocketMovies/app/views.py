@@ -71,7 +71,7 @@ def list_movies(request, movie):
             movie = movies.get(id=movie_id)
             profile.want_to_watch.remove(movie)
 
-    paginator = Paginator(movies, 3)
+    paginator = Paginator(movies, 9)
     page_number = request.GET.get('page',1)
     p_movies = paginator.page(int(page_number))
     tparams = {'movie_list': p_movies, 'genre_list': Genre.objects.all(), 'selected_genre': genre, 'profile': profile}
@@ -415,3 +415,10 @@ def deleteProducer(request, id):
         return redirect('/producers')
     except:
         return redirect('/producers')
+
+def deleteActor(request, id):
+    try:
+        actor = Actor.objects.get(id=id).delete()
+        return redirect('/actors')
+    except:
+        return redirect('/actors')
