@@ -35,10 +35,10 @@
         </div>
         <div class="card-deck row rows-cols-4">
             {% for movie in movie_list %}
-                <div class="col-auto mb-4">
-                    <div class="card card-movie" style="width: 18rem;">
-                        <a href="/movie/{{ movie.id }}" style="color:inherit;text-decoration: none">
-                            <img class="card-img-top img-movie" src="{{ movie.imageField }}"
+                <div class="col-auto mb-5" style="margin-right: 45px;">
+                    <div class="card card-movie" style="width: 22rem;">
+                        <a href="/movie/{{ movie.id }}" style="color:inherit;text-decoration: none;">
+                            <img width="343" height="505" class="card-img-top img-movie" src="{{ movie.imageField }}"
                                  alt="Card image cap"/>
                         </a>
                         <div class="card-body" style="height: 25%;">
@@ -50,7 +50,8 @@
                         <div class="card-footer">
                             <div>
                                 <small class="text-muted genres-movie">Genres:
-                                    {% for g in movie.genre.all %}{{ g }}, {% endfor %}</small>
+                                    {% for g in movie.genre.all %}{{ g }}   {% endfor %}
+                                </small>
                             </div>
 
                             <div class="row">
@@ -111,110 +112,6 @@
 
                 </div>
             {% endfor %}
-            {% comment %}<div class="col-auto mb-4">
-			<div class="card card-movie" style="width: 18rem;">
-				<img class="card-img-top img-movie" src="{% static 'imgs/movie.jpg' %}"  alt="Card image cap" />
-				<div class="card-body">
-					<h5 class="card-title text-center title-movie">Movie 1</h5>
-					<p class="card-text description-movie">
-						Movie 1 description.
-					</p>
-				</div>
-					<div class="card-footer">
-					<small class="text-muted genres-movie">Genres: </small>
-				</div>
-			</div>
-		</div>
-		
-		<div class="col-auto mb-4">
-			<div class="card card-movie" style="width: 18rem; ">
-				<img class="card-img-top img-movie" src="{% static 'imgs/movie.jpg' %}" alt="Card image cap" />
-				<div class="card-body">
-					<h5 class="card-title text-center title-movie">Movie 2</h5>
-					<p class="card-text description-movie">
-						Movie 2 description.
-					</p>
-				</div>
-					<div class="card-footer">
-					<small class="text-muted genres-movie">Genres: </small>
-				</div>
-			</div>
-		</div>
-
-		<div class="col-auto mb-4">
-			<div class="card card-movie" style="width: 18rem;">
-				<img class="card-img-top img-movie" src="{% static 'imgs/movie.jpg' %}" alt="Card image cap" />
-				<div class="card-body">
-					<h5 class="card-title text-center title-movie">Movie 3</h5>
-					<p class="card-text description-movie">
-						Movie 3 description.
-					</p>
-				</div>
-					<div class="card-footer">
-					<small class="text-muted genres-movie">Genres: </small>
-				</div>
-			</div>
-		</div>
-
-		<div class="col-auto mb-4">
-			<div class="card card-movie" style="width: 18rem;">
-				<img class="card-img-top img-movie" src="{% static 'imgs/movie.jpg' %}" alt="Card image cap" />
-				<div class="card-body">
-					<h5 class="card-title text-center title-movie">Movie 4</h5>
-					<p class="card-text description-movie">
-						Movie 4 description.
-					</p>
-				</div>
-					<div class="card-footer">
-					<small class="text-muted genres-movie">Genres: </small>
-				</div>
-			</div>
-		</div>
-
-		<div class="col-auto mb-4">
-			<div class="card card-movie" style="width: 18rem;">
-				<img class="card-img-top img-movie" src="{% static 'imgs/movie.jpg' %}" alt="Card image cap" />
-				<div class="card-body">
-					<h5 class="card-title text-center title-movie">Movie 5</h5>
-					<p class="card-text description-movie">
-						Movie 5 description.
-					</p>
-				</div>
-					<div class="card-footer">
-					<small class="text-muted genres-movie">Genres: </small>
-				</div>
-			</div>
-		</div>
-
-		<div class="col-auto mb-4">
-			<div class="card card-movie" style="width: 18rem;">
-				<img class="card-img-top img-movie" src="{% static 'imgs/movie.jpg' %}" alt="Card image cap" />
-				<div class="card-body">
-					<h5 class="card-title text-center title-movie">Movie 6</h5>
-					<p class="card-text description-movie">
-						Movie 6 description.
-					</p>
-				</div>
-					<div class="card-footer">
-					<small class="text-muted genres-movie">Genres: </small>
-				</div>
-			</div>
-		</div>
-
-		<div class="col-auto mb-4">
-			<div class="card card-movie" style="width: 18rem;">
-				<img class="card-img-top img-movie" src="{% static 'imgs/movie.jpg' %}" alt="Card image cap" />
-				<div class="card-body">
-					<h5 class="card-title text-center title-movie">Movie 6</h5>
-					<p class="card-text description-movie">
-						Movie 6 description.
-					</p>
-				</div>
-					<div class="card-footer">
-					<small class="text-muted genres-movie">Genres: </small>
-				</div>
-			</div>
-		</div> {% endcomment %}
         </div>
     </div>
 
