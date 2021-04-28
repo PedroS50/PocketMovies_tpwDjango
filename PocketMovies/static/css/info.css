@@ -21,12 +21,26 @@
 
     transition: transform 0.5s ease, opacity .5s ease-out;
 }
+
 .casting > a > img:hover {
     opacity: 1;
     transform: scale(1.5);
 }
+
+.icon-info {
+    color: white;
+    font-size: 18px;
+    transition: font-size 0.5s ease, color .1s ease-out;
+    overflow: hidden;
+}
+
+.icon-info:hover {
+    color: red;
+    font-size: 21px;
+}
+
 .movie-image {
-    height: 100%;
+    height: 350px;
     max-width: 110%;
     box-shadow: -4px 4px 5px 0 #000;
     transition: transform 1s ease, opacity .5s ease-out;
@@ -36,15 +50,18 @@
     opacity: 1;
     transform: scale(1.1);
 }
-.person-image{
+
+.person-image {
     height: 350px;
     box-shadow: -4px 4px 5px 0 #000;
     transition: transform 1s ease, opacity .5s ease-out;
 }
-.person-image:hover{
+
+.person-image:hover {
     opacity: 1;
     transform: scale(1.1);
 }
+
 .person-info > p {
     word-spacing: 3px;
 }
