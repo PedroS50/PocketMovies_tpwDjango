@@ -42,4 +42,7 @@ urlpatterns = [
     path('add/actor/', views.addActor, name="addActor"),
     path('add/director/', views.addDirector, name="addDirector"),
     path('add/producer/', views.addProducer, name="addProducer"),
+    path('edit/actor/<id>', views.editActor, name="editActor"),
+    path('edit/director/<id>', views.editDirector, name="editDirector"),
+    path('edit/producer/<id>', views.editProducer, name="editProducer"),
 ]
