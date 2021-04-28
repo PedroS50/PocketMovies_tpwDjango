@@ -3,12 +3,12 @@
 {% block content %}
 
     {% load static %}
-                      
+
     <div class="container">
         <div class="row">
             <div class="col-sm-6">
                 <label for="choose_genre">Genre:</label>
-                <form action="." method="post">
+                <form action="." method="get">
                     {% csrf_token %}
                     <select class="form-select" name="genre" id="choose_genre" onclick="this.form.submit()">
                         <option value="" {% if selected_genre == '' %}selected{% endif %}>All</option>
@@ -33,9 +33,11 @@
                 </form>
             </div>
         </div>
-        <div class="card-deck row rows-cols-4">
+            <div class="container">
+                <div class="card-deck row rows-cols-4">
             {% for movie in movie_list %}
-                <div class="col-auto mb-5" style="margin-right: 45px;">
+            <div class="single-item">
+                <div class="movie col-auto mb-5" style="margin-right: 45px;">
                     <div class="card card-movie" style="width: 22rem;">
                         <a href="/movie/{{ movie.id }}" style="color:inherit;text-decoration: none;">
                             <img width="343" height="505" class="card-img-top img-movie" src="{{ movie.imageField }}"
@@ -103,16 +105,46 @@
                                             </button>
                                         </form>
                                     {% endif %}
-                                {# for the admin buttons, check user.groups.filter(name="client").exists() #}
+                                    {# for the admin buttons, check user.groups.filter(name="client").exists() #}
                                 </div>
+{#                                <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">#}
+{#                                        <input name="remove_favorite_movies" value={{ movie.id }} hidden>#}
+{#                                        <button type="submit" class="btn"><i class="bi bi-heart-fill icon"></i>#}
+{#                                        </button>#}
+                                    {# for the admin buttons, check user.groups.filter(name="client").exists() #}
+{#                                </div>#}
 
                             </div>
                         </div>
                     </div>
 
                 </div>
+            </div>
             {% endfor %}
         </div>
+            </div>
+
+
     </div>
+
+      <div class="container p-4">
+        <div class="pagination justify-content-center">
+            <span class="step-links">
+              {% if movie_list.has_previous %}
+                  <button type="button" class="btn btn-outline-dark"><a href="?page=1">&laquo; first</a></button>
+                  <button type="button" class="btn btn-outline-dark"><a href="?page={{ movie_list.previous_page_number }}">previous</a></button>
+              {% endif %}
+
+                <span class="current">
+                    Page {{ movie_list.number }} of {{ movie_list.paginator.num_pages }}
+                </span>
+
+              {% if movie_list.has_next %}
+                  <button type="button" class="btn btn-outline-dark"><a href="?page={{ movie_list.next_page_number }}">next</a></button>
+                  <button type="button" class="btn btn-outline-dark"><a href="?page={{ movie_list.paginator.num_pages }}">last &raquo;</a></button>
+              {% endif %}
+            </span>
+            </div>
+        </div>
 
 {% endblock %}

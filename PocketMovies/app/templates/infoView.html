@@ -18,24 +18,68 @@
                 <div class="col-md-6">
                     <img src="{{ producer.imageField }}" class="movie-image">
                 </div>
+                {% if group == "admin" %}
+                    <div class="row w-25">
+                        <div class="col">
+                            <a class="btn" href="/edit/producer/{{ producer.id }}" role="button">
+                                <i class="bi bi-pencil-fill icon-info"></i>
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a class="btn" href="/delete/producer/{{ producer.id }}" role="button">
+                                <i class="bi bi-trash-fill icon-info"></i>
+                            </a>
+                        </div>
+                    </div>
+                {% endif %}
+
             </div>
             {% elif person %}
             <div class="container align-items-center movie-details bg-dark text-white">
                 <div class="row d-flex justify-content-between w-100 p-3">
                     <div class="col-md-6 ">
-                        <h1>{{ person.name.capitalize }}</h1>
+                        <h1>{{ person.name }}</h1>
                         <div class="d-flex flex-column mb-3">
                             <div class="person-info">
                                 <p>Birthdate: {{ person.birthdate }}</p>
                                 <p><i class="bi bi-twitter"></i> Twitter: {{ person.twitterAccount }}</p>
                                 <p><i class="bi bi-instagram"></i> Instagram: {{ person.instagramAccount }}</p>
-                                <p>Years Active: {{ person.years_active }}</p>
+                                {% if person.years_active %}
+                                    <p>Years Active: {{ person.years_active }}</p>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <img src="{{ person.imageField }}" class="person-image">
                     </div>
+                    {% if group == "admin" %}
+                        <div class="row w-25">
+                            <div class="col">
+                                {% if person.years_active %}
+                                    <a class="btn" href="/edit/actor/{{ person.id }}" role="button">
+                                        <i class="bi bi-pencil-fill icon-info"></i>
+                                    </a>
+                                {% else %}
+                                    <a class="btn" href="/edit/director/{{ person.id }}" role="button">
+                                        <i class="bi bi-pencil-fill icon-info"></i>
+                                    </a>
+                                {% endif %}
+                            </div>
+                            <div class="col">
+                                {% if person.years_active %}
+                                    <a class="btn" href="/delete/actor/{{ person.id }}" role="button">
+                                        <i class="bi bi-trash-fill icon-info"></i>
+                                    </a>
+                                {% else %}
+                                    <a class="btn" href="/delete/director/{{ person.id }}" role="button">
+                                        <i class="bi bi-trash-fill icon-info"></i>
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+
                 </div>
                 {% elif movie %}
                 <div class="container align-items-center movie-details bg-dark text-white">
@@ -61,6 +105,10 @@
                                         <a href="/producer/{{ producer.id }}"><img src="{{ producer.imageField }}"
                                                                                    title="{{ producer.name }}"></a>
                                     {% endfor %}
+                                    <p>Genres: </p>
+                                    {% for genre in movie.genre.all %}
+                                        <h7>{{ genre }}</h7>
+                                    {% endfor %}
                                 </div>
 
                             </div>
@@ -69,6 +117,20 @@
                             <img src="{{ movie.imageField }}" class="movie-image">
                         </div>
                     </div>
+                    {% if group == "admin" %}
+                        <div class="row w-25">
+                            <div class="col">
+                                <a class="btn" href="#" role="button">
+                                    <i class="bi bi-pencil-fill icon-info"></i>
+                                </a>
+                            </div>
+                            <div class="col">
+                                <a class="btn" href="/delete/movie/{{ producer.id }}" role="button">
+                                    <i class="bi bi-trash-fill icon-info"></i>
+                                </a>
+                            </div>
+                        </div>
+                    {% endif %}
                     <div class="row">
                         <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
                             {% if movie not in profile.movies_watched.all %}

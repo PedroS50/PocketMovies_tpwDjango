@@ -7,6 +7,13 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from app.models import *
 from app.forms import *
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+def checkGroup(request):
+    if request.user.groups.filter(name="client").exists():
+        return "client"
+    else:
+        return "admin"
 
 
 @login_required()
@@ -22,8 +29,8 @@ def list_movies(request, movie):
     elif movie == 'my_watched_movies':
         movies = profile.movies_watched.all()
 
-    if 'genre' in request.POST:
-        genre = request.POST['genre']
+    if 'genre' in request.GET:
+        genre = request.GET['genre']
         if genre:
             genre_object = Genre.objects.get(name=genre)
             movies = movies.filter(genre=genre_object)
@@ -63,7 +70,10 @@ def list_movies(request, movie):
             movie = movies.get(id=movie_id)
             profile.want_to_watch.remove(movie)
 
-    tparams = {'movie_list': movies, 'genre_list': Genre.objects.all(), 'selected_genre': genre, 'profile': profile}
+    paginator = Paginator(movies, 3)
+    page_number = request.GET.get('page',1)
+    p_movies = paginator.page(int(page_number))
+    tparams = {'movie_list': p_movies, 'genre_list': Genre.objects.all(), 'selected_genre': genre, 'profile': profile}
     return render(request, 'ListMovies.html', tparams)
     # return render(request, 'ListMovies.html')
 
@@ -76,7 +86,10 @@ def list_people(request, person):
         people = Producer.objects.all()
     elif person == 'directors':
         people = Director.objects.all()
-    return render(request, 'ListActors.html', {'person_list': people, 'person_role': person.upper()})
+    paginator = Paginator(people, 10)
+    page_number = request.GET.get('page', 1)
+    p_people = paginator.page(int(page_number))
+    return render(request, 'ListActors.html', {'person_list': p_people, 'person_role': person.upper()})
 
 
 def register_user(request):
@@ -134,15 +147,19 @@ def logout_user(request):
 
 
 def home(request):
-    print(request.user.groups.all())
-    return render(request, "layout.html", {"user": request.user})
+    if request.user.groups.filter(name="client").exists():
+        group = "client"
+    else:
+        group = "admin"
+    return render(request, "layout.html", {"user": request.user, "group": group})
 
 
 @login_required()
 def infoProducer(request, id):
     try:
         producer = Producer.objects.get(id=id)
-        return render(request, "infoView.html", {"producer": producer})
+        print(checkGroup(request))
+        return render(request, "infoView.html", {"producer": producer, "group": checkGroup(request)})
     except:
         producer = None
         return render(request, "infoView.html")
@@ -152,7 +169,7 @@ def infoProducer(request, id):
 def infoActor(request, id):
     try:
         actor = Actor.objects.get(id=id)
-        return render(request, "infoView.html", {"person": actor})
+        return render(request, "infoView.html", {"person": actor, "group": checkGroup(request)})
     except:
         actor = None
         return render(request, "infoView.html")
@@ -161,7 +178,7 @@ def infoActor(request, id):
 def infoDirector(request, id):
     try:
         director = Director.objects.get(id=id)
-        return render(request, "infoView.html", {"person": director})
+        return render(request, "infoView.html", {"person": director, "group": checkGroup(request)})
     except:
         director = None
         return render(request, "infoView.html")
@@ -171,7 +188,7 @@ def infoMovie(request, id):
     profile = Profile.objects.get(user=User.objects.get(username=request.session['username']))
     try:
         movie = Movie.objects.get(id=id)
-        return render(request, "infoView.html", {"movie": movie, "profile": profile})
+        return render(request, "infoView.html", {"movie": movie, "profile": profile, "group": checkGroup(request)})
     except Exception as e:
         movie = None
         print(e)
@@ -327,3 +344,27 @@ def editProducer(request, id):
                  'instagramAccount': producer.instagramAccount,
                  'imageField': producer.imageField}
     ), "url": "producer", "item": producer})
+
+
+def deleteActor(request, id):
+    try:
+        actor = Actor.objects.get(id=id).delete()
+        return redirect('/actors')
+    except:
+        return redirect('/actors')
+
+
+def deleteDirector(request, id):
+    try:
+        director = Director.objects.get(id=id).delete()
+        return redirect('/directors')
+    except:
+        return redirect('/directors')
+
+
+def deleteProducer(request, id):
+    try:
+        producer = Producer.objects.get(id=id).delete()
+        return redirect('/producers')
+    except:
+        return redirect('/producers')

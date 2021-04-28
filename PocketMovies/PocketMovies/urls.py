@@ -60,4 +60,16 @@ urlpatterns = [
     path('search/', views.searchMovie, name="searchMovie"),
     path('movie/<id>', views.infoMovie, name="infoMovie"),
     path('director/<id>', views.infoDirector, name="infoDirector"),
+
+    path('add/actor/', views.addActor, name="addActor"),
+    path('add/director/', views.addDirector, name="addDirector"),
+    path('add/producer/', views.addProducer, name="addProducer"),
+    path('edit/actor/<id>', views.editActor, name="editActor"),
+    path('edit/director/<id>', views.editDirector, name="editDirector"),
+    path('edit/producer/<id>', views.editProducer, name="editProducer"),
+    path('delete/actor/<id>',views.deleteActor,name="deleteActor"),
+    path('delete/director/<id>',views.deleteDirector,name="deleteDirector"),
+    path('delete/producer/<id>',views.deleteProducer,name="deleteProducer"),
+    path('delete/movie/<id>',views.deleteMovie,name="deleteMovie")
+
 ]
