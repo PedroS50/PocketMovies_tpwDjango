@@ -1,3 +1,4 @@
+from django import template
 from django.contrib.auth.models import Group
 from django.shortcuts import render, redirect
 from django.contrib import messages
@@ -27,8 +28,8 @@ def list_movies(request, movie):
             genre_object = Genre.objects.get(name=genre)
             movies = movies.filter(genre=genre_object)
 
-    if 'search' in request.GET:
-        search_term = request.GET['search']
+    if 'title' in request.GET:
+        search_term = request.GET['title']
         movies = movies.filter(title__icontains=search_term)
 
     if 'add_movie_watched' in request.POST:
@@ -89,7 +90,7 @@ def register_user(request):
             new_user.profile.user.last_name = register_form.cleaned_data['lname']
             new_user.profile.user.email = register_form.cleaned_data['email']
             new_user.profile.favorite_genres.set(register_form.cleaned_data['favorite_genres'])
-            
+
             group = Group.objects.get(name="client")
             new_user.groups.add(group)
             messages.success(request, "Registration successful.")
@@ -133,6 +134,7 @@ def logout_user(request):
 
 
 def home(request):
+    print(request.user.groups.all())
     return render(request, "layout.html", {"user": request.user})
 
 
@@ -180,4 +182,65 @@ def searchMovie(request):
     title = request.GET["title"]
     movie = Movie.objects.filter(title__icontains=title)
     tparams = {'movie_list': movie, 'genre_list': Genre.objects.all()}
-    return render(request, 'ListMovies.html', tparams)
+    return redirect('/movies/', tparams)
+
+
+def addActor(request):
+    if request.POST:
+        form = AddActorForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data["name"]
+            birthdate = form.cleaned_data["birthdate"]
+            years_active = form.cleaned_data["years_active"]
+            nationality = form.cleaned_data["nationality"]
+            twitter = form.cleaned_data["twitterAccount"]
+            instagram = form.cleaned_data["instagramAccount"]
+            imageField = form.cleaned_data["imageField"]
+            Actor.objects.create(name=name, birthdate=birthdate, imageField=imageField, years_active=years_active,
+                                 nationality=nationality, twitterAccount=twitter, instagramAccount=instagram)
+            return redirect('/actors')
+        else:
+            print(form.errors)
+            return redirect('/actors')
+    return render(request, "addActor.html", {"form": AddActorForm(), "url": "actor"})
+
+
+def addDirector(request):
+    if request.POST:
+        form = AddDirectorForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data["name"]
+            birthdate = form.cleaned_data["birthdate"]
+            nationality = form.cleaned_data["nationality"]
+            twitter = form.cleaned_data["twitterAccount"]
+            instagram = form.cleaned_data["instagramAccount"]
+            website = form.cleaned_data["website"]
+            imageField = form.cleaned_data["imageField"]
+            Director.objects.create(name=name, birthdate=birthdate,
+                                    nationality=nationality, website=website, imageField=imageField,
+                                    twitterAccount=twitter,
+                                    instagramAccount=instagram)
+            return redirect('/directors')
+        else:
+            return redirect('/actors')
+    return render(request, "addActor.html", {"form": AddDirectorForm(), "url": "director"})
+
+def addProducer(request):
+    if request.POST:
+        form = AddProducerForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data["name"]
+            country = form.cleaned_data["country"]
+            city = form.cleaned_data["city"]
+            twitter = form.cleaned_data["twitterAccount"]
+            instagram = form.cleaned_data["instagramAccount"]
+            website = form.cleaned_data["website"]
+            imageField = form.cleaned_data["imageField"]
+            Producer.objects.create(name=name, country=country,
+                                    city=city, website=website, imageField=imageField,
+                                    twitterAccount=twitter,
+                                    instagramAccount=instagram)
+            return redirect('/producers')
+        else:
+            return redirect('/producers')
+    return render(request, "addActor.html", {"form": AddProducerForm(), "url": "producer"})

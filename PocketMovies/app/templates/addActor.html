@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="container bg-dark text-white" style="height: 80%;">
+        <form action="/add/{{ url }}/" method="POST" autocomplete="on">
+            {% csrf_token %}
+            <div class="row row-cols-2 justify-content-between w-100">
+                {% for field in form.visible_fields %}
+                    <div class="col">
+                        <div class="input-group mb-3 ">
+                            {% if field.label == "Twitter" %}
+                                <span class="input-group-text w-25 justify-content-around" id="{{ field.label }}"><i
+                                        class="bi bi-twitter"></i>{{ field.label }}</span>
+                            {% elif field.label == "Instagram" %}
+                                <span class="input-group-text w-25 justify-content-around" id="{{ field.label }}"><i
+                                        class="bi bi-instagram"></i>{{ field.label }}</span>
+                            {% else %}
+                                <span class="input-group-text w-25 justify-content-center"
+                                      id="{{ field.label }}">{{ field.label }}</span>
+                            {% endif %}
+                            {{ field }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+{% endblock %}
