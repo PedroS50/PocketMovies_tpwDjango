@@ -18,15 +18,24 @@ from django.urls import path
 from app import views
 from django.conf import settings
 from django.conf.urls.static import static
-
+from django.contrib.auth import views as auth_views
 from app import views
 
 urlpatterns = [
     path('', views.home, name="home"),
     path('admin/', admin.site.urls),
+    
     path('register/', views.register_user, name='register'),
+    
+    path('reset_password/', auth_views.PasswordResetView.as_view(), name='reset_password'),
+    path('reset_password_sent/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
+    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path('reset_password_complete/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
+
+
     path('login/', views.login_user, name='login'),
     path('logout/', views.logout_user, name='logout'),
+    
     path('movies/', views.list_movies, {'movie': 'all'}, name='ListMovies'),
     path('movies/my_favorite_movies/', views.list_movies, {'movie': 'my_favorite_movies'}, name='my_favorite_movies'),
     path('movies/my_want_to_watch/', views.list_movies, {'movie': 'my_want_to_watch'}, name='my_want_to_watch'),
@@ -34,15 +43,10 @@ urlpatterns = [
     path('actors/', views.list_people, {'person': 'actors'}, name='ListActors'),
     path('producers/', views.list_people, {'person': 'producers'}, name='ListActors'),
     path('directors/', views.list_people, {'person': 'directors'}, name='ListActors'),
+    
     path('producer/<id>', views.infoProducer, name="infoProducer"),
     path('actor/<id>', views.infoActor, name="infoActor"),
     path('search/', views.searchMovie, name="searchMovie"),
     path('movie/<id>', views.infoMovie, name="infoMovie"),
     path('director/<id>', views.infoDirector, name="infoDirector"),
-    path('add/actor/', views.addActor, name="addActor"),
-    path('add/director/', views.addDirector, name="addDirector"),
-    path('add/producer/', views.addProducer, name="addProducer"),
-    path('edit/actor/<id>', views.editActor, name="editActor"),
-    path('edit/director/<id>', views.editDirector, name="editDirector"),
-    path('edit/producer/<id>', views.editProducer, name="editProducer"),
 ]
