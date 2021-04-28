@@ -65,7 +65,7 @@ class AddMovieForm(forms.Form):
     director = forms.ModelMultipleChoiceField(
         label="Directors",
         queryset=Director.objects.all(),
-        widget=forms.SelectMultiple(attrs={'class': "form-select", 'size': 3})
+        widget=forms.SelectMultiple(attrs={'class': "form-select", 'size': 3}),
     )
     producer = forms.ModelMultipleChoiceField(
         label="Producers",

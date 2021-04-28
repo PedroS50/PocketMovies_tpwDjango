@@ -10,6 +10,7 @@ from app.forms import *
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.forms.models import model_to_dict
 
+
 def checkGroup(request):
     if request.user.groups.filter(name="client").exists():
         return "client"
@@ -72,7 +73,7 @@ def list_movies(request, movie):
             profile.want_to_watch.remove(movie)
 
     paginator = Paginator(movies, 3)
-    page_number = request.GET.get('page',1)
+    page_number = request.GET.get('page', 1)
     p_movies = paginator.page(int(page_number))
     tparams = {'movie_list': p_movies, 'genre_list': Genre.objects.all(), 'selected_genre': genre, 'profile': profile}
     return render(request, 'ListMovies.html', tparams)
@@ -367,7 +368,8 @@ def editMovie(request, id):
             return redirect('/movies')
         else:
             return redirect('/producers')
-    return render(request, "addActor.html", {"form": AddMovieForm(initial=model_to_dict(movie)), "url": "movie"})
+    return render(request, "editForm.html", {"form": AddMovieForm(initial=model_to_dict(movie)), "url": "movie"
+        , "item": movie})
 
 
 def addMovie(request):
@@ -377,16 +379,21 @@ def addMovie(request):
             title = form.cleaned_data['title']
             description = form.cleaned_data['description']
             rating = form.cleaned_data['rating']
-            director = form.cleaned_data['director']
-            producer = form.cleaned_data['producer']
-            cast = form.cleaned_data['cast']
-            genre = form.cleaned_data['genre']
             imageField = form.cleaned_data['imageField']
             published_date = form.cleaned_data['published_date']
-            Movie.objects.create(title=title, description=description, rating=rating, director=director,
-                                 producer=producer, cast=cast, genre=genre, published_date=published_date,
-                                 imageField=imageField, )
+            new_movie = Movie.objects.create(title=title, description=description, rating=rating,
+                                             published_date=published_date,
+                                             imageField=imageField, )
 
+            new_movie.director.set(form.cleaned_data['director'])
+
+            new_movie.producer.set(form.cleaned_data['producer'])
+
+            new_movie.cast.set(form.cleaned_data['cast'])
+
+            new_movie.genre.set(form.cleaned_data['genre'])
+            new_movie.save()
+            new_movie.save()
             return redirect('/movies')
         else:
             return redirect('/movies')
@@ -415,3 +422,11 @@ def deleteProducer(request, id):
         return redirect('/producers')
     except:
         return redirect('/producers')
+
+
+def deleteMovie(request, id):
+    try:
+        movie = Movie.objects.get(id=id).delete()
+        return redirect('/movies')
+    except:
+        return redirect('/movies')
