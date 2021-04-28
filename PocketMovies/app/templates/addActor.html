@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
-    <div class="container bg-dark text-white" style="height: 80%;margin-top: 10;">
-        <form action="/add/actor/" method="POST" autocomplete="on">
+    <div class="container bg-dark text-white" style="height: 80%;">
+        <form action="/add/{{ url }}/" method="POST" autocomplete="on">
             {% csrf_token %}
             <div class="row row-cols-2 justify-content-between w-100">
                 {% for field in form.visible_fields %}

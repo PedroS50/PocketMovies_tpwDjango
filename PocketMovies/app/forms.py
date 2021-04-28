@@ -63,7 +63,7 @@ class AddActorForm(forms.Form):
     nationality = forms.CharField(label="Nationality", max_length=255, widget=forms.TextInput(
         attrs={'class': "form-control w-75", "aria-label": "Nationality", "aria-describedby": "Nationality",
                "placeholder": "Nationality"}))
-    imageField = forms.URLField(label="Thumbnail", widget=forms.TextInput(
+    imageField = forms.URLField(label="Thumbnail", widget=forms.URLInput(
         attrs={'class': "form-control w-75", "aria-label": "Thumbnail", "aria-describedby": "Thumbnail",
                "placeholder": "Thumbnail"}))
     twitterAccount = forms.CharField(label="Twitter", widget=forms.TextInput(
@@ -72,3 +72,48 @@ class AddActorForm(forms.Form):
     instagramAccount = forms.CharField(label="Instagram", widget=forms.TextInput(
         attrs={'class': "form-control w-75", "aria-label": "Instagram", "aria-describedby": "Instagram",
                "placeholder": "@someone"}))
+
+
+class AddDirectorForm(forms.Form):
+    name = forms.CharField(label="Name", max_length=255, widget=forms.TextInput(
+        attrs={'class': "form-control w-75", "placeholder": "Name", "aria-label": "Name", "aria-describedby": "Name"}))
+    birthdate = forms.DateField(label="Birthdate", widget=forms.DateInput(
+        attrs={'class': "form-control w-75", "aria-label": "Birthdate", "aria-describedby": "Birthdate", },
+        format=('%d-%m-%Y')))
+    nationality = forms.CharField(label="Nationality", max_length=255, widget=forms.TextInput(
+        attrs={'class': "form-control w-75", "aria-label": "Nationality", "aria-describedby": "Nationality",
+               "placeholder": "Nationality"}))
+    imageField = forms.URLField(label="Thumbnail", widget=forms.URLInput(
+        attrs={'class': "form-control w-75", "aria-label": "Thumbnail", "aria-describedby": "Thumbnail",
+               "placeholder": "Thumbnail"}))
+    twitterAccount = forms.CharField(label="Twitter", widget=forms.TextInput(
+        attrs={'class': "form-control w-75", "aria-label": "Twitter", "aria-describedby": "Twitter",
+               "placeholder": "@someone"}))
+    instagramAccount = forms.CharField(label="Instagram", widget=forms.TextInput(
+        attrs={'class': "form-control w-75", "aria-label": "Instagram", "aria-describedby": "Instagram",
+               "placeholder": "@someone"}))
+    website = forms.URLField(label="Website", widget=forms.TextInput(
+        attrs={'class': "form-control w-75", "aria-label": "Website", "aria-describedby": "Website",
+               "placeholder": "www.example.com"}))
+
+
+class AddProducerForm(forms.Form):
+    name = forms.CharField(label="Name", max_length=255, widget=forms.TextInput(
+        attrs={'class': "form-control w-75", "placeholder": "Name", "aria-label": "Name", "aria-describedby": "Name"}))
+    city = forms.CharField(label="City", max_length=255, widget=forms.TextInput(
+        attrs={'class': "form-control w-75", "placeholder": "City", "aria-label": "City", "aria-describedby": "City"}))
+    country = forms.CharField(label="Country", max_length=255, widget=forms.TextInput(
+        attrs={'class': "form-control w-75", "placeholder": "Country", "aria-label": "Country",
+               "aria-describedby": "Country"}))
+    imageField = forms.URLField(label="Thumbnail", widget=forms.URLInput(
+        attrs={'class': "form-control w-75", "aria-label": "Thumbnail", "aria-describedby": "Thumbnail",
+               "placeholder": "Thumbnail"}))
+    twitterAccount = forms.CharField(label="Twitter", widget=forms.TextInput(
+        attrs={'class': "form-control w-75", "aria-label": "Twitter", "aria-describedby": "Twitter",
+               "placeholder": "@someone"}))
+    instagramAccount = forms.CharField(label="Instagram", widget=forms.TextInput(
+        attrs={'class': "form-control w-75", "aria-label": "Instagram", "aria-describedby": "Instagram",
+               "placeholder": "@someone"}))
+    website = forms.URLField(label="Website", widget=forms.TextInput(
+        attrs={'class': "form-control w-75", "aria-label": "Website", "aria-describedby": "Website",
+               "placeholder": "www.example.com"}))
