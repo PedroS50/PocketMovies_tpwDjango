@@ -42,7 +42,7 @@ urlpatterns = [
     path('add/actor/', views.addActor, name="addActor"),
     path('add/director/', views.addDirector, name="addDirector"),
     path('add/producer/', views.addProducer, name="addProducer"),
-    path('add/movie/', views.addMovie, name="addProducer"),
-    path('edit/movie/<id>', views.editMovie, name="editProducer"),
+    path('add/movie/', views.addMovie, name="addMovie"),
+    path('edit/movie/<id>', views.editMovie, name="editMovie"),
 
 ]

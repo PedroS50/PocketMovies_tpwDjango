@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.forms.models import model_to_dict
 from app.models import *
 from app.forms import *
 
@@ -245,8 +246,11 @@ def addProducer(request):
     return render(request, "addActor.html", {"form": AddProducerForm(), "url": "producer"})
 
 def editMovie(request,id):
+    movie = Movie.objects.get(id=id)
+    
+
     if request.POST:
-        form = AddMovieForm(request.POST)
+        form = AddMovieForm(request.POST, initial=model_to_dict(movie))
         movie = Movie.objects.get(id=id)
         if form.is_valid():
             movie.title = form.cleaned_data['title']
@@ -262,7 +266,7 @@ def editMovie(request,id):
             return redirect('/movies')
         else:
             return redirect('/producers')
-    return render(request, "addActor.html", {"form": AddMovieForm(), "url": "movie"})
+    return render(request, "addActor.html", {"form": AddMovieForm(initial=model_to_dict(movie)), "url": "movie"})
 
 def addMovie(request):
     if request.POST:

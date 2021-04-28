@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from app.models import *
-
+import datetime
 
 class SignUpForm(UserCreationForm):
     fname = forms.CharField(label="First Name", max_length=32, required=True)
@@ -79,7 +79,9 @@ class AddMovieForm(forms.Form):
                    "placeholder": "ImageURL"}))
     published_date = forms.DateField(label="Published Data", widget=forms.DateInput(
             attrs={'class': "form-control w-75", "aria-label": "Birthdate", "aria-describedby": "Birthdate", },
-            format='%d-%m-%Y'))
+            ),
+            initial=datetime.date.today
+            )
 
     class Meta:
         model = Movie
