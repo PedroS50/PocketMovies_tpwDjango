@@ -8,7 +8,7 @@ from django.dispatch import receiver
 class Actor(models.Model):
     name = models.CharField(max_length=255)
     birthdate = models.DateField()
-    years_active = models.CharField(max_length=2)
+    years_active = models.IntegerField()
     nationality = models.CharField(max_length=50)
     imageField = models.URLField(blank=True)
     twitterAccount = models.CharField(max_length=255, blank=True)
