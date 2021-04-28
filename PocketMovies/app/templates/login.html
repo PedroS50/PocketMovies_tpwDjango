@@ -40,7 +40,9 @@
             </div>
 
             {% endfor %}
-
+            <div class="form-login-pw-reset">
+                <p>Forgot your password? <br /><a class="signup-a" href="{% url 'reset_password' %}">Reset Password</a></p>
+            </div>
             <div class="form-login">
                 <button class="signup-btn" type="submit">Login</button>
                 <p>Don't Have account? <a class="signup-a" href="{% url 'register' %}">Sign Up</a></p>

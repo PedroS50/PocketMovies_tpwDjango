@@ -75,7 +75,13 @@
   padding-top: 5%;
   padding-bottom: 5%;
   padding-left: 5%;
+}
 
+.pw-reset-image-holder {
+  width: 50%;
+  padding-top: 5%;
+  padding-bottom: 5%;
+  padding-left: 5%;
 }
 
 .main-form {
@@ -285,6 +291,19 @@ h5 {
 }
 
 .form-login {
+  display: flex;
+  margin-left: 23px;
+  text-align: right;
+  font-size: 17px;
+}
+
+.form-login-pw-reset {
+  text-align: center;
+  margin-left: 23px;
+  font-size: 17px;
+}
+
+.form-pw-reset {
   display: flex;
   margin-left: 23px;
   text-align: right;
