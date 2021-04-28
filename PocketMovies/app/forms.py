@@ -54,7 +54,7 @@ class LoginForm(AuthenticationForm):
 class AddActorForm(forms.Form):
     name = forms.CharField(label="Name", max_length=255, widget=forms.TextInput(
         attrs={'class': "form-control w-75", "placeholder": "Name", "aria-label": "Name", "aria-describedby": "Name"}))
-    birthdate = forms.DateField(label="Birthdate", widget=forms.DateInput(
+    birthdate = forms.DateField(label="Birthdate",input_formats=['%d-%m-%Y'], widget=forms.DateInput(
         attrs={'class': "form-control w-75", "aria-label": "Birthdate", "aria-describedby": "Birthdate", },
         format=('%d-%m-%Y')))
     years_active = forms.CharField(label="Years Active", max_length=2, widget=forms.TextInput(
@@ -77,7 +77,7 @@ class AddActorForm(forms.Form):
 class AddDirectorForm(forms.Form):
     name = forms.CharField(label="Name", max_length=255, widget=forms.TextInput(
         attrs={'class': "form-control w-75", "placeholder": "Name", "aria-label": "Name", "aria-describedby": "Name"}))
-    birthdate = forms.DateField(label="Birthdate", widget=forms.DateInput(
+    birthdate = forms.DateField(label="Birthdate",input_formats=['%d-%m-%Y'], widget=forms.DateInput(
         attrs={'class': "form-control w-75", "aria-label": "Birthdate", "aria-describedby": "Birthdate", },
         format=('%d-%m-%Y')))
     nationality = forms.CharField(label="Nationality", max_length=255, widget=forms.TextInput(

@@ -225,6 +225,7 @@ def addDirector(request):
             return redirect('/actors')
     return render(request, "addActor.html", {"form": AddDirectorForm(), "url": "director"})
 
+
 def addProducer(request):
     if request.POST:
         form = AddProducerForm(request.POST)
@@ -244,3 +245,85 @@ def addProducer(request):
         else:
             return redirect('/producers')
     return render(request, "addActor.html", {"form": AddProducerForm(), "url": "producer"})
+
+
+def editActor(request, id):
+    if request.POST:
+        form = AddActorForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data["name"]
+            birthdate = form.cleaned_data["birthdate"]
+            years_active = form.cleaned_data["years_active"]
+            nationality = form.cleaned_data["nationality"]
+            twitter = form.cleaned_data["twitterAccount"]
+            instagram = form.cleaned_data["instagramAccount"]
+            imageField = form.cleaned_data["imageField"]
+            Actor.objects.filter(id=id).update(name=name, birthdate=birthdate, imageField=imageField,
+                                               years_active=years_active,
+                                               nationality=nationality, twitterAccount=twitter,
+                                               instagramAccount=instagram)
+            return redirect('/actors')
+        else:
+            return redirect('/actors')
+    actor = Actor.objects.get(id=id)
+    return render(request, "editForm.html", {"form": AddActorForm(
+        initial={'name': actor.name, 'birthdate': actor.birthdate, 'years_active': actor.years_active,
+                 'nationality': actor.nationality, 'twitterAccount': actor.twitterAccount,
+                 'instagramAccount': actor.instagramAccount,
+                 'imageField': actor.imageField}
+    ), "url": "actor", "item": actor})
+
+
+def editDirector(request, id):
+    if request.POST:
+        form = AddDirectorForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data["name"]
+            birthdate = form.cleaned_data["birthdate"]
+            nationality = form.cleaned_data["nationality"]
+            twitter = form.cleaned_data["twitterAccount"]
+            instagram = form.cleaned_data["instagramAccount"]
+            website = form.cleaned_data["website"]
+            imageField = form.cleaned_data["imageField"]
+            Director.objects.filter(id=id).update(name=name, birthdate=birthdate, imageField=imageField,
+                                                  website=website,
+                                                  nationality=nationality, twitterAccount=twitter,
+                                                  instagramAccount=instagram)
+            return redirect('/directors')
+        else:
+            return redirect('/directors')
+    director = Director.objects.get(id=id)
+    return render(request, "editForm.html", {"form": AddDirectorForm(
+        initial={'name': director.name, 'birthdate': director.birthdate,
+                 'nationality': director.nationality, 'twitterAccount': director.twitterAccount,
+                 'website': director.website,
+                 'instagramAccount': director.instagramAccount,
+                 'imageField': director.imageField}
+    ), "url": "director", "item": director})
+
+
+def editProducer(request, id):
+    if request.POST:
+        form = AddProducerForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data["name"]
+            country = form.cleaned_data["country"]
+            city = form.cleaned_data["city"]
+            twitter = form.cleaned_data["twitterAccount"]
+            instagram = form.cleaned_data["instagramAccount"]
+            website = form.cleaned_data["website"]
+            imageField = form.cleaned_data["imageField"]
+            Producer.objects.filter(id=id).update(name=name, country=country,
+                                                  city=city, website=website, imageField=imageField,
+                                                  twitterAccount=twitter,
+                                                  instagramAccount=instagram)
+            return redirect('/producers')
+        else:
+            return redirect('/producers')
+    producer = Producer.objects.get(id=id)
+    return render(request, "editForm.html", {"form": AddProducerForm(
+        initial={'name': producer.name, 'city': producer.city, 'country': producer.country,
+                 'website': producer.website, 'twitterAccount': producer.twitterAccount,
+                 'instagramAccount': producer.instagramAccount,
+                 'imageField': producer.imageField}
+    ), "url": "producer", "item": producer})
