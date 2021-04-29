@@ -78,9 +78,7 @@ def list_movies(request, movie):
 
     p_movies = paginator.page(int(page_number))
     tparams = {'movie_list': p_movies, 'genre_list': Genre.objects.all(), 'selected_genre': genre, 'profile': profile}
-    print(tparams)
     return render(request, 'ListMovies.html', tparams)
-    # return render(request, 'ListMovies.html')
 
 
 @login_required()
@@ -156,14 +154,13 @@ def home(request):
         group = "client"
     else:
         group = "admin"
-    return render(request, "layout.html", {"user": request.user, "group": group})
+    return render(request, "home.html", {"user": request.user, "group": group})
 
 
 @login_required()
 def infoProducer(request, id):
     try:
         producer = Producer.objects.get(id=id)
-        print(checkGroup(request))
         return render(request, "infoView.html", {"producer": producer, "group": checkGroup(request)})
     except:
         producer = None
@@ -196,7 +193,6 @@ def infoMovie(request, id):
         return render(request, "infoView.html", {"movie": movie, "profile": profile, "group": checkGroup(request)})
     except Exception as e:
         movie = None
-        print(e)
         return render(request, "infoView.html")
 
 
@@ -222,7 +218,6 @@ def addActor(request):
                                  nationality=nationality, twitterAccount=twitter, instagramAccount=instagram)
             return redirect('/actors')
         else:
-            print(form.errors)
             return redirect('/actors')
     return render(request, "addActor.html", {"form": AddActorForm(), "url": "actor", "title": "Add a new Actor!"})
 

@@ -1,0 +1,36 @@
+{% extends 'layout.html' %}
+
+{% load static %}
+
+{% block css_styles %}
+<script>
+	window.initializeCarousel()=>{
+		$("myCarousel").carousel({interval:1000})
+	}
+</script>
+{% endblock %}
+
+{% block content %}
+<div id="myCarousel" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner">
+  	<p class="main-text" style="z-index: 999"> Pocket Movies </p>
+	<p class="main-text2">The best website to manage your movie catalog</p>
+	<p class="main-text3"><a href="{% url 'register' %}">Sign up now!</a></p>
+    <div class="carousel-item active" style="z-index: -1">
+		<div class="imgbox">
+			<img class="d-block w-100 center-fit" src="{% static 'imgs/poster1.jpg' %}" alt="First slide">
+		</div>
+	</div>
+    <div class="carousel-item" style="z-index: -1">
+		<div class="imgbox">
+			<img class="d-block w-100 center-fit" src="{% static 'imgs/poster2.jpg' %}" alt="Second slide">
+		</div>
+	</div>
+    <div class="carousel-item" style="z-index: -1">
+		<div class="imgbox">
+			<img class="d-block w-100 center-fit" src="{% static 'imgs/poster3.jpg' %}" alt="Third slide">
+		</div>
+	</div>
+  </div>
+</div>
+{% endblock %}
