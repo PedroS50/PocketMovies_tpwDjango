@@ -26,7 +26,7 @@
                             </a>
                         </div>
                         <div class="col">
-                            <a class="btn" href="/delete/producer/{{ producer.id }}" role="button">
+                            <a class="btn" href="/delete/producer/{{ producer.id }}" role="button" onclick="return confirm('Are you sure you want to delete {{ producer }}?');">
                                 <i class="bi bi-trash-fill icon-info"></i>
                             </a>
                         </div>
@@ -68,11 +68,11 @@
                             </div>
                             <div class="col">
                                 {% if person.years_active %}
-                                    <a class="btn" href="/delete/actor/{{ person.id }}" role="button">
+                                    <a class="btn" href="/delete/actor/{{ person.id }}" role="button" onclick="return confirm('Are you sure you want to delete {{ person }}?');">
                                         <i class="bi bi-trash-fill icon-info"></i>
                                     </a>
                                 {% else %}
-                                    <a class="btn" href="/delete/director/{{ person.id }}" role="button">
+                                    <a class="btn" href="/delete/director/{{ person.id }}" role="button" onclick="return confirm('Are you sure you want to delete {{ person }}?');">
                                         <i class="bi bi-trash-fill icon-info"></i>
                                     </a>
                                 {% endif %}
@@ -125,7 +125,7 @@
                                 </a>
                             </div>
                             <div class="col">
-                                <a class="btn" href="/delete/movie/{{ movie.id }}" role="button">
+                                <a class="btn" href="/delete/movie/{{ movie.id }}" role="button" onclick="return confirm('Are you sure you want to delete {{ movie }}?');">
                                     <i class="bi bi-trash-fill icon-info"></i>
                                 </a>
                             </div>
