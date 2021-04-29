@@ -1,29 +1,30 @@
 {% extends "layout.html" %}
+
+{% load addclass %}
+
 {% block content %}
-    <div class="container bg-dark text-white">
+    <div class="container bg-dark text-white mt-5">
         <h1 style="text-align: center; padding-top: 20px; padding-bottom: 20px">{{ title }}</h1>
         <form action="/add/{{ url }}/" method="POST" autocomplete="on">
             {% csrf_token %}
-            <div class="row cols-2 justify-content-between">
-                <div style="margin-top: 20px">
-                    {% for field in form.visible_fields %}
-                        <div class="col">
-                            <div class="input-group mb-3 ">
-                                {% if field.label == "Twitter" %}
-                                    <span class="input-group-text w-25 justify-content-around" id="{{ field.label }}"><i
-                                            class="bi bi-twitter"></i>{{ field.label }}</span>
-                                {% elif field.label == "Instagram" %}
-                                    <span class="input-group-text w-25 justify-content-around" id="{{ field.label }}"><i
-                                            class="bi bi-instagram"></i>{{ field.label }}</span>
-                                {% else %}
-                                    <span class="input-group-text w-25 justify-content-center"
-                                        id="{{ field.label }}">{{ field.label }}</span>
-                                {% endif %}
-                                {{ field }}
-                            </div>
+            <div class="row">
+                {% for field in form.visible_fields %}
+                    <div class="col-*-* mx-auto">
+                        <div class="input-group mb-3 ">
+                            {% if field.label == "Twitter" %}
+                                <span class="input-group-text justify-content-around" id="{{ field.label }}" style="width: 20vh"><i
+                                        class="bi bi-twitter"></i>{{ field.label }}</span>
+                            {% elif field.label == "Instagram" %}
+                                <span class="input-group-text justify-content-around" id="{{ field.label }}" style="width: 20vh"><i
+                                        class="bi bi-instagram"></i>{{ field.label }}</span>
+                            {% else %}
+                                <span class="input-group-text justify-content-center" style="width: 20vh"
+                                    id="{{ field.label }}">{{ field.label }}</span>
+                            {% endif %}
+                            {{ field|addclass:"form-control" }}
                         </div>
-                    {% endfor %}
-                </div>
+                    </div>
+                {% endfor %}
             </div>
         <button class="btn btn-light" type="submit" style="margin-bottom: 20px;">Add<i class="bi bi-plus" style="color: black;font-size: 20px"></i></button>
         </form>

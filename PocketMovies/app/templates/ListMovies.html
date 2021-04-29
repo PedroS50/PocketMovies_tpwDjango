@@ -4,130 +4,136 @@
 
     {% load static %}
                       
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-6">
-                <form action="." method="get">
-                    {% csrf_token %}
-                    <label for="choose_genre">Genre:</label>
-                    <select class="form-select" name="genre" id="choose_genre" onchange="form.submit()">
-                    <option value="All">All</option>
-                        {% for genre in genre_list %}
-                            <option value={{ genre.name }} {% if selected_genre == genre.name %} selected {% endif %}>{{ genre.name }}</option>
-                        {% endfor %}
-                    </select>
-                </form>
-            </div>
-            <div class="col-sm-6">
-                <form action="." method="get" autocomplete="off">
-                    {% csrf_token %}
-                    <div class="mt-3 w-75 ms-auto me-auto">
-                        <div class="input-group mb-3">
-                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i
-                                    class="bi bi-search icon"></i></button>
-                            <input name="title" id="title" type="text" class="form-control-lg" placeholder="Search"
-                                   aria-label="Search"
-                                   aria-describedby="basic-addon1">
+    <div class="container-fluid">
+        <div class="col">
+            <div class="row mt-2 align-items-center">
+                <div class="col">
+                    <a href="{% url 'addMovie' %}"><button style="width: 30vh; height: 6vh;" class="btn btn-outline-dark"><i class="bi bi-pencil-square"></i>Add New Movie</button></a>
+                </div>
+                <div class="col">
+                    <form action="." method="get" autocomplete="off" style="float:right">
+                        {% csrf_token %}
+                        <div class="mt-3">
+                            <div class="input-group mb-3">
+                                <button class="btn btn-outline-success" type="submit"><i
+                                        class="bi bi-search icon"></i></button>
+                                <input name="title" id="title" type="text" class="form-control-lg" placeholder="Search"
+                                       aria-label="Search"
+                                       aria-describedby="basic-addon1" style="width: 50vh">
+                            </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
+            </div>
+            <div class="row justify-content-end mb-5">
+                <div clasS="col-sm-2">
+                    <form action="." method="get">
+                        {% csrf_token %}
+                        <label for="choose_genre" style="font-size: 20px; font-weight: bold">Genre:</label>
+                        <select style="width: 21vh" class="form-select" name="genre" id="choose_genre" onchange="form.submit()">
+                            <option value="All">All</option>
+                            {% for genre in genre_list %}
+                                <option value={{ genre.name }} {% if selected_genre == genre.name %} selected {% endif %}>{{ genre.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </form>
+                </div>
+
             </div>
         </div>
-        <a href="{% url 'addMovie' %}"><button style="margin-bottom: 50px" class="btn btn-outline-dark"><i class="bi bi-pencil-square"></i>Add New Movie</button></a>
-        <div class="container">
-            <div class="card-deck row rows-cols-3">
-                {% for movie in movie_list %}
-                    <div class="col-auto mb-5" style="margin-right: 40px;">
-                    <div class="card card-movie" style="width: 22rem;" style="border: 10px thick black;">
-                        <a href="/movie/{{ movie.id }}" style="color:inherit;text-decoration: none;">
-                            <img width="343" height="505" class="card-img-top img-movie" src="{{ movie.imageField }}"
-                            alt="Card image cap"/>
-                        </a>
-                        <div class="card-body" style="height: 25%;">
-                            <h5 class="card-title text-center title-movie">{{ movie.title }}</h5>
-                            <p class="card-text description-movie">
-                                {{ movie.description }}
-                            </p>
-                        </div>
-                        <div class="card-footer">
-                            <div>
-                                <small class="text-muted genres-movie">Genres:
-                                    {% for g in movie.genre.all %}{{ g }}   {% endfor %}
-                                </small>
-                            </div>
 
-                            <div class="row">
-                                <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
-                                    {% if movie not in profile.movies_watched.all %}
-                                        <form method="post">
-                                            {% csrf_token %}
-                                            <input name="add_movie_watched" value={{ movie.id }} hidden>
-                                            <button type="submit" class="btn"><i class="bi bi-eye icon"><h6>Watched</h6></i></button>
-                                        </form>
-                                    {% else %}
-                                        <form method="post">
-                                            {% csrf_token %}
-                                            <input name="remove_movie_watched" value={{ movie.id }} hidden>
-                                            <button type="submit" class="btn"><i class="bi bi-eye-fill icon"><h6>Watched</h6></i>
-                                            </button>
-                                        </form>
-                                    {% endif %}
-                                </div>
-                                <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
-                                    {% if movie not in profile.want_to_watch.all %}
-                                        <form method="post">
-                                            {% csrf_token %}
-                                            <input name="add_want_to_watch" value={{ movie.id }} hidden>
-                                            <button type="submit" class="btn"><i class="bi bi-plus-circle icon"><h6>To Watch</h6></i>
-                                            </button>
-                                        </form>
-                                    {% else %}
-                                        <form method="post">
-                                            {% csrf_token %}
-                                            <input name="remove_want_to_watch" value={{ movie.id }} hidden>
-                                            <button type="submit" class="btn"><i class="bi bi-plus-circle-fill icon"><h6>To Watch</h6></i></button>
-                                        </form>
-                                    {% endif %}
-                                </div>
-                                <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
-                                    {% if movie not in profile.favorite_movies.all %}
-                                        <form method="post">
-                                            {% csrf_token %}
-                                            <input name="add_favorite_movies" value={{ movie.id }} hidden>
-                                            <button type="submit" class="btn"><i class="bi bi-heart icon"><h6>Favorite</h6></i></button>
-                                        </form>
-                                    {% else %}
-                                        <form method="post">
-                                            {% csrf_token %}
-                                            <input name="remove_favorite_movies" value={{ movie.id }} hidden>
-                                            <button type="submit" class="btn"><i class="bi bi-heart-fill icon"><h6>Favorite</h6></i>
-                                            </button>
-                                        </form>
-                                        
-                                    {% endif %}
-                                    
-                                </div>
-                            </div>
-                            {% if user.is_superuser %}
-                            <div class="row">
-                                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-                                    <a href="{% url 'editMovie' id=movie.id %}"><button type="submit" class="btn btn-outline-dark" style="width:100%;"><i class="bi bi-pencil-square"></i> Edit</button></a>
-                                </div>
-                                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-                                    <a href="{% url 'deleteMovie' id=movie.id %}"><button onclick="return confirm('Are you sure you want to delete {{ movie }}?');" type="submit" class="btn btn-outline-danger" style="width:100%;"><i class="bi bi-trash-fill"></i> Delete</button></a>
-                                </div>
-
-                            </div>
-                            {% endif %}
-                        </div>
+        <div class="card-deck row rows-cols-3 justify-content-center">
+            {% for movie in movie_list %}
+                <div class="col-auto mb-5" style="margin-right: 45px;">
+                <div class="card card-movie" style="width: 22rem;">
+                    <a href="/movie/{{ movie.id }}" style="color:inherit;text-decoration: none;">
+                        <img width="343" height="505" class="card-img-top img-movie" src="{{ movie.imageField }}"
+                        alt="Card image cap"/>
+                    </a>
+                    <div class="card-body" style="height: 25%;">
+                        <h5 class="card-title text-center title-movie">{{ movie.title }}</h5>
+                        <p class="card-text description-movie">
+                            {{ movie.description }}
+                        </p>
                     </div>
+                    <div class="card-footer">
+                        <div>
+                            <small class="text-muted genres-movie">Genres:
+                                {% for g in movie.genre.all %}{{ g }}   {% endfor %}
+                            </small>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
+                                {% if movie not in profile.movies_watched.all %}
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        <input name="add_movie_watched" value={{ movie.id }} hidden>
+                                        <button type="submit" class="btn"><i class="bi bi-eye icon"><h6>Watched</h6></i></button>
+                                    </form>
+                                {% else %}
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        <input name="remove_movie_watched" value={{ movie.id }} hidden>
+                                        <button type="submit" class="btn"><i class="bi bi-eye-fill icon"><h6>Watched</h6></i>
+                                        </button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
+                                {% if movie not in profile.want_to_watch.all %}
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        <input name="add_want_to_watch" value={{ movie.id }} hidden>
+                                        <button type="submit" class="btn"><i class="bi bi-plus-circle icon"><h6>To Watch</h6></i>
+                                        </button>
+                                    </form>
+                                {% else %}
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        <input name="remove_want_to_watch" value={{ movie.id }} hidden>
+                                        <button type="submit" class="btn"><i class="bi bi-plus-circle-fill icon"><h6>To Watch</h6></i></button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
+                                {% if movie not in profile.favorite_movies.all %}
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        <input name="add_favorite_movies" value={{ movie.id }} hidden>
+                                        <button type="submit" class="btn"><i class="bi bi-heart icon"><h6>Favorite</h6></i></button>
+                                    </form>
+                                {% else %}
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        <input name="remove_favorite_movies" value={{ movie.id }} hidden>
+                                        <button type="submit" class="btn"><i class="bi bi-heart-fill icon"><h6>Favorite</h6></i>
+                                        </button>
+                                    </form>
+
+                                {% endif %}
+
+                            </div>
+                        </div>
+                        {% if user.is_superuser %}
+                        <div class="row">
+                            <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+                                <a href="{% url 'editMovie' id=movie.id %}"><button type="submit" class="btn btn-outline-dark" style="width:100%;"><i class="bi bi-pencil-square"></i> Edit</button></a>
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+                                <a href="{% url 'deleteMovie' id=movie.id %}"><button onclick="return confirm('Are you sure you want to delete {{ movie }}?');" type="submit" class="btn btn-outline-danger" style="width:100%;"><i class="bi bi-trash-fill"></i> Delete</button></a>
+                            </div>
+
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
-                {% endfor %}
-            </div>
+            {% endfor %}
         </div>
     </div>
 
-     <nav aria-label="Page navigation">
+     <nav aria-label="Page navigation" style="position: absolute; bottom: 0; right:50vh; left:50vh;">
       <ul class="pagination justify-content-center">
         {% if movie_list.has_previous %}
           <li class="page-item">

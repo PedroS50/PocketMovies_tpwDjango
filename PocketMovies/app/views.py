@@ -78,23 +78,28 @@ def list_movies(request, movie):
 
     p_movies = paginator.page(int(page_number))
     tparams = {'movie_list': p_movies, 'genre_list': Genre.objects.all(), 'selected_genre': genre, 'profile': profile}
-    print(tparams)
     return render(request, 'ListMovies.html', tparams)
-    # return render(request, 'ListMovies.html')
 
 
 @login_required()
 def list_people(request, person):
+
     if person == 'actors':
         people = Actor.objects.all()
+        person_role = 'actor'.upper()
     elif person == 'producers':
         people = Producer.objects.all()
+        person_role = 'producer'.upper()
     elif person == 'directors':
         people = Director.objects.all()
+        person_role = 'director'.upper()
+    if 'title' in request.GET:
+        search_term = request.GET['title']
+        people = people.filter(name__icontains=search_term)
     paginator = Paginator(people, 10)
     page_number = request.GET.get('page', 1)
     p_people = paginator.page(int(page_number))
-    return render(request, 'ListActors.html', {'person_list': p_people, 'person_role': person.upper()})
+    return render(request, 'ListActors.html', {'person_list': p_people, 'person_role': person_role})
 
 
 def register_user(request):
@@ -141,7 +146,7 @@ def login_user(request):
         login_form = LoginForm()
         return render(request, "login.html", {"form": login_form})
 
-
+@login_required()
 def logout_user(request):
     logout(request)
     try:
@@ -156,14 +161,13 @@ def home(request):
         group = "client"
     else:
         group = "admin"
-    return render(request, "layout.html", {"user": request.user, "group": group})
+    return render(request, "home.html", {"user": request.user, "group": group})
 
 
 @login_required()
 def infoProducer(request, id):
     try:
         producer = Producer.objects.get(id=id)
-        print(checkGroup(request))
         return render(request, "infoView.html", {"producer": producer, "group": checkGroup(request)})
     except:
         producer = None
@@ -179,7 +183,7 @@ def infoActor(request, id):
         actor = None
         return render(request, "infoView.html")
 
-
+@login_required()
 def infoDirector(request, id):
     try:
         director = Director.objects.get(id=id)
@@ -188,7 +192,7 @@ def infoDirector(request, id):
         director = None
         return render(request, "infoView.html")
 
-
+@login_required()
 def infoMovie(request, id):
     profile = Profile.objects.get(user=User.objects.get(username=request.session['username']))
     try:
@@ -196,17 +200,16 @@ def infoMovie(request, id):
         return render(request, "infoView.html", {"movie": movie, "profile": profile, "group": checkGroup(request)})
     except Exception as e:
         movie = None
-        print(e)
         return render(request, "infoView.html")
 
-
+@login_required()
 def searchMovie(request):
     title = request.GET["title"]
     movie = Movie.objects.filter(title__icontains=title)
     tparams = {'movie_list': movie, 'genre_list': Genre.objects.all()}
     return redirect('/movies/', tparams)
 
-
+@login_required()
 def addActor(request):
     if request.POST:
         form = AddActorForm(request.POST)
@@ -222,11 +225,10 @@ def addActor(request):
                                  nationality=nationality, twitterAccount=twitter, instagramAccount=instagram)
             return redirect('/actors')
         else:
-            print(form.errors)
             return redirect('/actors')
     return render(request, "addActor.html", {"form": AddActorForm(), "url": "actor", "title": "Add a new Actor!"})
 
-
+@login_required()
 def addDirector(request):
     if request.POST:
         form = AddDirectorForm(request.POST)
@@ -247,7 +249,7 @@ def addDirector(request):
             return redirect('/actors')
     return render(request, "addActor.html", {"form": AddDirectorForm(), "url": "director", "title": "Add a new Director!"})
 
-
+@login_required()
 def addProducer(request):
     if request.POST:
         form = AddProducerForm(request.POST)
@@ -268,7 +270,7 @@ def addProducer(request):
             return redirect('/producers')
     return render(request, "addActor.html", {"form": AddProducerForm(), "url": "producer", "title": "Add a new Producer!"})
 
-
+@login_required()
 def editActor(request, id):
     if request.POST:
         form = AddActorForm(request.POST)
@@ -295,7 +297,7 @@ def editActor(request, id):
                  'imageField': actor.imageField}
     ), "url": "actor", "item": actor, "title": "Edit Actor form"})
 
-
+@login_required()
 def editDirector(request, id):
     if request.POST:
         form = AddDirectorForm(request.POST)
@@ -323,7 +325,7 @@ def editDirector(request, id):
                  'imageField': director.imageField}
     ), "url": "director", "item": director, "title": "Edit Director form"})
 
-
+@login_required()
 def editProducer(request, id):
     if request.POST:
         form = AddProducerForm(request.POST)
@@ -350,7 +352,7 @@ def editProducer(request, id):
                  'imageField': producer.imageField}
     ), "url": "producer", "item": producer, "title": "Edit Producer form"})
 
-
+@login_required()
 def editMovie(request, id):
     movie = Movie.objects.get(id=id)
 
@@ -374,7 +376,7 @@ def editMovie(request, id):
     return render(request, "editForm.html", {"form": AddMovieForm(initial=model_to_dict(movie)), "url": "movie"
         , "item": movie, "title": "Edit Movie form"})
 
-
+@login_required()
 def addMovie(request):
     if request.POST:
         form = AddMovieForm(request.POST)
@@ -402,7 +404,7 @@ def addMovie(request):
             return redirect('/movies')
     return render(request, "addActor.html", {"form": AddMovieForm(), "url": "movie", "title": "Add a new Movie!"})
 
-
+@login_required()
 def deleteActor(request, id):
     try:
         actor = Actor.objects.get(id=id).delete()
@@ -410,7 +412,7 @@ def deleteActor(request, id):
     except:
         return redirect('/actors')
 
-
+@login_required()
 def deleteDirector(request, id):
     try:
         director = Director.objects.get(id=id).delete()
@@ -418,7 +420,7 @@ def deleteDirector(request, id):
     except:
         return redirect('/directors')
 
-
+@login_required()
 def deleteProducer(request, id):
     try:
         producer = Producer.objects.get(id=id).delete()
@@ -426,6 +428,7 @@ def deleteProducer(request, id):
     except:
         return redirect('/producers')
 
+@login_required()
 def deleteMovie(request, id):
     try:
         movie = Movie.objects.get(id=id).delete()

@@ -10,107 +10,95 @@
     <link rel="stylesheet" href="{% static  'css/list_people_style.css' %}">
     <link rel="stylesheet" href="{% static  'css/navbar_style.css' %}">
     <link rel="stylesheet" href="{% static  'css/info.css' %}">
-    {#    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"#}
-    {#          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">#}
-    {#    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"#}
-    {#            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"#}
-    {#            crossorigin="anonymous"></script>#}
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"
-            integrity="sha384-SR1sx49pcuLnqZUnnPwx6FCym0wLsk5JZuNx2bPPENzswTNFaQU1RDvt3wT4gWFG"
-            crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js"
-            integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc"
-            crossorigin="anonymous"></script>
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
+
 </head>
 <body style="background-color: #D3D3D3;">
-<nav class="navbar navbar-dark bg-dark">
+    <nav class="navbar navbar-dark bg-dark" style="font-size: x-large; font-family: 'Times New Roman', Times, serif; position: fixed; width: 100%; height: 80px; z-index: 1000; border-bottom: 2px solid black;">
+        <a class="navbar-brand" href="{% url 'ListMovies' %}" style="font-size: xx-large;">Pocket Movies</a>
+        {% if user.is_authenticated %}
+            <a href="/logout/" class="nav-link align-right px-0">
+                <i class="bi bi-person-fill"></i>
+                <span class="ms-1 d-none d-sm-inline">Account</span>
+            </a>
+            <a href="/logout/" class="nav-link align-right px-0">
+                <i class="bi bi-power"></i>
+                <span class="ms-1 d-none d-sm-inline">Logout</span>
+            </a>
+        {% else %}
+            <a href="/login/" class="nav-link align-right px-0">
+                <i class="bi bi-box-arrow-in-right"></i>
+                Login
+            </a>
+        {% endif %}
+    </nav>
+
     <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'ListMovies' %}">Pocket Movies</a>
-        <nav class="nav justify-content-end w-25 justify-content-between align-items-center">
+        <div class="row" style="height: 100vh;">
             {% if user.is_authenticated %}
-                <a href="/logout/" class="nav-link align-right px-0">
-                    <i class="bi bi-person-fill"></i>
-                    <span class="ms-1 d-none d-sm-inline">Account</span>
-                </a>
-                <a href="/logout/" class="nav-link align-right px-0">
-                    <i class="bi bi-power"></i>
-                    <span class="ms-1 d-none d-sm-inline">Logout</span>
-                </a>
-            {% else %}
+            <div class="bg-dark"  style="margin-top: 80px; width: 31vh">
+                <div class="px-1 pt-5 mx-1" style="position: fixed; width: 31vh">
+                    <ul class="nav nav-pills flex-column" id="menu" style="font-size: 25px; font-weight: bold; font-family: 'Times New Roman', Times, serif;">
+                        <li class="nav-item">
+                            <a href="/movies/" class="nav-link align-middle px-0">
+                                <i class=" fs-4 bi bi-arrow-right-short"></i><span
+                                    class="ms-1 d-none d-sm-inline">Movies</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/actors/" class="nav-link align-middle px-0">
+                                <i class=" fs-4 bi bi-arrow-right-short"></i><span class="ms-1 d-none d-sm-inline">Actors</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/producers/" class="nav-link align-middle px-0">
+                                <i class=" fs-4 bi bi-arrow-right-short"></i><span class="ms-1 d-none d-sm-inline">Producers</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/directors/" class="nav-link align-middle px-0">
+                                <i class=" fs-4 bi bi-arrow-right-short"></i><span class="ms-1 d-none d-sm-inline">Directors</span>
+                            </a>
+                        </li>
+                        <a href="#submenu1" data-toggle="collapse" class="nav-link px-0 align-middle" style="border-top: 3px solid black">
+                            <i class="bi bi-film"></i><i class="bi bi-arrow-down"><span class="ms-1 d-none d-sm-inline">My Movies</span></i>
+                        </a>
+                        <li>
+                            <ul class="collapse nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
+                                <li class="w-100">
+                                    <a href="/movies/my_want_to_watch/" class="nav-link px-0">
+                                        <i class=" fs-8 bi bi-plus-circle"></i> <span class="d-none d-sm-inline"> Movies to Watch</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/movies/my_favorite_movies/" class="nav-link px-0">
+                                        <i class=" fs-8 bi bi-heart"></i><span class="d-none d-sm-inline"> Favorite Movies</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/movies/my_watched_movies/" class="nav-link px-0">
+                                        <i class="fs-8 bi bi-eye"></i><span class="d-none d-sm-inline"> Watched Movies </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
 
-                <a href="/login/" class="nav-link align-right px-0">
-                    <i class="bi bi-box-arrow-in-right"></i>
-                    <span class="ms-1 d-none d-sm-inline">Login</span>
-                </a>
-            {% endif %}
-        </nav>
-    </div>
-</nav>
-<div class="container-fluid">
-    <div class="row flex-nowrap">
-        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
-            <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100" style="position: fixed;">
-                <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
-                    <li class="nav-item">
-                        <a href="/movies/" class="nav-link align-middle px-0">
-
-                            <i class=" fs-4 bi bi-arrow-right-short"></i><span
-                                class="ms-1 d-none d-sm-inline">Movies</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/actors/" class="nav-link align-middle px-0">
-                            <i class=" fs-4 bi bi-arrow-right-short"></i><span
-                                class="ms-1 d-none d-sm-inline">Actors</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/producers/" class="nav-link align-middle px-0">
-                            <i class=" fs-4 bi bi-arrow-right-short"></i><span
-                                class="ms-1 d-none d-sm-inline">Producers</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/directors/" class="nav-link align-middle px-0">
-                            <i class=" fs-4 bi bi-arrow-right-short"></i><span
-                                class="ms-1 d-none d-sm-inline">Directors</span>
-                        </a>
-                    </li>
-                    <hr/>
-                    <li>
-                        <a href="#submenu1" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
-                            <i class="bi bi-film"></i> <span class="ms-1 d-none d-sm-inline">My Movies</span> </a>
-                        <ul class="collapse nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
-                            <li class="w-100">
-                                <a href="/movies/my_want_to_watch/" class="nav-link px-0"><i
-                                        class=" fs-8 bi bi-plus-circle"></i> <span class="d-none d-sm-inline"> Movies to Watch</span></a>
-                            </li>
-                            <li>
-                                <a href="/movies/my_favorite_movies/" class="nav-link px-0"><i
-                                        class=" fs-8 bi bi-heart"></i><span
-                                        class="d-none d-sm-inline"> Favorite Movies</span></a>
-                            </li>
-                            <li>
-                                <a href="/movies/my_watched_movies/" class="nav-link px-0"><i
-                                        class="fs-8 bi bi-eye"></i><span
-                                        class="d-none d-sm-inline"> Watched Movies </span></a>
-                            </li>
-                        </ul>
-                    </li>
-
-                </ul>
+                    </ul>
+                </div>
             </div>
-        </div>
-        <div class="col py-3">
-            {% block content %}
+            {% endif %}
+            <div class="col py-3" style="margin-top: 80px;">
+                {% block content %}
 
-            {% endblock %}
+                {% endblock %}
+            </div>
+            
         </div>
     </div>
-</div>
-
 </body>
 </html>

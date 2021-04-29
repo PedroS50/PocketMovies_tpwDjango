@@ -1,3 +1,46 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+.imgbox {
+    display: grid;
+    height: 90%;
+    filter: brightness(40%) blur(1px);
+}
+.center-fit {
+    max-width: 100%;
+    max-height: 88vh;
+    margin: auto;
+}
+
+.main-text {
+    position: absolute;
+    margin-left: 26%;
+    margin-top: 5%;
+    color: white;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 150px;
+    text-decoration: underline;
+}
+
+.main-text2 {
+    position: absolute;
+    margin-left: 24%;
+    margin-top: 20%;
+    color: white;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 50px;
+}
+
+.main-text3 {
+    position: absolute;
+    margin-left: 43%;
+    margin-top: 25%;
+    color: white;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 40px;
+}
+
 .icon {
     font-size: 25px;
 }
