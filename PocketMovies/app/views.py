@@ -225,6 +225,7 @@ def addActor(request):
                                  nationality=nationality, twitterAccount=twitter, instagramAccount=instagram)
             return redirect('/actors')
         else:
+            print(form.errors)
             return redirect('/actors')
     return render(request, "addActor.html", {"form": AddActorForm(), "url": "actor", "title": "Add a new Actor!"})
 

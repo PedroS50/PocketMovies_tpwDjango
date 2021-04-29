@@ -22,7 +22,7 @@
     <nav class="navbar navbar-dark bg-dark" style="font-size: x-large; font-family: 'Times New Roman', Times, serif; position: fixed; width: 100%; height: 80px; z-index: 1000; border-bottom: 2px solid black;">
         <a class="navbar-brand" href="{% url 'ListMovies' %}" style="font-size: xx-large;">Pocket Movies</a>
         {% if user.is_authenticated %}
-            <a href="/logout/" class="nav-link align-right px-0">
+            <a href="/#" class="nav-link align-right px-0">
                 <i class="bi bi-person-fill"></i>
                 <span class="ms-1 d-none d-sm-inline">Account</span>
             </a>
