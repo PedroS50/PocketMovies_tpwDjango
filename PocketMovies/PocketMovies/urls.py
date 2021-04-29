@@ -43,7 +43,6 @@ urlpatterns = [
          auth_views.PasswordResetCompleteView.as_view(template_name="password_reset_complete.html"),
          name='password_reset_complete'),
 
-
     path('login/', views.login_user, name='login'),
     path('logout/', views.logout_user, name='logout'),
 
@@ -52,8 +51,8 @@ urlpatterns = [
     path('movies/my_want_to_watch/', views.list_movies, {'movie': 'my_want_to_watch'}, name='my_want_to_watch'),
     path('movies/my_watched_movies/', views.list_movies, {'movie': 'my_watched_movies'}, name='my_watched_movies'),
     path('actors/', views.list_people, {'person': 'actors'}, name='ListActors'),
-    path('producers/', views.list_people, {'person': 'producers'}, name='ListActors'),
-    path('directors/', views.list_people, {'person': 'directors'}, name='ListActors'),
+    path('producers/', views.list_people, {'person': 'producers'}, name='ListProducers'),
+    path('directors/', views.list_people, {'person': 'directors'}, name='ListDirectors'),
 
     path('producer/<id>', views.infoProducer, name="infoProducer"),
     path('actor/<id>', views.infoActor, name="infoActor"),

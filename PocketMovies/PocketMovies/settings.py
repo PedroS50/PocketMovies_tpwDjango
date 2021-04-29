@@ -28,7 +28,7 @@ SECRET_KEY = 'jfd^s$2r$pv!7&7#_f=1yxmkt9ielovf@^7yxbxis0c)l*0(p&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1','martasferreira.pythonanywhere.com']
 
 
 # Application definition
@@ -82,7 +82,7 @@ WSGI_APPLICATION = 'PocketMovies.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -126,4 +126,10 @@ EMAIL_HOST = "smtp.gmail.com"
 EMAIL_POST = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "pocketmoviesapp@gmail.com"
-EMAIL_HOST_PASSWORD = "cvfrmrmyrjojhopq"
+EMAIL_HOST_PASSWORD =  os.getenv("EMAIL_HOST_PASSWORD")
+
+
+MEDIA_ROOT = '/home/martasferreira/PocketMovies/media'
+MEDIA_URL = '/media/'
+STATIC_ROOT = '/home/martasferreira/PocketMovies/static'
+STATIC_URL = '/static/'

@@ -3,12 +3,14 @@
 {% block content %}
 
     {% load static %}
-                      
+
     <div class="container-fluid">
         <div class="col">
             <div class="row mt-2 align-items-center">
                 <div class="col">
+                    {% if user.is_superuser %}
                     <a href="{% url 'addMovie' %}"><button style="width: 30vh; height: 6vh;" class="btn btn-outline-dark"><i class="bi bi-pencil-square"></i>Add New Movie</button></a>
+                    {% endif %}
                 </div>
                 <div class="col">
                     <form action="." method="get" autocomplete="off" style="float:right">
@@ -46,7 +48,7 @@
             {% for movie in movie_list %}
                 <div class="col-auto mb-5" style="margin-right: 45px;">
                 <div class="card card-movie" style="width: 22rem;">
-                    <a href="/movie/{{ movie.id }}" style="color:inherit;text-decoration: none;">
+                    <a href="{% url 'infoMovie' id=movie.id %}" style="color:inherit;text-decoration: none;">
                         <img width="343" height="505" class="card-img-top img-movie" src="{{ movie.imageField }}"
                         alt="Card image cap"/>
                     </a>

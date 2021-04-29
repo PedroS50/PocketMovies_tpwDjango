@@ -45,23 +45,23 @@
                 <div class="px-1 pt-5 mx-1" style="position: fixed; width: 31vh">
                     <ul class="nav nav-pills flex-column" id="menu" style="font-size: 25px; font-weight: bold; font-family: 'Times New Roman', Times, serif;">
                         <li class="nav-item">
-                            <a href="/movies/" class="nav-link align-middle px-0">
+                            <a href="{% url 'ListMovies' %}" class="nav-link align-middle px-0">
                                 <i class=" fs-4 bi bi-arrow-right-short"></i><span
                                     class="ms-1 d-none d-sm-inline">Movies</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/actors/" class="nav-link align-middle px-0">
+                            <a href="{% url 'ListActors' %}" class="nav-link align-middle px-0">
                                 <i class=" fs-4 bi bi-arrow-right-short"></i><span class="ms-1 d-none d-sm-inline">Actors</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/producers/" class="nav-link align-middle px-0">
+                            <a href="{% url 'ListProducers' %}" class="nav-link align-middle px-0">
                                 <i class=" fs-4 bi bi-arrow-right-short"></i><span class="ms-1 d-none d-sm-inline">Producers</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/directors/" class="nav-link align-middle px-0">
+                            <a href="{% url 'ListDirectors' %}" class="nav-link align-middle px-0">
                                 <i class=" fs-4 bi bi-arrow-right-short"></i><span class="ms-1 d-none d-sm-inline">Directors</span>
                             </a>
                         </li>
@@ -71,17 +71,17 @@
                         <li>
                             <ul class="collapse nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
                                 <li class="w-100">
-                                    <a href="/movies/my_want_to_watch/" class="nav-link px-0">
+                                    <a href="{% url 'my_want_to_watch' %}" class="nav-link px-0">
                                         <i class=" fs-8 bi bi-plus-circle"></i> <span class="d-none d-sm-inline"> Movies to Watch</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="/movies/my_favorite_movies/" class="nav-link px-0">
+                                    <a href="{% url 'my_favorite_movies' %}" class="nav-link px-0">
                                         <i class=" fs-8 bi bi-heart"></i><span class="d-none d-sm-inline"> Favorite Movies</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="/movies/my_watched_movies/" class="nav-link px-0">
+                                    <a href="{% url 'my_watched_movies' %}" class="nav-link px-0">
                                         <i class="fs-8 bi bi-eye"></i><span class="d-none d-sm-inline"> Watched Movies </span>
                                     </a>
                                 </li>

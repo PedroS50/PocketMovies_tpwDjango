@@ -17,7 +17,9 @@
                 {% if person_role == "DIRECTOR" %}
                     <a href="{% url 'addDirector' %}">
                 {% endif %}
+                 {% if user.is_superuser %}
                 <button style="width: 30vh; height: 6vh;" class="btn btn-outline-dark"><i class="bi bi-pencil-square"></i>Add New {{ person_role }}</button></a>
+                {% endif %}
             </div>
             <div class="col">
                 <form action="." method="get" autocomplete="off" style="float:right">

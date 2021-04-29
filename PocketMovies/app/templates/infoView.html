@@ -21,12 +21,12 @@
                 {% if group == "admin" %}
                     <div class="row w-25">
                         <div class="col">
-                            <a class="btn" href="/edit/producer/{{ producer.id }}" role="button">
+                            <a class="btn" href="{% url 'editProducer' id=producer.id %}" role="button">
                                 <i class="bi bi-pencil-fill icon-info"></i>
                             </a>
                         </div>
                         <div class="col">
-                            <a class="btn" href="/delete/producer/{{ producer.id }}" role="button"
+                            <a class="btn" href="{% url 'deleteProducer' id=producer.id %}" role="button"
                                onclick="return confirm('Are you sure you want to delete {{ producer }}?');">
                                 <i class="bi bi-trash-fill icon-info"></i>
                             </a>
@@ -58,23 +58,23 @@
                         <div class="row w-25">
                             <div class="col">
                                 {% if person.years_active %}
-                                    <a class="btn" href="/edit/actor/{{ person.id }}" role="button">
+                                    <a class="btn" href="{% url 'editActor' id=person.id %}" role="button">
                                         <i class="bi bi-pencil-fill icon-info"></i>
                                     </a>
                                 {% else %}
-                                    <a class="btn" href="/edit/director/{{ person.id }}" role="button">
+                                    <a class="btn" href="{% url 'editDirector' id=person.id %}" role="button">
                                         <i class="bi bi-pencil-fill icon-info"></i>
                                     </a>
                                 {% endif %}
                             </div>
                             <div class="col">
                                 {% if person.years_active %}
-                                    <a class="btn" href="/delete/actor/{{ person.id }}" role="button"
+                                    <a class="btn" href="{% url 'deleteActor' id=person.id %}" role="button"
                                        onclick="return confirm('Are you sure you want to delete {{ person }}?');">
                                         <i class="bi bi-trash-fill icon-info"></i>
                                     </a>
                                 {% else %}
-                                    <a class="btn" href="/delete/director/{{ person.id }}" role="button"
+                                    <a class="btn" href="{% url 'deleteDirector' id=person.id %}" role="button"
                                        onclick="return confirm('Are you sure you want to delete {{ person }}?');">
                                         <i class="bi bi-trash-fill icon-info"></i>
                                     </a>
@@ -93,22 +93,24 @@
                             <p>Published: {{ movie.published_date }}</p>
                             <div class="d-flex flex-column mb-3">
                                 <div class="casting">
-                                    <p>Rating:  {{ movie.rating }}<i class="bi bi-star-fill" style="color: yellow"></i>
+                                    <p>Rating: {{ movie.rating }}<i class="bi bi-star-fill" style="color: yellow"></i>
                                     </p>
                                     <p>Cast: </p>
                                     {% for actor in movie.cast.all %}
-                                        <a href="/actor/{{ actor.id }}"><img src="{{ actor.imageField }}"
-                                                                             title="{{ actor.name }}"></a>
+                                        <a href="{% url 'infoActor' id=actor.id %}"><img src="{{ actor.imageField }}"
+                                                                                         title="{{ actor.name }}"></a>
                                     {% endfor %}
                                     <p>Director: </p>
                                     {% for director in movie.director.all %}
-                                        <a href="/director/{{ director.id }}"><img src="{{ director.imageField }}"
-                                                                                   title="{{ director.name }}"></a>
+                                        <a href="{% url 'infoDirector' id=director.id %}"><img
+                                                src="{{ director.imageField }}"
+                                                title="{{ director.name }}"></a>
                                     {% endfor %}
                                     <p>Producer: </p>
                                     {% for producer in movie.producer.all %}
-                                        <a href="/producer/{{ producer.id }}"><img src="{{ producer.imageField }}"
-                                                                                   title="{{ producer.name }}"></a>
+                                        <a href="{% url 'infoProducer' id=producer.id %}"><img
+                                                src="{{ producer.imageField }}"
+                                                title="{{ producer.name }}"></a>
                                     {% endfor %}
                                     <p>Genres: </p>
                                     {% for genre in movie.genre.all %}
@@ -125,12 +127,12 @@
                     {% if group == "admin" %}
                         <div class="row w-25">
                             <div class="col">
-                                <a class="btn" href="/edit/movie/{{ movie.id }}" role="button">
+                                <a class="btn" href="{% url 'editMovie' id=movie.id %}" role="button">
                                     <i class="bi bi-pencil-fill icon-info"></i>
                                 </a>
                             </div>
                             <div class="col">
-                                <a class="btn" href="/delete/movie/{{ movie.id }}" role="button"
+                                <a class="btn" href="{% url 'deleteMovie' id=movie.id %}" role="button"
                                    onclick="return confirm('Are you sure you want to delete {{ movie }}?');">
                                     <i class="bi bi-trash-fill icon-info"></i>
                                 </a>
